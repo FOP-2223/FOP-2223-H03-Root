@@ -3,6 +3,8 @@ package h03;
 import fopbot.Direction;
 import fopbot.World;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,5 +76,24 @@ class RobotWithOffspringTest {
     var result = sut.getXOfOffspring();
 
     assertEquals(2, result);
+  }
+
+  @ParameterizedTest
+  @CsvSource({ "0,1", "1,2", "2,3", "3,0", "4,1", "-1,0", "-2,3", "-3,2", "-4,1", "-5,0" })
+  void addToDirectionOfOffspring_Parameterized_CorrectDirectionSet(String addedDirectionString,
+      String expectedDirectionString) {
+    World.setSize(5, 5);
+
+    var added = Integer.parseInt(addedDirectionString);
+    var expected = Integer.parseInt(expectedDirectionString);
+
+    var sut = new RobotWithOffspring(5, 5, Direction.UP, 0);
+    sut.initOffspring(Direction.RIGHT, 0);
+    sut.addToDirectionOfOffspring(added);
+
+    var actualDirection = sut.getDirectionOfOffspring();
+    var expectedDirection = Direction.values()[expected];
+
+    assertEquals(expectedDirection, actualDirection);
   }
 }
