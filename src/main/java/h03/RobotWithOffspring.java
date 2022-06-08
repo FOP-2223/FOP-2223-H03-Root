@@ -9,15 +9,21 @@ public class RobotWithOffspring extends Robot {
   private Robot offspring;
 
   /**
-   * Constructor of RobotWithOffspring. Places the robot in the center of the world and saves the given numberOfColumnsOfWorld and numberOfRowsOfWorld.
+   * Constructor of RobotWithOffspring. Places the robot in the center of the
+   * world and saves the given numberOfColumnsOfWorld and numberOfRowsOfWorld.
    *
-   * @param numberOfColumnsOfWorld Number of columns in the world the robot is supposed to be placed in.
-   * @param numberOfRowsOfWorld    Number of row in the world the robot is supposed to be placed in.
+   * @param numberOfColumnsOfWorld Number of columns in the world the robot is
+   *                               supposed to be placed in.
+   * @param numberOfRowsOfWorld    Number of row in the world the robot is
+   *                               supposed to be placed in.
    * @param direction              The initial direction the robot points at.
    * @param numberOfCoins          The initial amount of coins the robot owns.
    */
-  public RobotWithOffspring(int numberOfColumnsOfWorld, int numberOfRowsOfWorld, Direction direction, int numberOfCoins) {
-    super((numberOfColumnsOfWorld % 2 == 0 ? numberOfColumnsOfWorld / 2 : (numberOfColumnsOfWorld + 1) / 2) - 1, (numberOfRowsOfWorld % 2 == 0 ? numberOfRowsOfWorld / 2 : (numberOfRowsOfWorld + 1) / 2) - 1, direction, numberOfCoins);
+  public RobotWithOffspring(int numberOfColumnsOfWorld, int numberOfRowsOfWorld, Direction direction,
+      int numberOfCoins) {
+    super((numberOfColumnsOfWorld % 2 == 0 ? numberOfColumnsOfWorld / 2 : (numberOfColumnsOfWorld + 1) / 2) - 1,
+        (numberOfRowsOfWorld % 2 == 0 ? numberOfRowsOfWorld / 2 : (numberOfRowsOfWorld + 1) / 2) - 1, direction,
+        numberOfCoins);
 
     this.numberOfColumnsOfWorld = numberOfColumnsOfWorld;
     this.numberOfRowsOfWorld = numberOfRowsOfWorld;
@@ -70,7 +76,8 @@ public class RobotWithOffspring extends Robot {
   }
 
   /**
-   * Returns a boolean value indicating whether the offspring has been initialized.
+   * Returns a boolean value indicating whether the offspring has been
+   * initialized.
    *
    * @return Whether the offspring has been initialized.
    */
@@ -79,7 +86,10 @@ public class RobotWithOffspring extends Robot {
   }
 
   /**
-   * If the offspring has been initialized, adds the given value to the x-coordinate of the offspring. If the target coordinate is not in the range of columns of the world, the offspring is placed at the border, as close to the target coordinate as possible.
+   * If the offspring has been initialized, adds the given value to the
+   * x-coordinate of the offspring. If the target coordinate is not in the range
+   * of columns of the world, the offspring is placed at the border, as close to
+   * the target coordinate as possible.
    *
    * @param x The value to be added to the current x-coordinate of the offspring.
    */
@@ -98,7 +108,10 @@ public class RobotWithOffspring extends Robot {
   }
 
   /**
-   * If the offspring has been initialized, adds the given value to the y-coordinate of the offspring. If the target coordinate is not in the range of columns of the world, the offspring is placed at the border, as close to the target coordinate as possible.
+   * If the offspring has been initialized, adds the given value to the
+   * y-coordinate of the offspring. If the target coordinate is not in the range
+   * of columns of the world, the offspring is placed at the border, as close to
+   * the target coordinate as possible.
    *
    * @param y The value to be added to the current y-coordinate of the offspring.
    */
@@ -117,64 +130,24 @@ public class RobotWithOffspring extends Robot {
   }
 
   /**
-   * Converts the given direction to an integer representing the enum value.
+   * Takes an integer and adds that number of turns to the current direction of
+   * the offspring. Uses modular arithmetic to calculate the target direction and
+   * then turns the offspring to point in that direction.
    *
-   * @param direction The direction to be converted as an enum value.
-   * @return The integer representing the enum value.
-   */
-  private static int getDirectionAsInteger(Direction direction) {
-    int result;
-
-    if (direction == Direction.UP) {
-      result = 0;
-    } else if (direction == Direction.RIGHT) {
-      result = 1;
-    } else if (direction == Direction.DOWN) {
-      result = 2;
-    } else {
-      result = 3;
-    }
-
-    return result;
-  }
-
-  /**
-   * Converts a given integer into a value of the enum Direction that represents it.
-   *
-   * @param integer The integer to be converted to an enum value.
-   * @return The value of the enum Direction that represents the given integer.
-   */
-  private static Direction getIntegerAsDirection(int integer) {
-    Direction result;
-
-    if (integer == 0) {
-      result = Direction.UP;
-    } else if (integer == 1) {
-      result = Direction.RIGHT;
-    } else if (integer == 2) {
-      result = Direction.DOWN;
-    } else {
-      result = Direction.LEFT;
-    }
-
-    return result;
-  }
-
-  /**
-   * Takes an integer and adds that number of turns to the current direction of the offspring. Uses modular arithmetic to calculate the target direction and then turns the offspring to point in that direction.
-   *
-   * @param directionToBeAdded The integer value to be added to the given direction. Represents the number of right turns of the offspring.
+   * @param directionToBeAdded The integer value to be added to the given
+   *                           direction. Represents the number of right turns of
+   *                           the offspring.
    */
   public void addToDirectionOfOffspring(int directionToBeAdded) {
     if (offspringIsInitialized()) {
       Direction targetDirection;
-      int sum = getDirectionAsInteger(getDirectionOfOffspring()) + directionToBeAdded;
+      int sum = getDirectionOfOffspring().ordinal() + directionToBeAdded;
 
       if (sum >= 0) {
-        targetDirection = getIntegerAsDirection(sum % 4);
+        targetDirection = Direction.values()[sum % 4];
       } else {
         // TODO: check that this is correct
-        targetDirection = getIntegerAsDirection((4 - ((-sum) % 4)) % 4);
+        targetDirection = Direction.values()[(4 - ((-sum) % 4)) % 4];
       }
 
       while (getDirectionOfOffspring() != targetDirection) {
