@@ -31,15 +31,7 @@ public class RobotWithOffspring2 extends RobotWithOffspring {
   public void initOffspring(Direction direction, int numberOfCoins) {
     super.initOffspring(direction, numberOfCoins);
 
-    if (direction == Direction.UP) {
-      directionAccu = 0;
-    } else if (direction == Direction.RIGHT) {
-      directionAccu = 1;
-    } else if (direction == Direction.DOWN) {
-      directionAccu = 2;
-    } else {
-      directionAccu = 3;
-    }
+    directionAccu = direction.ordinal();
   }
 
   /**
@@ -48,20 +40,8 @@ public class RobotWithOffspring2 extends RobotWithOffspring {
    * @return The current direction representing the directionAccu value.
    */
   private Direction getDirectionFromAccu() {
-    Direction result;
     int n = directionAccu % 4;
-
-    if (n == 0) {
-      result = Direction.UP;
-    } else if (n == 1) {
-      result = Direction.RIGHT;
-    } else if (n == 2) {
-      result = Direction.DOWN;
-    } else {
-      result = Direction.LEFT;
-    }
-
-    return result;
+    return Direction.values()[n];
   }
 
   /**
