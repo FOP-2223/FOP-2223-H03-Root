@@ -9,28 +9,23 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RobotWithOffspringTest {
-  @Test
-  void constructor_OddSizeGiven_PlacedAtCenterAndValuesSaved() {
-    World.setSize(9, 19);
+  @ParameterizedTest
+  @CsvSource({ "9,19,4,9", "10,20,5,10" })
+  void constructor_Parameterized_PlacedAtCenterAndValuesSaved(String widthString, String heightString, String xString,
+      String yString) {
+    int width = Integer.parseInt(widthString);
+    int height = Integer.parseInt(heightString);
+    int x = Integer.parseInt(xString);
+    int y = Integer.parseInt(yString);
 
-    var sut = new RobotWithOffspring(9, 19, Direction.LEFT, 42);
+    World.setSize(width, height);
 
-    assertEquals(4, sut.getX());
-    assertEquals(9, sut.getY());
+    var sut = new RobotWithOffspring(width, height, Direction.LEFT, 0);
+
+    assertEquals(x, sut.getX());
+    assertEquals(y, sut.getY());
     assertEquals(Direction.LEFT, sut.getDirection());
-    assertEquals(42, sut.getNumberOfCoins());
-  }
-
-  @Test
-  void constructor_EvenSizeGiven_PlacedAtCenterAndValuesSaved() {
-    World.setSize(10, 20);
-
-    var sut = new RobotWithOffspring(9, 19, Direction.LEFT, 42);
-
-    assertEquals(4, sut.getX());
-    assertEquals(9, sut.getY());
-    assertEquals(Direction.LEFT, sut.getDirection());
-    assertEquals(42, sut.getNumberOfCoins());
+    assertEquals(0, sut.getNumberOfCoins());
   }
 
   @Test

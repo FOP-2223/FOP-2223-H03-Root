@@ -21,9 +21,7 @@ public class RobotWithOffspring extends Robot {
    */
   public RobotWithOffspring(int numberOfColumnsOfWorld, int numberOfRowsOfWorld, Direction direction,
       int numberOfCoins) {
-    super((numberOfColumnsOfWorld % 2 == 0 ? numberOfColumnsOfWorld / 2 : (numberOfColumnsOfWorld + 1) / 2) - 1,
-        (numberOfRowsOfWorld % 2 == 0 ? numberOfRowsOfWorld / 2 : (numberOfRowsOfWorld + 1) / 2) - 1, direction,
-        numberOfCoins);
+    super(numberOfColumnsOfWorld / 2, numberOfRowsOfWorld / 2, direction, numberOfCoins);
 
     this.numberOfColumnsOfWorld = numberOfColumnsOfWorld;
     this.numberOfRowsOfWorld = numberOfRowsOfWorld;
