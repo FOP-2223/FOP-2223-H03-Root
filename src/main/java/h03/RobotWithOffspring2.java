@@ -8,17 +8,21 @@ public class RobotWithOffspring2 extends RobotWithOffspring {
   /**
    * Constructor of RobotWithOffspring2. Calls the super constructor.
    *
-   * @param numberOfColumnsOfWorld Number of columns in the world the robot is supposed to be placed in.
-   * @param numberOfRowsOfWorld    Number of row in the world the robot is supposed to be placed in.
+   * @param numberOfColumnsOfWorld Number of columns in the world the robot is
+   *                               supposed to be placed in.
+   * @param numberOfRowsOfWorld    Number of row in the world the robot is
+   *                               supposed to be placed in.
    * @param direction              The initial direction the robot points at.
    * @param numberOfCoins          The initial amount of coins the robot owns.
    */
-  public RobotWithOffspring2(int numberOfColumnsOfWorld, int numberOfRowsOfWorld, Direction direction, int numberOfCoins) {
+  public RobotWithOffspring2(int numberOfColumnsOfWorld, int numberOfRowsOfWorld, Direction direction,
+      int numberOfCoins) {
     super(numberOfColumnsOfWorld, numberOfRowsOfWorld, direction, numberOfCoins);
   }
 
   /**
-   * Initializes the offspring and initializes the directionAccu with the value representing the given direction.
+   * Initializes the offspring and initializes the directionAccu with the value
+   * representing the given direction.
    *
    * @param direction     The initial direction the offspring points at.
    * @param numberOfCoins The initial amount of coins the offspring owns.
@@ -71,9 +75,13 @@ public class RobotWithOffspring2 extends RobotWithOffspring {
   }
 
   /**
-   * Adds the given integer value to the current direction of the offspring. Updates the directionAccu value and makes the offspring point in the respective direction.
+   * Adds the given integer value to the current direction of the offspring.
+   * Updates the directionAccu value and makes the offspring point in the
+   * respective direction.
    *
-   * @param directionToBeAdded The integer value to be added to the given direction. Represents the number of right turns of the offspring.
+   * @param directionToBeAdded The integer value to be added to the given
+   *                           direction. Represents the number of right turns of
+   *                           the offspring.
    */
   @Override
   public void addToDirectionOfOffspring(int directionToBeAdded) {

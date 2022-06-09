@@ -9,7 +9,8 @@ public class TwinRobots {
   private boolean firstTwinIsActive;
 
   /**
-   * Constructor of TwinRobots. Initializes the twin1 and twin2 fields with two new instances of the Robot class.
+   * Constructor of TwinRobots. Initializes the twin1 and twin2 fields with two
+   * new instances of the Robot class.
    */
   public TwinRobots() {
     twin1 = new Robot(1, 0, Direction.RIGHT, 0);
@@ -17,7 +18,8 @@ public class TwinRobots {
   }
 
   /**
-   * Sets the second twin to active if the first was active before and vice versa. Deactivates the other twin.
+   * Sets the second twin to active if the first was active before and vice versa.
+   * Deactivates the other twin.
    */
   public void toggleActiveRobot() {
     firstTwinIsActive = !firstTwinIsActive;
