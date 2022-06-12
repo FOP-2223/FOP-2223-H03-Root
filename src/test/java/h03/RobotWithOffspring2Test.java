@@ -13,6 +13,7 @@ class RobotWithOffspring2Test {
     @ValueSource(ints = { 0, 1, 2, 3 })
     void initOffspring_GetDirectionOfOffspring_Parameterized_CorrectDirectionSet(int directionNumber) {
         World.setSize(5, 5);
+        World.setDelay(0);
 
         var expectedDirection = Direction.values()[directionNumber];
 
