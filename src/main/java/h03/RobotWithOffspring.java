@@ -139,13 +139,12 @@ public class RobotWithOffspring extends Robot {
   public void addToDirectionOfOffspring(int directionToBeAdded) {
     if (offspringIsInitialized()) {
       Direction targetDirection;
-      int sum = getDirectionOfOffspring().ordinal() + directionToBeAdded;
+      int n = getDirectionOfOffspring().ordinal() + directionToBeAdded;
 
-      if (sum >= 0) {
-        targetDirection = Direction.values()[sum % 4];
+      if (n >= 0) {
+        targetDirection = Direction.values()[n % 4];
       } else {
-        // TODO: check that this is correct
-        targetDirection = Direction.values()[(4 - ((-sum) % 4)) % 4];
+        targetDirection = Direction.values()[(4 - ((-n) % 4)) % 4];
       }
 
       while (getDirectionOfOffspring() != targetDirection) {
@@ -162,7 +161,14 @@ public class RobotWithOffspring extends Robot {
   public void addToNumberOfCoinsOfOffspring(int numberOfCoins) {
     if (offspringIsInitialized()) {
       int n = offspring.getNumberOfCoins() + numberOfCoins;
-      // TODO
+
+      if (n > 0) {
+        // TODO: Method setNumberOfCoins has not been implemented yet
+        // offspring.setNumberOfCoins(n);
+      } else {
+        // TODO: Method setNumberOfCoins has not been implemented yet
+        // offspring.setNumberOfCoins(0);
+      }
     }
   }
 }
