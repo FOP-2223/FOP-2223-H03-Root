@@ -1,6 +1,6 @@
 package h03;
 
-import fopbot.Direction;
+import fopbot.*;
 
 public class RobotWithOffspring2 extends RobotWithOffspring {
   private int directionAccu;
@@ -40,8 +40,15 @@ public class RobotWithOffspring2 extends RobotWithOffspring {
    * @return The current direction representing the directionAccu value.
    */
   private Direction getDirectionFromAccu() {
-    int n = directionAccu % 4;
-    return Direction.values()[n];
+    int currentDirectionValue;
+
+    if (directionAccu >= 0) {
+      currentDirectionValue = directionAccu % 4;
+    } else {
+      currentDirectionValue = (4 - ((-directionAccu) % 4)) % 4;
+    }
+
+    return Direction.values()[currentDirectionValue];
   }
 
   /**

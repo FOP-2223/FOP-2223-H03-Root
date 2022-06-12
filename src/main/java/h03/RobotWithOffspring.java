@@ -138,15 +138,16 @@ public class RobotWithOffspring extends Robot {
    */
   public void addToDirectionOfOffspring(int directionToBeAdded) {
     if (offspringIsInitialized()) {
-      Direction targetDirection;
       int n = getDirectionOfOffspring().ordinal() + directionToBeAdded;
+      int targetDirectionValue;
 
       if (n >= 0) {
-        targetDirection = Direction.values()[n % 4];
+        targetDirectionValue = n % 4;
       } else {
-        targetDirection = Direction.values()[(4 - ((-n) % 4)) % 4];
+        targetDirectionValue = (4 - ((-n) % 4)) % 4;
       }
 
+      Direction targetDirection = Direction.values()[targetDirectionValue];
       while (getDirectionOfOffspring() != targetDirection) {
         offspring.turnLeft();
       }
