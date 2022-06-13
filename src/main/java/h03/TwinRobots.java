@@ -17,12 +17,25 @@ public class TwinRobots {
         robots[1].initOffspring(Direction.LEFT, 0);
     }
 
-    // TODO: JavaDoc
+    /**
+     * 
+     * Returns the twin robot at the given index in the internal array.
+     * 
+     * @param index The index at which to retrieve the robot from the array.
+     * 
+     * @return The twin robot at the given index.
+     */
     public RobotWithOffspring getRobotByIndex(int index) {
         return robots[index];
     }
 
-    // TODO: JavaDoc
+    /**
+     * 
+     * Adds the integer value to the current direction of both twin robots.
+     * 
+     * @param directionToBeAdded The integer value representing how many times to
+     *                           turn the robots right.
+     */
     public void addToDirectionOfBothOffsprings(int directionToBeAdded) {
         robots[0].addToDirectionOfOffspring(directionToBeAdded);
         robots[1].addToDirectionOfOffspring(directionToBeAdded);

@@ -21,7 +21,7 @@ class H3_2_UnitTest {
         assertEquals(twins.getRobotByIndex(0).getDirectionOfOffspring(),
                 twins.getRobotByIndex(1).getDirectionOfOffspring());
 
-        twins.addToDirectionOfBothOffsprings(-15);
+        twins.addToDirectionOfBothOffsprings(-20);
         assertEquals(twins.getRobotByIndex(0).getDirectionOfOffspring(),
                 twins.getRobotByIndex(1).getDirectionOfOffspring());
 
