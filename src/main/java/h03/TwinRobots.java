@@ -6,8 +6,8 @@ public class TwinRobots {
     private RobotWithOffspring[] robots;
 
     /**
-     * Constructor of TwinRobots. Initializes the twin1 and twin2 fields with two
-     * new instances of the Robot class.
+     * Constructor of TwinRobots. Instantiates the two robots and initializes their
+     * offsprings. The robots are saved in the internal array robots.
      */
     public TwinRobots(int numberOfColumnsOfWorld, int numberOfRowsOfWorld) {
         robots = new RobotWithOffspring[2];
