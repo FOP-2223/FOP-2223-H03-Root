@@ -95,7 +95,7 @@ public class RobotWithOffspring extends Robot {
     if (offspringIsInitialized()) {
       int n = offspring.getX() + x;
 
-      if (n < (numberOfColumnsOfWorld - 1)) {
+      if (n < 0) {
         offspring.setX(0);
       } else if ((numberOfColumnsOfWorld - 1) < n) {
         offspring.setX(numberOfColumnsOfWorld - 1);
@@ -117,7 +117,7 @@ public class RobotWithOffspring extends Robot {
     if (offspringIsInitialized()) {
       int n = offspring.getY() + y;
 
-      if (n < (numberOfRowsOfWorld - 1)) {
+      if (n < 0) {
         offspring.setY(0);
       } else if ((numberOfRowsOfWorld - 1) < n) {
         offspring.setY(numberOfRowsOfWorld - 1);
