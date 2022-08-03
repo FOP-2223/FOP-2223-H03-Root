@@ -7,13 +7,27 @@
     {
       "name": "grader",
       "files": [
-        "h03/H03_RubricProvider.java"
+        "h03/FakeRobotWithOffspring.java",
+        "h03/H03_RubricProvider.java",
+        "h03/H1_1_Tests.java",
+        "h03/H1_2_Tests.java",
+        "h03/H1_3_Tests.java",
+        "h03/H2_Tests.java",
+        "h03/H3_1_Tests.java",
+        "h03/H3_2_Tests.java",
+        "h03/ArgumentsProviders/WorldArgumentsProvider.java",
+        "h03/TutorTests.java",
+        "h03/Utilities.java"
       ]
     },
     {
       "name": "solution",
       "files": [
-        "h03/Main.java"
+        "h03/Main.java",
+        "h03/RobotWithOffspring.java",
+        "h03/RobotWithOffspring2.java",
+        "h03/TwinRobots.java",
+        "h03/H3_2_UnitTest.java"
       ]
     }
   ]
