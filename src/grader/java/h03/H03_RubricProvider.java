@@ -20,14 +20,26 @@ public class H03_RubricProvider implements RubricProvider {
         return Criterion.builder().shortDescription(shortDescription).grader(grader).build();
     }
 
-    private static final Criterion CRITERION_H1_1 = criterion("H1.1: Abgeleitete Klasse, ihr Konstruktor und zusätzliche Attribute",
-        singlePointCriterion("Die Klasse RobotWithOffspring erbt von Robot und verfügt über die geforderten Attribute.",
-            () -> H1_1_Tests.class.getDeclaredMethod("classInheritsFromRobotAndHasCorrectAttributes")),
-        singlePointCriterion("Der Konstruktor setzt den Roboter auf die korrekte Position in der Mitte der Welt.",
-            () -> H1_1_Tests.class.getDeclaredMethod("constructorSetsCorrectPosition", int.class, int.class)),
-        singlePointCriterion("Der Konstruktor setzt die beiden Attribute numberOfColumnsOfWorld und numberOfRowsOfWorld.",
-            () -> H1_1_Tests.class.getDeclaredMethod("constructorSetsAttributes", int.class, int.class))
-    );
+    public static final Criterion H1_1_T1 = Criterion.builder()
+        .shortDescription("RobotWithOffspring wurde korrekt abgeleitet, besitzt die korrekten private-Attribute und der Konstruktor ist vollständig korrekt.")
+        .grader(
+            Grader.testAwareBuilder()
+                .requirePass(JUnitTestRef.and(
+                    JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod(
+                        "t01")),
+                    JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod(
+                        "t02")),
+                    JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod(
+                        "t03"))))
+                .pointsPassedMax()
+                .pointsFailedMin()
+                .build())
+        .build();
+
+    public static final Criterion H1_1 = Criterion.builder()
+        .shortDescription("H1.1 Abgeleitete Klasse, ihr Konstruktor und zusätzliche Attribute")
+        .addChildCriteria(H1_1_T1)
+        .build();
 
     private static final Criterion CRITERION_H1_2 = criterion("H1.2: Attribut vom Referenztyp und get-Methoden für dessen Attribute",
         singlePointCriterion("Das Attribut offspring und die Methode initOffspring wurden korrekt implementiert.",
@@ -60,7 +72,13 @@ public class H03_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H3_2 = criterion("H3.2: Testen");
 
-    private static final Criterion CRITERION_H1 = criterion("H1: Roboter mit Abkömmling", CRITERION_H1_1, CRITERION_H1_2, CRITERION_H1_3);
+    public static final Criterion H1 = Criterion.builder()
+        .shortDescription("H1: Roboter mit Abkömmling")
+        .addChildCriteria(
+            H1_1,
+            H1_2,
+            H1_3)
+        .build();
 
     private static final Criterion CRITERION_H2 = criterion("H2: Roboter mit überschriebenen Methoden",
         singlePointCriterion("Die Klasse RobotWithOffspring2 erbt von RobotWithOffspring und besitzt einen öffentlichen Konstruktor, der seine aktualen Parameterwerte wie beschrieben an den Konstruktor von RobotWithOffspring weiterreicht.",

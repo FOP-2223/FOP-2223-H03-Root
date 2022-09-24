@@ -16,6 +16,7 @@
         "h03/H3_1_Tests.java",
         "h03/H3_2_Tests.java",
         "h03/ArgumentsProviders/WorldArgumentsProvider.java",
+        "h03/Scope.java",
         "h03/TutorTests.java",
         "h03/Utilities.java"
       ]

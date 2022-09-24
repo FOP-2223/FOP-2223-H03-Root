@@ -4,8 +4,8 @@ import fopbot.Direction;
 import fopbot.Robot;
 
 public class RobotWithOffspring extends Robot {
-    private final int numberOfColumnsOfWorld;
-    private final int numberOfRowsOfWorld;
+    private int numberOfColumnsOfWorld;
+    private int numberOfRowsOfWorld;
     protected Robot offspring;
 
     /**
