@@ -36,17 +36,17 @@ public class TutorTests_H1_1 {
     @Test
     @DisplayName("1 | Existenz Klasse " + class_name)
     public void t01() {
-        robotWithOffspringCT.verify(1.0d);
+        robotWithOffspringCT.verify(1);
     }
 
     @Test
     @DisplayName("2 | Attribute numberOfColumnsOfWorld und numberOfRowsOfWorld")
-    public void t03() {
+    public void t02() {
         robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("numberOfColumnsOfWorld", 1.0d, Modifier.PRIVATE,
+            new AttributeMatcher("numberOfColumnsOfWorld", 1, Modifier.PRIVATE,
                 int.class));
         robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("numberOfRowsOfWorld", 1.0d, Modifier.PRIVATE,
+            new AttributeMatcher("numberOfRowsOfWorld", 1, Modifier.PRIVATE,
                 int.class));
         // TODO: final keyword zulassen? derzeit verboten und Punktabzug, wenn nicht explizit gefordert
     }
@@ -54,7 +54,8 @@ public class TutorTests_H1_1 {
     @ParameterizedTest
     @ArgumentsSource(WorldArgumentsProvider.class)
     @DisplayName("3 | Konstruktor")
-    public void t06(int worldWidth, int worldHeight) throws NoSuchFieldException {
+    @SuppressWarnings("unchecked")
+    public void t03(int worldWidth, int worldHeight) throws NoSuchFieldException {
         var numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", 0.8, int.class);
         var numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", 0.8, int.class);
         var directionParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", 0.8, Direction.class);
@@ -75,7 +76,7 @@ public class TutorTests_H1_1 {
         Field xField = FieldEntity.class.getDeclaredField("x");
         Field yField = FieldEntity.class.getDeclaredField("y");
 
-        // TODO: besser parametrisieren? Direction und numberOFCoins relativ statisch derzeit
+        // TODO: besser parametrisieren? Direction und numberOfCoins relativ statisch derzeit
         // Scenario 1
         ((ClassTester<Object>) robotWithOffspringCT).setClassInstance(assertDoesNotThrow(() -> constructor.newInstance(worldWidth, worldHeight, Direction.DOWN, 29)));
         robotWithOffspringCT.assertFieldEquals(numberOfColumnsOfWorldField, worldWidth);
