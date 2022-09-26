@@ -87,7 +87,7 @@ public class TutorTests {
 
         @ParameterizedTest
         @CsvSource({"5,1,3", "5,0,2", "5,-5,0", "5,15,4"})
-        void addToXOffOffspring_belowLimit_CorrectPositionSet(String numberOfColumnsOfWorldString, String addedXString, String expectedXString) {
+        void addToXOfOffspring_belowLimit_CorrectPositionSet(String numberOfColumnsOfWorldString, String addedXString, String expectedXString) {
             var numberOfColumnsOfWorld = Integer.parseInt(numberOfColumnsOfWorldString);
             var addedX = Integer.parseInt(addedXString);
             var expectedX = Integer.parseInt(expectedXString);
@@ -105,7 +105,7 @@ public class TutorTests {
 
         @ParameterizedTest
         @CsvSource({"5,1,3", "5,0,2", "5,-5,0", "5,15,4"})
-        void addToYOffOffspring_belowLimit_CorrectPositionSet(String numberOfRowsOfWorldString, String addedYString, String expectedYString) {
+        void addToYOfOffspring_belowLimit_CorrectPositionSet(String numberOfRowsOfWorldString, String addedYString, String expectedYString) {
             var numberOfRowsOfWorld = Integer.parseInt(numberOfRowsOfWorldString);
             var addedY = Integer.parseInt(addedYString);
             var expectedY = Integer.parseInt(expectedYString);

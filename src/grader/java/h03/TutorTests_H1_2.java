@@ -48,7 +48,6 @@ public class TutorTests_H1_2 {
     @Test
     @DisplayName("2 | Methode initOffspring")
     // TODO: parametrisierter Test
-    // TODO: nochmal kontrollieren
     public void t02() {
         Field offspringField = robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("offspring", 0.8, Modifier.PROTECTED,
@@ -56,10 +55,10 @@ public class TutorTests_H1_2 {
 
         var methodTester = new MethodTester(robotWithOffspringCT
             .resolve(), "initOffspring", 0.8, Modifier.PUBLIC,
-            void.class, new ArrayList<>(List.of(new ParameterMatcher("direction", 0.8, Direction.class),
+            void.class, new ArrayList<>(List.of(
+            new ParameterMatcher("direction", 0.8, Direction.class),
             new ParameterMatcher("numberOfCoins", 0.8, int.class)))).verify();
 
-        assertDoesNotThrow(() -> offspringField.setAccessible(true));
         Object robotInstance = robotWithOffspringCT.getClassInstance();
 
         assertDoesNotThrow(() -> ((Robot) robotInstance).setX(264));
@@ -68,19 +67,21 @@ public class TutorTests_H1_2 {
         methodTester.invoke(Direction.DOWN, 192);
         Object offspring = assertDoesNotThrow(() -> offspringField.get(robotInstance));
         assertNotNull(offspring, "offspring ist null auch nachdem initOffspring aufgerufen wurde.");
-        assertEquals(Robot.class, offspring.getClass(), "initOffspring erstellt ein Objekt vom falschen Typ.");
-        assertEquals(264, ((Robot) offspring).getX(), "Das Attribut x des offspring-Objekts wird nicht korrekt " +
-            "gesetzt.");
-        assertEquals(123, ((Robot) offspring).getY(), "Das Attribut y des offspring-Objekts wird nicht korrekt " +
-            "gesetzt.");
-        assertEquals(Direction.DOWN, ((Robot) offspring).getDirection(), "Das Attribut direction des " +
-            "offspring-Objekts wird nicht korrekt gesetzt.");
-        assertEquals(192, ((Robot) offspring).getNumberOfCoins(), "Das Attribut numberOfCoins des offspring-Objekts " +
-            "wird nicht korrekt gesetzt.");
+        assertEquals(Robot.class, offspring.getClass(), "offspring ist nach Aufruf von initOffspring nicht vom Typ " +
+            "Robot.");
+        assertEquals(264, ((Robot) offspring).getX(),
+            "Das Attribut x des offspring-Objekts wird nicht korrekt gesetzt.");
+        assertEquals(123, ((Robot) offspring).getY(),
+            "Das Attribut y des offspring-Objekts wird nicht korrekt gesetzt.");
+        assertEquals(Direction.DOWN, ((Robot) offspring).getDirection(),
+            "Das Attribut direction des offspring-Objekts wird nicht korrekt gesetzt.");
+        assertEquals(192, ((Robot) offspring).getNumberOfCoins(),
+            "Das Attribut numberOfCoins des offspring-Objekts wird nicht korrekt gesetzt.");
     }
 
     @Test
     @DisplayName("3 | Offspring-Getter")
+    // TODO: Parametrisierter Test
     public void t03() {
         ClassTester<?> ct = robotWithOffspringCT.resolve();
         Field offspringField = ct.resolveAttribute(
@@ -111,21 +112,32 @@ public class TutorTests_H1_2 {
         assertEquals(expectedValue, returnValue, String.format("Falsche Rückgabe der Methode %s.", getterName));
     }
 
-//
-//    @Test
-//    public void offspringIsInitializedCorrectlyImplemented() {
-//        Utilities.assertPublicMethodExists(RobotWithOffspring.class, "offspringIsInitialized", null,
-//            new Class[]{boolean.class, Boolean.class});
-//
-//        World.setSize(5, 5);
-//        var sut = new RobotWithOffspring(5, 5, Direction.UP, 0);
-//        assertFalse(sut.offspringIsInitialized(), "offspringIsInitialized gibt nicht false zurück, wenn der
-//        offspring" +
-//            " noch nicht initialisiert wurde.");
-//        // TODO: was, wenn es initOffspring nicht gibt? keine Punkte dann auch für diese Aufgabe?
-//        sut.initOffspring(Direction.UP, 0);
-//        assertTrue(sut.offspringIsInitialized(), "offspringIsInitialized gibt nicht true zurück, wenn der offspring
-//        " +
-//            "initialisiert wurde.");
-//    }
+    @Test
+    @DisplayName("4 | Methode offspringIsInitialized")
+    public void t04() {
+        ClassTester<?> ct = robotWithOffspringCT.resolve();
+        Field offspringField = ct.resolveAttribute(
+            new AttributeMatcher("offspring", 0.8, Modifier.PROTECTED,
+                Robot.class));
+
+        var methodTester = new MethodTester(
+            ct,
+            "offspringIsInitialized",
+            0.8,
+            Modifier.PUBLIC,
+            boolean.class,
+            new ArrayList<>()).verify();
+
+        var returnValueBeforeCall = methodTester.invoke();
+        assertEquals(false, returnValueBeforeCall,
+            "offspringIsInitialized liefert true zurück, bevor der offspring initialisiert wurde.");
+
+        Object robotInstance = robotWithOffspringCT.getClassInstance();
+        var offspring = new Robot(0, 0);
+        assertDoesNotThrow(() -> offspringField.set(robotInstance, offspring));
+
+        var returnValueAfterCall = methodTester.invoke();
+        assertEquals(true, returnValueAfterCall,
+            "offspringIsInitialized liefert false zurück, nachdem der offspring initialisiert wurde.");
+    }
 }
