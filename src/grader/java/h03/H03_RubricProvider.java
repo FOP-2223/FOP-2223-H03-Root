@@ -7,25 +7,41 @@ public class H03_RubricProvider implements RubricProvider {
     // TODO: JavaDoc prüfen
 
     public static final Criterion H1_1_T1 = Criterion.builder()
-        .shortDescription("RobotWithOffspring wurde korrekt abgeleitet, besitzt die korrekten private-Attribute und " +
-            "der Konstruktor ist vollständig korrekt.")
+        .shortDescription("Klasse RobotWithOffspring ist korrekt deklariert.")
         .grader(
             Grader.testAwareBuilder()
-                .requirePass(JUnitTestRef.and(
-                    JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod(
-                        "t01")),
-                    JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod(
-                        "t02")),
-                    JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod(
-                        "t03", int.class, int.class))))
+                .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod(
+                    "t01")))
+                .pointsPassedMax()
+                .pointsFailedMin()
+                .build())
+        .build();
+
+    public static final Criterion H1_1_T2 = Criterion.builder()
+        .shortDescription("Attribute numberOfColumnsOfWorld und numberOfRowsOfWorld sind korrekt deklariert.")
+        .grader(
+            Grader.testAwareBuilder()
+                .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod(
+                    "t02")))
+                .pointsPassedMax()
+                .pointsFailedMin()
+                .build())
+        .build();
+
+    public static final Criterion H1_1_T3 = Criterion.builder()
+        .shortDescription("Der Konstruktor von RobotWithOffspring ist vollständig korrekt.")
+        .grader(
+            Grader.testAwareBuilder()
+                .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod(
+                    "t03", int.class, int.class)))
                 .pointsPassedMax()
                 .pointsFailedMin()
                 .build())
         .build();
 
     public static final Criterion H1_1 = Criterion.builder()
-        .shortDescription("H1.1 Abgeleitete Klasse, ihr Konstruktor und zusätzliche Attribute")
-        .addChildCriteria(H1_1_T1)
+        .shortDescription("H1.1 | Abgeleitete Klasse, ihr Konstruktor und zusätzliche Attribute")
+        .addChildCriteria(H1_1_T1, H1_1_T2, H1_1_T3)
         .build();
 
     // "H1.2 Attribut vom Referenztyp und get-Methoden für dessen Attribute"
@@ -34,14 +50,16 @@ public class H03_RubricProvider implements RubricProvider {
 //    private static final Criterion CRITERION_H1_2 = criterion("H1.2: Attribut vom Referenztyp und get-Methoden für " +
 //            "dessen Attribute",
 //        singlePointCriterion("Das Attribut offspring und die Methode initOffspring wurden korrekt implementiert.",
-//            () -> TutorTests_H1_2.class.getDeclaredMethod("offspringFieldAndInitOffspringMethodCorrectlyImplemented")),
+//            () -> TutorTests_H1_2.class.getDeclaredMethod
+//            ("offspringFieldAndInitOffspringMethodCorrectlyImplemented")),
 //        singlePointCriterion("Die Getter in RobotWithOffspring wurden korrekt implementiert.",
 //            () -> TutorTests_H1_2.class.getDeclaredMethod("gettersCorrectlyImplemented")),
 //        singlePointCriterion("Die Methode offspringIsInitialized wurde korrekt implementiert.",
 //            () -> TutorTests_H1_2.class.getDeclaredMethod("offspringIsInitializedCorrectlyImplemented"))
 //    );
 //
-//    private static final Criterion CRITERION_H1_3 = criterion("H1.3: Attributwerte relativ zum momentanen Wert ändern",
+//    private static final Criterion CRITERION_H1_3 = criterion("H1.3: Attributwerte relativ zum momentanen Wert
+//    ändern",
 //        singlePointCriterion("Die Methode addToXOfOffspring wurde korrekt implementiert.",
 //            () -> H1_3_Tests.class.getDeclaredMethod("addToXOfOffspringCorrectlyImplemented")),
 //        singlePointCriterion("Die Methode addToYOfOffspring wurde korrekt implementiert.",
@@ -65,19 +83,20 @@ public class H03_RubricProvider implements RubricProvider {
 //    private static final Criterion CRITERION_H3_2 = criterion("H3.2: Testen");
 
     public static final Criterion H1 = Criterion.builder()
-        .shortDescription("H1: Roboter mit Abkömmling")
+        .shortDescription("H1 | Roboter mit Abkömmling")
         .addChildCriteria(
             H1_1)
         .build();
 
     public static final Rubric RUBRIC = Rubric.builder()
-        .title("H03: Ihr Upgrade in die First Class")
+        .title("H03 | Ihr Upgrade in die First Class")
         .addChildCriteria(H1)
         .build();
 
 //    private static final Criterion CRITERION_H2 = criterion("H2: Roboter mit überschriebenen Methoden",
 //        singlePointCriterion("Die Klasse RobotWithOffspring2 erbt von RobotWithOffspring und besitzt einen " +
-//                "öffentlichen Konstruktor, der seine aktualen Parameterwerte wie beschrieben an den Konstruktor von " +
+//                "öffentlichen Konstruktor, der seine aktualen Parameterwerte wie beschrieben an den Konstruktor von
+//                " +
 //                "RobotWithOffspring weiterreicht.",
 //            () -> H2_Tests.class.getDeclaredMethod("inheritanceAndConstructorCorrect")),
 //        singlePointCriterion("Das Attribut directionAccu und die Methode initOffspring wurden korrekt implementiert.",
