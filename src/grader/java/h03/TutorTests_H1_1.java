@@ -24,14 +24,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestForSubmission("h03")
 @DisplayName("H1.1")
 public class TutorTests_H1_1 {
+    final String class_name = "RobotWithOffspring";
+
     @BeforeEach
     public void setup() {
         World.reset();
         World.setDelay(0);
         World.setVisible(false);
     }
-
-    final String class_name = "RobotWithOffspring";
 
     @Test
     @DisplayName("1 | Existenz Klasse " + class_name)

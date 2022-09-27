@@ -7,7 +7,7 @@ public class H03_RubricProvider implements RubricProvider {
     // TODO: JavaDoc prüfen
 
     public static final Criterion H1_1_T1 = Criterion.builder()
-        .shortDescription("Klasse RobotWithOffspring ist korrekt deklariert.")
+        .shortDescription("Die Klasse RobotWithOffspring ist korrekt deklariert.")
         .grader(
             Grader.testAwareBuilder()
                 .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod(
@@ -135,10 +135,48 @@ public class H03_RubricProvider implements RubricProvider {
         .shortDescription("H1.3 | Attributwerte relativ zum momentanen Wert ändern")
         .addChildCriteria(H1_3_T1, H1_3_T2, H1_3_T3, H1_3_T4)
         .build();
+
     public static final Criterion H1 = Criterion.builder()
         .shortDescription("H1 | Roboter mit Abkömmling")
-        .addChildCriteria(
-            H1_1, H1_2, H1_3)
+        .addChildCriteria(H1_1, H1_2, H1_3)
+        .build();
+
+    public static final Criterion H2_T1 = Criterion.builder()
+        .shortDescription("Die Klasse RobotWithOffspring ist korrekt deklariert.")
+        .grader(
+            Grader.testAwareBuilder()
+                .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod(
+                    "t01")))
+                .pointsPassedMax()
+                .pointsFailedMin()
+                .build())
+        .build();
+
+    public static final Criterion H2_T2 = Criterion.builder()
+        .shortDescription("Das Attribut directionAccu ist korrekt deklariert.")
+        .grader(
+            Grader.testAwareBuilder()
+                .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod(
+                    "t02")))
+                .pointsPassedMax()
+                .pointsFailedMin()
+                .build())
+        .build();
+
+    public static final Criterion H2_T3 = Criterion.builder()
+        .shortDescription("Der Konstruktor von RobotWithOffspring2 ist vollständig korrekt.")
+        .grader(
+            Grader.testAwareBuilder()
+                .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod(
+                    "t03")))
+                .pointsPassedMax()
+                .pointsFailedMin()
+                .build())
+        .build();
+
+    public static final Criterion H2 = Criterion.builder()
+        .shortDescription("H1 | Roboter mit überschriebenen Methoden")
+        .addChildCriteria(H2_T1, H2_T2, H2_T3)
         .build();
 
     public static final Rubric RUBRIC = Rubric.builder()
