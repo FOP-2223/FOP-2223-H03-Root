@@ -180,9 +180,30 @@ public class H03_RubricProvider implements RubricProvider {
         .addChildCriteria(H2_T1, H2_T2, H2_T3)
         .build();
 
+    public static final Criterion H3_1_T1 = Criterion.builder()
+        .shortDescription("Das Attribut robots ist korrekt deklariert.")
+        .grader(
+            Grader.testAwareBuilder()
+                .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod(
+                    "t01")))
+                .pointsPassedMax()
+                .pointsFailedMin()
+                .build())
+        .build();
+
+    public static final Criterion H3_1 = Criterion.builder()
+        .shortDescription("H3.1 | Klasse mit Robotern")
+        .addChildCriteria(H3_1_T1)
+        .build();
+
+    public static final Criterion H3 = Criterion.builder()
+        .shortDescription("H3 | Klasse mit Robotern und Tests")
+        .addChildCriteria(H3_1)
+        .build();
+
     public static final Rubric RUBRIC = Rubric.builder()
         .title("H03 | Ihr Upgrade in die First Class")
-        .addChildCriteria(H1)
+        .addChildCriteria(H1, H2, H3)
         .build();
 
     @Override
