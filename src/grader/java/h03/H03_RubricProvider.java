@@ -1,5 +1,6 @@
 package h03;
 
+import fopbot.Direction;
 import org.sourcegrade.jagr.api.rubric.*;
 
 @RubricForSubmission("h03")
@@ -92,7 +93,7 @@ public class H03_RubricProvider implements RubricProvider {
         .grader(
             Grader.testAwareBuilder()
                 .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
-                    "t01")))
+                    "t01", int.class, int.class, Direction.class, int.class, int.class, int.class)))
                 .pointsPassedMax()
                 .pointsFailedMin()
                 .build())
@@ -103,7 +104,7 @@ public class H03_RubricProvider implements RubricProvider {
         .grader(
             Grader.testAwareBuilder()
                 .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
-                    "t02")))
+                    "t02", int.class, int.class, Direction.class, int.class, int.class, int.class)))
                 .pointsPassedMax()
                 .pointsFailedMin()
                 .build())
@@ -114,7 +115,7 @@ public class H03_RubricProvider implements RubricProvider {
         .grader(
             Grader.testAwareBuilder()
                 .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
-                    "t03")))
+                    "t03", int.class, int.class, Direction.class, int.class, int.class, Direction.class)))
                 .pointsPassedMax()
                 .pointsFailedMin()
                 .build())
@@ -125,7 +126,7 @@ public class H03_RubricProvider implements RubricProvider {
         .grader(
             Grader.testAwareBuilder()
                 .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
-                    "t04")))
+                    "t04", int.class, int.class, Direction.class, int.class, int.class, int.class)))
                 .pointsPassedMax()
                 .pointsFailedMin()
                 .build())

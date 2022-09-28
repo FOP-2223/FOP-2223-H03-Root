@@ -12,6 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import java.lang.reflect.Field;
@@ -34,40 +37,44 @@ public class TutorTests_H1_3 {
         World.setSize(500, 500);
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({"12,32,UP,34,44,56"})
     @DisplayName("1 | Methode addToXOfOffspring")
     // TODO: Parametrisierter Test
     // TODO: test multiple cases for too big, too small etc.
-    public void t01() {
-        var offspring = new Robot(12, 32, Direction.UP, 34);
-        testAddToMethod("addToXOfOffspring", FieldEntity::getX, offspring, 44, 56, true);
+    public void t01(int x, int y, Direction direction, int numberOfCoins, int xToAssign, int expectedResultX) {
+        var offspring = new Robot(x, y, direction, numberOfCoins);
+        testAddToMethod("addToXOfOffspring", FieldEntity::getX, offspring, xToAssign, expectedResultX, true);
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({"12,32,UP,34,44,76"})
     @DisplayName("2 | Methode addToYOfOffspring")
     // TODO: Parametrisierter Test
     // TODO: test multiple cases for too big, too small etc.
-    public void t02() {
-        var offspring = new Robot(12, 32, Direction.UP, 34);
-        testAddToMethod("addToYOfOffspring", FieldEntity::getY, offspring, 44, 76, true);
+    public void t02(int x, int y, Direction direction, int numberOfCoins, int yToAssign, int expectedResultY) {
+        var offspring = new Robot(x, y, direction, numberOfCoins);
+        testAddToMethod("addToYOfOffspring", FieldEntity::getY, offspring, yToAssign, expectedResultY, true);
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({"12,32,UP,34,43,LEFT"})
     @DisplayName("3 | Methode addToDirectionOfOffspring")
     // TODO: Parametrisierter Test
     // TODO: test multiple cases for too big, too small etc.
-    public void t03() {
-        var offspring = new Robot(12, 32, Direction.UP, 34);
-        testAddToMethod("addToDirectionOfOffspring", Robot::getDirection, offspring, 43, Direction.LEFT, false);
+    public void t03(int x, int y, Direction direction, int numberOfCoins, int directionToAssign, Direction expectedResultDirection) {
+        var offspring = new Robot(x, y, direction, numberOfCoins);
+        testAddToMethod("addToDirectionOfOffspring", Robot::getDirection, offspring, directionToAssign, expectedResultDirection, false);
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({"12,32,UP,34,23,57"})
     @DisplayName("4 | Methode addToNumberOfCoinsOfOffspring")
     // TODO: Parametrisierter Test
     // TODO: test multiple cases for too big, too small etc.
-    public void t04() {
-        var offspring = new Robot(12, 32, Direction.UP, 34);
-        testAddToMethod("addToNumberOfCoinsOfOffspring", Robot::getNumberOfCoins, offspring, 23, 57, false);
+    public void t04(int x, int y, Direction direction, int numberOfCoins, int coinsToAssign, int expectedResultCoins) {
+        var offspring = new Robot(x, y, direction, numberOfCoins);
+        testAddToMethod("addToNumberOfCoinsOfOffspring", Robot::getNumberOfCoins, offspring, coinsToAssign, expectedResultCoins, false);
         // TODO: check no library is used for modular arithmetic
     }
 
