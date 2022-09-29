@@ -45,7 +45,9 @@ public class TutorTests_H2 {
 
     @Test
     @DisplayName("1 | Existenz Klasse " + class_name)
+    @SuppressWarnings("unchecked")
     public void t01() {
+        robotWithOffspring2CT.setSuperClass((Class<Object>) robotWithOffspringCT.assureClassResolved().getTheClass());
         robotWithOffspring2CT.verify(1);
     }
 

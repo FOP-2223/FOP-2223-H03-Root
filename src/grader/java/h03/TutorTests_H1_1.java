@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.opentest4j.AssertionFailedError;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import java.lang.reflect.Constructor;
@@ -46,10 +47,10 @@ public class TutorTests_H1_1 {
     @DisplayName("2 | Attribute numberOfColumnsOfWorld und numberOfRowsOfWorld")
     public void t02() {
         robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("numberOfColumnsOfWorld", 1, Modifier.PRIVATE,
+            new AttributeMatcher("numberOfColumnsOfWorld", 1, Modifier.PRIVATE | Modifier.FINAL,
                 int.class));
         robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("numberOfRowsOfWorld", 1, Modifier.PRIVATE,
+            new AttributeMatcher("numberOfRowsOfWorld", 1, Modifier.PRIVATE | Modifier.FINAL,
                 int.class));
         // TODO: final keyword zulassen? derzeit verboten und Punktabzug, wenn nicht explizit gefordert
     }
@@ -71,10 +72,14 @@ public class TutorTests_H1_1 {
             numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher, directionParameterMatcher,
             numberOfCoinsOfWorldParameterMatcher);
 
-        Field numberOfColumnsOfWorldField = robotWithOffspringCT
-            .resolveAttribute(new AttributeMatcher("numberOfColumnsOfWorld", 0.8, Modifier.PRIVATE, int.class));
+        Field numberOfColumnsOfWorldField = numberOfColumnsOfWorldField = robotWithOffspringCT
+            .resolveAttribute(new AttributeMatcher("numberOfColumnsOfWorld", 0.8,
+                Modifier.PRIVATE | Modifier.FINAL, int.class));
+
         Field numberOfRowsOfWorldField = robotWithOffspringCT
-            .resolveAttribute(new AttributeMatcher("numberOfRowsOfWorld", 0.8, Modifier.PRIVATE, int.class));
+            .resolveAttribute(new AttributeMatcher("numberOfRowsOfWorld", 0.8,
+                Modifier.PRIVATE | Modifier.FINAL, int.class));
+
         Field directionField = Robot.class.getDeclaredField("direction");
         Field numberOfCoinsWorldField = Robot.class.getDeclaredField("numberOfCoins");
         Field xField = FieldEntity.class.getDeclaredField("x");

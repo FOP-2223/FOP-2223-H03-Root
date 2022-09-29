@@ -62,9 +62,11 @@ public class TutorTests_H1_3 {
     @DisplayName("3 | Methode addToDirectionOfOffspring")
     // TODO: Parametrisierter Test
     // TODO: test multiple cases for too big, too small etc.
-    public void t03(int x, int y, Direction direction, int numberOfCoins, int directionToAssign, Direction expectedResultDirection) {
+    public void t03(int x, int y, Direction direction, int numberOfCoins, int directionToAssign,
+                    Direction expectedResultDirection) {
         var offspring = new Robot(x, y, direction, numberOfCoins);
-        testAddToMethod("addToDirectionOfOffspring", Robot::getDirection, offspring, directionToAssign, expectedResultDirection, false);
+        testAddToMethod("addToDirectionOfOffspring", Robot::getDirection, offspring, directionToAssign,
+            expectedResultDirection, false);
     }
 
     @ParameterizedTest
@@ -74,7 +76,8 @@ public class TutorTests_H1_3 {
     // TODO: test multiple cases for too big, too small etc.
     public void t04(int x, int y, Direction direction, int numberOfCoins, int coinsToAssign, int expectedResultCoins) {
         var offspring = new Robot(x, y, direction, numberOfCoins);
-        testAddToMethod("addToNumberOfCoinsOfOffspring", Robot::getNumberOfCoins, offspring, coinsToAssign, expectedResultCoins, false);
+        testAddToMethod("addToNumberOfCoinsOfOffspring", Robot::getNumberOfCoins, offspring, coinsToAssign,
+            expectedResultCoins, false);
         // TODO: check no library is used for modular arithmetic
     }
 
@@ -93,12 +96,12 @@ public class TutorTests_H1_3 {
 
         if (setWorldSize) {
             Field numberOfColumnsOfWorldField = ct.resolveAttribute(
-                new AttributeMatcher("numberOfColumnsOfWorld", 0.8, Modifier.PRIVATE, int.class));
+                new AttributeMatcher("numberOfColumnsOfWorld", 0.8, Modifier.PRIVATE | Modifier.FINAL, int.class));
             assertDoesNotThrow(() -> numberOfColumnsOfWorldField.setAccessible(true));
             assertDoesNotThrow(() -> numberOfColumnsOfWorldField.set(robotInstance, World.getWidth()));
 
             Field numberOfRowsOfWorldField = ct.resolveAttribute(
-                new AttributeMatcher("numberOfRowsOfWorld", 0.8, Modifier.PRIVATE, int.class));
+                new AttributeMatcher("numberOfRowsOfWorld", 0.8, Modifier.PRIVATE | Modifier.FINAL, int.class));
             assertDoesNotThrow(() -> numberOfRowsOfWorldField.setAccessible(true));
             assertDoesNotThrow(() -> numberOfRowsOfWorldField.set(robotInstance, World.getHeight()));
         }

@@ -45,9 +45,8 @@ public class TutorTests_H3_1 {
     @DisplayName("1 | Attribut robots")
     public void t01() {
         twinRobotsCT.resolve().resolveAttribute(
-            new AttributeMatcher("robots", 1, Modifier.PRIVATE,
+            new AttributeMatcher("robots", 1, Modifier.PRIVATE | Modifier.FINAL,
                 robotWithOffspringCT.assureClassResolved().getClass()));
-        // TODO: final keyword zulassen? derzeit verboten und Punktabzug, wenn nicht explizit gefordert
     }
 
     @ParameterizedTest
@@ -65,7 +64,7 @@ public class TutorTests_H3_1 {
             numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher);
 
         Field robotsField = twinRobotsCT
-            .resolveAttribute(new AttributeMatcher("robots", 0.8, Modifier.PRIVATE,
+            .resolveAttribute(new AttributeMatcher("robots", 0.8, Modifier.PRIVATE | Modifier.FINAL,
                 robotWithOffspringCT.assureClassResolved().getTheClass()));
 
         ((ClassTester<Object>) twinRobotsCT).setClassInstance(assertDoesNotThrow(() -> constructor.newInstance(numberOfColumnsOfWorld, numberOfRowsOfWorld)));
@@ -77,11 +76,13 @@ public class TutorTests_H3_1 {
         assertEquals(2, Array.getLength(field), "Der Array \"robots\" hat nicht die Größe 2.");
 
         var firstRobot = Array.get(field, 0);
-        assertEquals(robotWithOffspringCT.assureClassResolved().getTheClass(), firstRobot.getClass(), "Das Objekt am Index 0 im Array \"robots\" ist nicht vom Typ \"RobotWithOffspring\"");
+        assertEquals(robotWithOffspringCT.assureClassResolved().getTheClass(), firstRobot.getClass(), "Das Objekt am " +
+            "Index 0 im Array \"robots\" ist nicht vom Typ \"RobotWithOffspring\"");
 
 //        var mt = new MethodTester(robotWithOffspringCT, "initOffSpring", 0.8,
 //            Modifier.PUBLIC,
-//            void.class, new ArrayList<>(List.of(new ParameterMatcher("direction", 0.8, Direction.class), new ParameterMatcher("numberOfCoins", 0.8, int.class))));
+//            void.class, new ArrayList<>(List.of(new ParameterMatcher("direction", 0.8, Direction.class), new
+//            ParameterMatcher("numberOfCoins", 0.8, int.class))));
 //        getAverageSpeeedMT.resolveMethod();
 //
 //        assertDoesNotThrow(
@@ -90,7 +91,8 @@ public class TutorTests_H3_1 {
 //            "Could not Overwrite Method.");
 
         var secondRobot = Array.get(field, 1);
-        assertEquals(robotWithOffspring2CT.assureClassResolved().getTheClass(), secondRobot.getClass(), "Das Objekt am Index 1 im Array \"robots\" ist nicht vom Typ \"RobotWithOffspring2\"");
+        assertEquals(robotWithOffspring2CT.assureClassResolved().getTheClass(), secondRobot.getClass(), "Das Objekt " +
+            "am Index 1 im Array \"robots\" ist nicht vom Typ \"RobotWithOffspring2\"");
 
         // TODO: fertig schreiben
 

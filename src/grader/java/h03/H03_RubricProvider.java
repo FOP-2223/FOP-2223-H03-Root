@@ -6,6 +6,8 @@ import org.sourcegrade.jagr.api.rubric.*;
 @RubricForSubmission("h03")
 public class H03_RubricProvider implements RubricProvider {
     // TODO: JavaDoc prüfen
+    // TODO: generell Final und private optional prüfen bei Aufgaben, die damit gar nichts zu tun haben. Nur bei den
+    //  Attributen selbst Punkte abziehen
 
     public static final Criterion H1_1_T1 = Criterion.builder()
         .shortDescription("Die Klasse RobotWithOffspring ist korrekt deklariert.")
