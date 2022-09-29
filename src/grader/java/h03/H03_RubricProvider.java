@@ -1,7 +1,10 @@
 package h03;
 
 import fopbot.Direction;
+import h03.transform.RobotWithOffspring2CtorVerifier;
 import org.sourcegrade.jagr.api.rubric.*;
+import org.sourcegrade.jagr.api.testing.ClassTransformerOrder;
+import org.sourcegrade.jagr.api.testing.RubricConfiguration;
 
 @RubricForSubmission("h03")
 public class H03_RubricProvider implements RubricProvider {
@@ -211,5 +214,10 @@ public class H03_RubricProvider implements RubricProvider {
     @Override
     public Rubric getRubric() {
         return RUBRIC;
+    }
+
+    @Override
+    public void configure(RubricConfiguration configuration) {
+        configuration.addTransformer(new RobotWithOffspring2CtorVerifier(), ClassTransformerOrder.PRE);
     }
 }
