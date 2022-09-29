@@ -13,11 +13,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,6 +31,7 @@ public class TutorTests_H1_1 {
     @BeforeEach
     public void setup() {
         World.reset();
+        World.setSize(500, 500);
         World.setDelay(0);
         World.setVisible(false);
     }
@@ -52,6 +55,7 @@ public class TutorTests_H1_1 {
     }
 
     @ParameterizedTest
+    @CsvFileSource(resources = "/parameters.csv")
     @ArgumentsSource(WorldArgumentsProvider.class)
     @DisplayName("3 | Konstruktor")
     @SuppressWarnings("unchecked")
