@@ -79,10 +79,6 @@ public class TutorTests_H1_3 {
         // TODO: check no library is used for modular arithmetic
     }
 
-    private interface ValueGetter<T> {
-        T getValue(Robot robot);
-    }
-
     private <T> void testAddToMethod(String methodName, @NotNull ValueGetter<T> valueGetter, Robot offspring,
                                      int valueToAssign, T expectedResultValue, boolean setWorldSize) {
         ClassTester<?> ct = robotWithOffspringCT.resolve();
@@ -123,5 +119,9 @@ public class TutorTests_H1_3 {
         var newValue = valueGetter.getValue(offspring);
         assertEquals(expectedResultValue, newValue,
             String.format("Die Methode %s weist dem offspring den falschen Attributwert zu.", methodName));
+    }
+
+    private interface ValueGetter<T> {
+        T getValue(Robot robot);
     }
 }

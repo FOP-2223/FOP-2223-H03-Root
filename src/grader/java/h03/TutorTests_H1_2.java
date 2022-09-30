@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static h03.H03_Class_Testers.robotWithOffspringCT;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestForSubmission
 @DisplayName("H1.2")

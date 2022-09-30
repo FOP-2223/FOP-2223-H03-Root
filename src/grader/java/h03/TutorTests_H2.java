@@ -2,16 +2,13 @@ package h03;
 
 import fopbot.World;
 import h03.transform.RobotWithOffspring2Transformer;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.opentest4j.AssertionFailedError;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
-import org.sourcegrade.jagr.launcher.env.Jagr;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 
 import java.lang.reflect.Modifier;
