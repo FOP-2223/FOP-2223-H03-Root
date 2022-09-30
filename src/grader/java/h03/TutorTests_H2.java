@@ -2,7 +2,6 @@ package h03;
 
 import fopbot.Direction;
 import fopbot.World;
-import h03.ReflectionUtils.AttributeMatcher;
 import h03.transform.RobotWithOffspring2Transformer;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +12,7 @@ import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
 import org.sourcegrade.jagr.launcher.env.Jagr;
+import org.tudalgo.algoutils.reflect.AttributeMatcher;
 
 import java.lang.reflect.Modifier;
 
@@ -24,8 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestForSubmission("h03")
 @DisplayName("H2")
 public class TutorTests_H2 {
-    final String class_name = "RobotWithOffspring2";
-
     @BeforeEach
     public void setup() {
         World.reset();
@@ -35,7 +33,7 @@ public class TutorTests_H2 {
     }
 
     @Test
-    @DisplayName("1 | Existenz Klasse " + class_name)
+    @DisplayName("1 | Existenz Klasse \"RobotWithOffspring2\"")
     @SuppressWarnings("unchecked")
     public void t01() {
         robotWithOffspring2CT.setSuperClass((Class<Object>) robotWithOffspringCT.assureClassResolved().getTheClass());

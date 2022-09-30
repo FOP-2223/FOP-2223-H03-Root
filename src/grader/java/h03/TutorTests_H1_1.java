@@ -5,9 +5,6 @@ import fopbot.FieldEntity;
 import fopbot.Robot;
 import fopbot.World;
 import h03.ArgumentsProviders.WorldArgumentsProvider;
-import h03.ReflectionUtils.AttributeMatcher;
-import h03.ReflectionUtils.ClassTester;
-import h03.ReflectionUtils.ParameterMatcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +13,9 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.opentest4j.AssertionFailedError;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.tudalgo.algoutils.reflect.AttributeMatcher;
+import org.tudalgo.algoutils.reflect.ClassTester;
+import org.tudalgo.algoutils.reflect.ParameterMatcher;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -27,8 +27,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestForSubmission("h03")
 @DisplayName("H1.1")
 public class TutorTests_H1_1 {
-    final String class_name = "RobotWithOffspring";
-
     @BeforeEach
     public void setup() {
         World.reset();
@@ -38,7 +36,7 @@ public class TutorTests_H1_1 {
     }
 
     @Test
-    @DisplayName("1 | Existenz Klasse " + class_name)
+    @DisplayName("1 | Existenz Klasse \"RobotWithOffspring\"")
     public void t01() {
         robotWithOffspringCT.verify(1);
     }

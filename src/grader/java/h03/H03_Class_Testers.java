@@ -1,7 +1,7 @@
 package h03;
 
 import fopbot.Robot;
-import h03.ReflectionUtils.ClassTester;
+import org.tudalgo.algoutils.reflect.ClassTester;
 
 import java.lang.reflect.Modifier;
 

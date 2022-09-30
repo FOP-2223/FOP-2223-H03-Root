@@ -4,16 +4,16 @@ import fopbot.Direction;
 import fopbot.FieldEntity;
 import fopbot.Robot;
 import fopbot.World;
-import h03.ReflectionUtils.AttributeMatcher;
-import h03.ReflectionUtils.ClassTester;
-import h03.ReflectionUtils.MethodTester;
-import h03.ReflectionUtils.ParameterMatcher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.tudalgo.algoutils.reflect.AttributeMatcher;
+import org.tudalgo.algoutils.reflect.ClassTester;
+import org.tudalgo.algoutils.reflect.MethodTester;
+import org.tudalgo.algoutils.reflect.ParameterMatcher;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -33,8 +33,6 @@ public class TutorTests_H1_2 {
         World.setVisible(false);
         World.setSize(500, 500);
     }
-
-    final String class_name = "RobotWithOffspring";
 
     @Test
     @DisplayName("1 | Attribut offspring")
@@ -67,8 +65,8 @@ public class TutorTests_H1_2 {
         methodTester.invoke(Direction.DOWN, 192);
         Object offspring = assertDoesNotThrow(() -> offspringField.get(robotInstance));
         assertNotNull(offspring, "offspring ist null auch nachdem initOffspring aufgerufen wurde.");
-        assertEquals(Robot.class, offspring.getClass(), "offspring ist nach Aufruf von initOffspring nicht vom Typ " +
-            "Robot.");
+        assertEquals(Robot.class, offspring.getClass(), "offspring ist nach Aufruf von initOffspring nicht vom Typ "
+            + "Robot.");
         assertEquals(264, ((Robot) offspring).getX(),
             "Das Attribut x des offspring-Objekts wird nicht korrekt gesetzt.");
         assertEquals(123, ((Robot) offspring).getY(),

@@ -5,10 +5,6 @@ import fopbot.FieldEntity;
 import fopbot.Robot;
 import fopbot.World;
 import h03.ArgumentsProviders.WorldArgumentsProvider;
-import h03.ReflectionUtils.AttributeMatcher;
-import h03.ReflectionUtils.ClassTester;
-import h03.ReflectionUtils.MethodTester;
-import h03.ReflectionUtils.ParameterMatcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +13,9 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.ArgumentMatchers;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.tudalgo.algoutils.reflect.AttributeMatcher;
+import org.tudalgo.algoutils.reflect.ClassTester;
+import org.tudalgo.algoutils.reflect.ParameterMatcher;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -76,8 +75,8 @@ public class TutorTests_H3_1 {
         assertEquals(2, Array.getLength(field), "Der Array \"robots\" hat nicht die Größe 2.");
 
         var firstRobot = Array.get(field, 0);
-        assertEquals(robotWithOffspringCT.assureClassResolved().getTheClass(), firstRobot.getClass(), "Das Objekt am " +
-            "Index 0 im Array \"robots\" ist nicht vom Typ \"RobotWithOffspring\"");
+        assertEquals(robotWithOffspringCT.assureClassResolved().getTheClass(), firstRobot.getClass(), "Das Objekt am "
+            + "Index 0 im Array \"robots\" ist nicht vom Typ \"RobotWithOffspring\"");
 
 //        var mt = new MethodTester(robotWithOffspringCT, "initOffSpring", 0.8,
 //            Modifier.PUBLIC,
