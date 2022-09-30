@@ -1,10 +1,7 @@
 package h03;
 
 import fopbot.Direction;
-import h03.transform.RobotWithOffspring2Transformer;
 import org.sourcegrade.jagr.api.rubric.*;
-import org.sourcegrade.jagr.api.testing.ClassTransformerOrder;
-import org.sourcegrade.jagr.api.testing.RubricConfiguration;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 
 @RubricForSubmission("h03")

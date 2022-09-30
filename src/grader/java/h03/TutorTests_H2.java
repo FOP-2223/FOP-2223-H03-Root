@@ -1,6 +1,5 @@
 package h03;
 
-import fopbot.Direction;
 import fopbot.World;
 import h03.transform.RobotWithOffspring2Transformer;
 import org.apache.logging.log4j.Logger;
@@ -18,8 +17,6 @@ import java.lang.reflect.Modifier;
 
 import static h03.H03_Class_Testers.robotWithOffspring2CT;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestForSubmission("h03")
 @DisplayName("H2")
