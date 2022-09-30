@@ -51,10 +51,8 @@ public class TutorTests_H2 {
     @DisplayName("3 | Konstruktor")
     @ExtendWith(TestCycleResolver.class)
     public void t03(TestCycle testCycle) {
-        // TODO: dynamically check name
-        //robotWithOffspring2CT.
-            testCycle.getClassLoader().visitClass(RobotWithOffspring2.class.getName(),
-                new RobotWithOffspring2Transformer());
+        final var className = robotWithOffspring2CT.assureClassResolved().getTheClass().getName();
+        testCycle.getClassLoader().visitClass(className, new RobotWithOffspring2Transformer());
     }
 
     @Test

@@ -16,7 +16,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import static h03.H03_Class_Testers.*;
+import static h03.H03_Class_Testers.robotWithOffspring2CT;
+import static h03.H03_Class_Testers.robotWithOffspringCT;
+import static h03.H03_Class_Testers.twinRobotsCT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

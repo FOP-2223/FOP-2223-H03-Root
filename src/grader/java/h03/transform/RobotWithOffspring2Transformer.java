@@ -1,7 +1,11 @@
 package h03.transform;
 
 import org.junit.jupiter.api.Assertions;
-import org.objectweb.asm.*;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.sourcegrade.jagr.api.testing.ClassTransformer;
 
 public class RobotWithOffspring2Transformer implements ClassTransformer {
