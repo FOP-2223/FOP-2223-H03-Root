@@ -4,7 +4,6 @@ import fopbot.Direction;
 import fopbot.FieldEntity;
 import fopbot.Robot;
 import fopbot.World;
-import h03.ArgumentsProviders.WorldArgumentsProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,7 +53,6 @@ public class TutorTests_H1_1 {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/parameters.csv")
-    @ArgumentsSource(WorldArgumentsProvider.class)
     @DisplayName("3 | Konstruktor")
     @SuppressWarnings("unchecked")
     public void t03(int worldWidth, int worldHeight) throws NoSuchFieldException {
@@ -64,27 +62,30 @@ public class TutorTests_H1_1 {
         var numberOfCoinsOfWorldParameterMatcher = new ParameterMatcher("numberOfCoins", 0.8, int.class);
 
         Constructor<Object> constructor =
-            (Constructor<Object>) robotWithOffspringCT.assureClassResolved().resolveConstructor(numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher, directionParameterMatcher, numberOfCoinsOfWorldParameterMatcher);
+            (Constructor<Object>) robotWithOffspringCT.assureClassResolved().resolveConstructor(
+                numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher,
+                directionParameterMatcher, numberOfCoinsOfWorldParameterMatcher);
         ((ClassTester<Object>) robotWithOffspringCT).assertConstructorValid(constructor, Modifier.PUBLIC,
             numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher, directionParameterMatcher,
             numberOfCoinsOfWorldParameterMatcher);
 
-        Field numberOfColumnsOfWorldField = numberOfColumnsOfWorldField = robotWithOffspringCT
+        final Field numberOfColumnsOfWorldField = robotWithOffspringCT
             .resolveAttribute(new AttributeMatcher("numberOfColumnsOfWorld", 0.8,
                 Modifier.PRIVATE | Modifier.FINAL, int.class));
 
-        Field numberOfRowsOfWorldField = robotWithOffspringCT
+        final Field numberOfRowsOfWorldField = robotWithOffspringCT
             .resolveAttribute(new AttributeMatcher("numberOfRowsOfWorld", 0.8,
                 Modifier.PRIVATE | Modifier.FINAL, int.class));
 
-        Field directionField = Robot.class.getDeclaredField("direction");
-        Field numberOfCoinsWorldField = Robot.class.getDeclaredField("numberOfCoins");
-        Field xField = FieldEntity.class.getDeclaredField("x");
-        Field yField = FieldEntity.class.getDeclaredField("y");
+        final Field directionField = Robot.class.getDeclaredField("direction");
+        final Field numberOfCoinsWorldField = Robot.class.getDeclaredField("numberOfCoins");
+        final Field xField = FieldEntity.class.getDeclaredField("x");
+        final Field yField = FieldEntity.class.getDeclaredField("y");
 
         // TODO: besser parametrisieren? Direction und numberOfCoins relativ statisch derzeit
         // Scenario 1
-        ((ClassTester<Object>) robotWithOffspringCT).setClassInstance(assertDoesNotThrow(() -> constructor.newInstance(worldWidth, worldHeight, Direction.DOWN, 29)));
+        ((ClassTester<Object>) robotWithOffspringCT).setClassInstance(assertDoesNotThrow(
+            () -> constructor.newInstance(worldWidth, worldHeight, Direction.DOWN, 29)));
         robotWithOffspringCT.assertFieldEquals(numberOfColumnsOfWorldField, worldWidth);
         robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, worldHeight);
         robotWithOffspringCT.assertFieldEquals(directionField, Direction.DOWN);
@@ -93,7 +94,8 @@ public class TutorTests_H1_1 {
         robotWithOffspringCT.assertFieldEquals(yField, worldHeight / 2);
 
         // Scenario 2
-        ((ClassTester<Object>) robotWithOffspringCT).setClassInstance(assertDoesNotThrow(() -> constructor.newInstance(worldWidth, worldHeight, Direction.LEFT, 1982)));
+        ((ClassTester<Object>) robotWithOffspringCT).setClassInstance(assertDoesNotThrow(
+            () -> constructor.newInstance(worldWidth, worldHeight, Direction.LEFT, 1982)));
         robotWithOffspringCT.assertFieldEquals(numberOfColumnsOfWorldField, worldWidth);
         robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, worldHeight);
         robotWithOffspringCT.assertFieldEquals(directionField, Direction.LEFT);
@@ -102,7 +104,8 @@ public class TutorTests_H1_1 {
         robotWithOffspringCT.assertFieldEquals(yField, worldHeight / 2);
 
         // Scenario 3
-        ((ClassTester<Object>) robotWithOffspringCT).setClassInstance(assertDoesNotThrow(() -> constructor.newInstance(worldWidth, worldHeight, Direction.UP, 0)));
+        ((ClassTester<Object>) robotWithOffspringCT).setClassInstance(assertDoesNotThrow(
+            () -> constructor.newInstance(worldWidth, worldHeight, Direction.UP, 0)));
         robotWithOffspringCT.assertFieldEquals(numberOfColumnsOfWorldField, worldWidth);
         robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, worldHeight);
         robotWithOffspringCT.assertFieldEquals(directionField, Direction.UP);

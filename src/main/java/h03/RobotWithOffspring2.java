@@ -1,6 +1,6 @@
 package h03;
 
-import fopbot.*;
+import fopbot.Direction;
 
 public class RobotWithOffspring2 extends RobotWithOffspring {
     private int directionAccu;

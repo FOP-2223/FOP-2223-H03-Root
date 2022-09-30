@@ -46,7 +46,7 @@ public class TutorTests_H1_2 {
     @DisplayName("2 | Methode initOffspring")
     // TODO: parametrisierter Test
     public void t02() {
-        Field offspringField = robotWithOffspringCT.resolve().resolveAttribute(
+        final Field offspringField = robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("offspring", 0.8, Modifier.PROTECTED,
                 Robot.class));
 

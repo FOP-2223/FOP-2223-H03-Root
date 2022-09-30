@@ -1,6 +1,6 @@
 package h03;
 
-import fopbot.*;
+import fopbot.Direction;
 
 public class TwinRobots {
     private final RobotWithOffspring[] robots;
@@ -18,7 +18,6 @@ public class TwinRobots {
     }
 
     /**
-     *
      * Returns the twin robot at the given index in the internal array.
      *
      * @param index The index at which to retrieve the robot from the array.
@@ -30,7 +29,6 @@ public class TwinRobots {
     }
 
     /**
-     *
      * Adds the integer value to the current direction of both twin robots.
      *
      * @param directionToBeAdded The integer value representing how many times to

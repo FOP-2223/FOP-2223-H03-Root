@@ -49,8 +49,8 @@ public class TutorTests_H3_1 {
         var numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", 0.8, int.class);
         var numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", 0.8, int.class);
 
-        Constructor<Object> constructor =
-            (Constructor<Object>) twinRobotsCT.assureClassResolved().resolveConstructor(numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher);
+        var constructor = (Constructor<Object>) twinRobotsCT.assureClassResolved().resolveConstructor(
+            numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher);
 
         ((ClassTester<Object>) twinRobotsCT).assertConstructorValid(constructor, Modifier.PUBLIC,
             numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher);
@@ -59,7 +59,8 @@ public class TutorTests_H3_1 {
             .resolveAttribute(new AttributeMatcher("robots", 0.8, Modifier.PRIVATE | Modifier.FINAL,
                 robotWithOffspringCT.assureClassResolved().getTheClass()));
 
-        ((ClassTester<Object>) twinRobotsCT).setClassInstance(assertDoesNotThrow(() -> constructor.newInstance(numberOfColumnsOfWorld, numberOfRowsOfWorld)));
+        ((ClassTester<Object>) twinRobotsCT).setClassInstance(
+            assertDoesNotThrow(() -> constructor.newInstance(numberOfColumnsOfWorld, numberOfRowsOfWorld)));
 
         var twinRobotsInstance = twinRobotsCT.getClassInstance();
         assertDoesNotThrow(() -> robotsField.setAccessible(true));
@@ -71,16 +72,16 @@ public class TutorTests_H3_1 {
         assertEquals(robotWithOffspringCT.assureClassResolved().getTheClass(), firstRobot.getClass(), "Das Objekt am "
             + "Index 0 im Array \"robots\" ist nicht vom Typ \"RobotWithOffspring\"");
 
-//        var mt = new MethodTester(robotWithOffspringCT, "initOffSpring", 0.8,
-//            Modifier.PUBLIC,
-//            void.class, new ArrayList<>(List.of(new ParameterMatcher("direction", 0.8, Direction.class), new
-//            ParameterMatcher("numberOfCoins", 0.8, int.class))));
-//        getAverageSpeeedMT.resolveMethod();
-//
-//        assertDoesNotThrow(
-//            () -> when(getAverageSpeeedMT.getTheMethod().invoke(fast_mammalia, ArgumentMatchers.anyDouble()))
-//                .thenReturn(10d),
-//            "Could not Overwrite Method.");
+        //        var mt = new MethodTester(robotWithOffspringCT, "initOffSpring", 0.8,
+        //            Modifier.PUBLIC,
+        //            void.class, new ArrayList<>(List.of(new ParameterMatcher("direction", 0.8, Direction.class), new
+        //            ParameterMatcher("numberOfCoins", 0.8, int.class))));
+        //        getAverageSpeeedMT.resolveMethod();
+        //
+        //        assertDoesNotThrow(
+        //            () -> when(getAverageSpeeedMT.getTheMethod().invoke(fast_mammalia, ArgumentMatchers.anyDouble()))
+        //                .thenReturn(10d),
+        //            "Could not Overwrite Method.");
 
         var secondRobot = Array.get(field, 1);
         assertEquals(robotWithOffspring2CT.assureClassResolved().getTheClass(), secondRobot.getClass(), "Das Objekt "
@@ -89,10 +90,10 @@ public class TutorTests_H3_1 {
         // TODO: fertig schreiben
 
         //        robotWithOffspringCT.assertFieldEquals(numberOfColumnsOfWorldField, worldWidth);
-//        robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, worldHeight);
-//        robotWithOffspringCT.assertFieldEquals(directionField, Direction.DOWN);
-//        robotWithOffspringCT.assertFieldEquals(numberOfCoinsWorldField, 29);
-//        robotWithOffspringCT.assertFieldEquals(xField, worldWidth / 2);
-//        robotWithOffspringCT.assertFieldEquals(yField, worldHeight / 2);
+        //        robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, worldHeight);
+        //        robotWithOffspringCT.assertFieldEquals(directionField, Direction.DOWN);
+        //        robotWithOffspringCT.assertFieldEquals(numberOfCoinsWorldField, 29);
+        //        robotWithOffspringCT.assertFieldEquals(xField, worldWidth / 2);
+        //        robotWithOffspringCT.assertFieldEquals(yField, worldHeight / 2);
     }
 }
