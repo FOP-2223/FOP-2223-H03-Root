@@ -20,7 +20,7 @@ import static h03.H03_Class_Testers.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@TestForSubmission("h03")
+@TestForSubmission
 @DisplayName("H3.1")
 public class TutorTests_H3_1 {
     @BeforeEach
@@ -81,8 +81,8 @@ public class TutorTests_H3_1 {
 //            "Could not Overwrite Method.");
 
         var secondRobot = Array.get(field, 1);
-        assertEquals(robotWithOffspring2CT.assureClassResolved().getTheClass(), secondRobot.getClass(), "Das Objekt " +
-            "am Index 1 im Array \"robots\" ist nicht vom Typ \"RobotWithOffspring2\"");
+        assertEquals(robotWithOffspring2CT.assureClassResolved().getTheClass(), secondRobot.getClass(), "Das Objekt "
+            + "am Index 1 im Array \"robots\" ist nicht vom Typ \"RobotWithOffspring2\"");
 
         // TODO: fertig schreiben
 

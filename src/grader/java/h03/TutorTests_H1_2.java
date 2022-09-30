@@ -20,7 +20,7 @@ import java.util.List;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestForSubmission("h03")
+@TestForSubmission
 @DisplayName("H1.2")
 public class TutorTests_H1_2 {
     @BeforeEach

@@ -19,6 +19,7 @@ jagr {
     graders {
         create("grader") {
             graderName.set("FOP-2223-H03")
+            rubricProviderName.set("h03.H03_RubricProvider")
         }
     }
 }

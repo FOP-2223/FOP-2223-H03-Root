@@ -4,7 +4,6 @@ import fopbot.Direction;
 import org.sourcegrade.jagr.api.rubric.*;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 
-@RubricForSubmission("h03")
 public class H03_RubricProvider implements RubricProvider {
     // TODO: JavaDoc prüfen
     // TODO: generell Final und private optional prüfen bei Aufgaben, die damit gar nichts zu tun haben. Nur bei den

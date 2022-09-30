@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.opentest4j.AssertionFailedError;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
@@ -18,7 +19,7 @@ import java.lang.reflect.Modifier;
 import static h03.H03_Class_Testers.robotWithOffspring2CT;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 
-@TestForSubmission("h03")
+@TestForSubmission
 @DisplayName("H2")
 public class TutorTests_H2 {
     @BeforeEach
@@ -51,13 +52,9 @@ public class TutorTests_H2 {
     @ExtendWith(TestCycleResolver.class)
     public void t03(TestCycle testCycle) {
         // TODO: dynamically check name
-        try {
-            testCycle.getClassLoader().loadClass(RobotWithOffspring2.class.getName(),
+        //robotWithOffspring2CT.
+            testCycle.getClassLoader().visitClass(RobotWithOffspring2.class.getName(),
                 new RobotWithOffspring2Transformer());
-            Jagr.Default.getInjector().getInstance(Logger.class).warn("Noerror");
-        } catch (Throwable e) {
-            Jagr.Default.getInjector().getInstance(Logger.class).warn("Error", e);
-        }
     }
 
     @Test

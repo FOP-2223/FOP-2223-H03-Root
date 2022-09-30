@@ -23,7 +23,7 @@ import java.lang.reflect.Modifier;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-@TestForSubmission("h03")
+@TestForSubmission
 @DisplayName("H1.1")
 public class TutorTests_H1_1 {
     @BeforeEach
