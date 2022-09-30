@@ -1,29 +1,20 @@
 package h03;
 
 import fopbot.Direction;
-import fopbot.FieldEntity;
-import fopbot.Robot;
 import fopbot.World;
-import h03.ArgumentsProviders.WorldArgumentsProvider;
 import h03.ReflectionUtils.AttributeMatcher;
-import h03.ReflectionUtils.ClassTester;
-import h03.ReflectionUtils.MethodTester;
-import h03.ReflectionUtils.ParameterMatcher;
-import jdk.jshell.spi.ExecutionControl;
-import org.jetbrains.annotations.NotNull;
+import h03.transform.RobotWithOffspring2Transformer;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.mockito.internal.matchers.Not;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.sourcegrade.jagr.api.testing.TestCycle;
+import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
+import org.sourcegrade.jagr.launcher.env.Jagr;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
 
 import static h03.H03_Class_Testers.robotWithOffspring2CT;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
@@ -62,8 +53,16 @@ public class TutorTests_H2 {
 
     @Test
     @DisplayName("3 | Konstruktor")
-    public void t03() {
-        // TODO: check that super constructor is called properly with class visitor
+    @ExtendWith(TestCycleResolver.class)
+    public void t03(TestCycle testCycle) {
+        // TODO: dynamically check name
+        try {
+            testCycle.getClassLoader().loadClass(RobotWithOffspring2.class.getName(),
+                new RobotWithOffspring2Transformer());
+            Jagr.Default.getInjector().getInstance(Logger.class).warn("Noerror");
+        } catch (Throwable e) {
+            Jagr.Default.getInjector().getInstance(Logger.class).warn("Error", e);
+        }
     }
 
     @Test

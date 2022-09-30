@@ -1,10 +1,11 @@
 package h03;
 
 import fopbot.Direction;
-import h03.transform.RobotWithOffspring2CtorVerifier;
+import h03.transform.RobotWithOffspring2Transformer;
 import org.sourcegrade.jagr.api.rubric.*;
 import org.sourcegrade.jagr.api.testing.ClassTransformerOrder;
 import org.sourcegrade.jagr.api.testing.RubricConfiguration;
+import org.sourcegrade.jagr.api.testing.TestCycle;
 
 @RubricForSubmission("h03")
 public class H03_RubricProvider implements RubricProvider {
@@ -174,7 +175,7 @@ public class H03_RubricProvider implements RubricProvider {
         .grader(
             Grader.testAwareBuilder()
                 .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod(
-                    "t03")))
+                    "t03", TestCycle.class)))
                 .pointsPassedMax()
                 .pointsFailedMin()
                 .build())
@@ -214,10 +215,5 @@ public class H03_RubricProvider implements RubricProvider {
     @Override
     public Rubric getRubric() {
         return RUBRIC;
-    }
-
-    @Override
-    public void configure(RubricConfiguration configuration) {
-        configuration.addTransformer(new RobotWithOffspring2CtorVerifier(), ClassTransformerOrder.PRE);
     }
 }
