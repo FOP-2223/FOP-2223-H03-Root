@@ -26,9 +26,9 @@ public class TutorTests_H1_2 {
     @BeforeEach
     public void setup() {
         World.reset();
+        World.setSize(500, 500);
         World.setDelay(0);
         World.setVisible(false);
-        World.setSize(500, 500);
     }
 
     @Test
@@ -51,13 +51,13 @@ public class TutorTests_H1_2 {
         var methodTester = new MethodTester(robotWithOffspringCT
             .resolve(), "initOffspring", 0.8, Modifier.PUBLIC,
             void.class, new ArrayList<>(List.of(
-            new ParameterMatcher("direction", 0.8, Direction.class),
-            new ParameterMatcher("numberOfCoins", 0.8, int.class)))).verify();
+                new ParameterMatcher("direction", 0.8, Direction.class),
+                new ParameterMatcher("numberOfCoins", 0.8, int.class)))).verify();
 
         Object robotInstance = robotWithOffspringCT.getClassInstance();
 
-        assertDoesNotThrow(() -> ((Robot) robotInstance).setX(264));
-        assertDoesNotThrow(() -> ((Robot) robotInstance).setY(123));
+        ((Robot) robotInstance).setX(264);
+        ((Robot) robotInstance).setY(123);
 
         methodTester.invoke(Direction.DOWN, 192);
         Object offspring = assertDoesNotThrow(() -> offspringField.get(robotInstance));

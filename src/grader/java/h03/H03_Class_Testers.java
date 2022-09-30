@@ -6,15 +6,15 @@ import org.tudalgo.algoutils.reflect.ClassTester;
 import java.lang.reflect.Modifier;
 
 public class H03_Class_Testers {
-    public final static double minSim = 0.8d;
-    public final static ClassTester<?> robotWithOffspringCT = new ClassTester<>("h03", "RobotWithOffspring",
+    public static final double minSim = 0.8d;
+    public static final ClassTester<?> robotWithOffspringCT = new ClassTester<>("h03", "RobotWithOffspring",
         minSim, Modifier.PUBLIC,
         Robot.class, null);
 
-    public final static ClassTester<?> robotWithOffspring2CT = new ClassTester<>("h03", "RobotWithOffspring2",
+    public static final ClassTester<?> robotWithOffspring2CT = new ClassTester<>("h03", "RobotWithOffspring2",
         minSim, Modifier.PUBLIC,
         robotWithOffspringCT.getTheClass(), null);
 
-    public final static ClassTester<?> twinRobotsCT = new ClassTester<>("h03", "TwinRobots",
+    public static final ClassTester<?> twinRobotsCT = new ClassTester<>("h03", "TwinRobots",
         minSim, Modifier.PUBLIC, null, null);
 }
