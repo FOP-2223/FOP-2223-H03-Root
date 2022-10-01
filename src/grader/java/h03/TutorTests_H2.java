@@ -1,6 +1,7 @@
 package h03;
 
 import fopbot.Direction;
+import fopbot.Robot;
 import fopbot.World;
 import h03.transform.RobotWithOffspring2Transformer;
 import org.junit.jupiter.api.BeforeEach;
@@ -131,7 +132,7 @@ public class TutorTests_H2 {
     }
 
     @Test
-    @DisplayName("Überschrieben Methode \"getDirectionOfOffspring\" wurde korrekt implementiert.")
+    @DisplayName("Überschriebene Methode \"getDirectionOfOffspring\" wurde korrekt implementiert.")
     public void getDirectionOfOffspringImplementedCorrectly() {
         // TODO: verify that getDirectionOfOffspring calls getDirectionFromAccu and returns that value
     }
@@ -145,8 +146,40 @@ public class TutorTests_H2 {
     }
 
     @Test
-    @DisplayName("Überschrieben Methode \"addToDirectionOfOffspring\" wurde korrekt implementiert.")
-    public void addToDirectionOfOffspringImplementedCorrectly() {
+    @DisplayName("Überschriebene Methode \"addToDirectionOfOffspring\" wurde korrekt implementiert.")
+    public void addToDirectionOfOffspringImplementedCorrectly() throws IllegalAccessException {
         // TODO: verify implementation (see page 9 bottom paragraph)
+        var addToDirectionOfOffspringMethod = new MethodTester(
+            robotWithOffspring2CT.resolve(), "addToDirectionOfOffspring", 0.8,
+            Modifier.PUBLIC, void.class,
+            new ArrayList<>(List.of(new ParameterMatcher("directionToBeAdded", 0, int.class))))
+            .resolveMethod();
+
+        var directionAccuField = robotWithOffspring2CT.resolve().resolveAttribute(
+            new AttributeMatcher("directionAccu", 0.8, int.class));
+        directionAccuField.setAccessible(true);
+
+        var robotWithOffspring2Instance = robotWithOffspring2CT.getClassInstance();
+
+        // Verify that value of directionAccuField does not change if offspring has not been initialized
+        final int value = 4738;
+        directionAccuField.set(robotWithOffspring2Instance, value);
+        assertDoesNotThrow(() -> addToDirectionOfOffspringMethod.invoke(robotWithOffspring2Instance, 193),
+            String.format("Die Methode \"%s\" wirft eine unerwartete Exception, wenn \"offspring\" nicht initialisiert wurde.", addToDirectionOfOffspringMethod.getName()));
+        assertEquals(value, directionAccuField.get(robotWithOffspring2Instance),
+            String.format("Die Methode \"%s\" ändert den Wert von \"%s\", wenn \"offspring\" nicht initialisiert wurde.", addToDirectionOfOffspringMethod.getName(), directionAccuField.getName()));
+
+        // Initialize offspring
+
+
+        // TODO: Verify that directionAccuField is updated
+
+//        var directionAccuFieldBefore = directionAccuField.get(robotWithOffspring2Instance);
+//
+//        assertDoesNotThrow(() -> initOffspringMethod.invoke(robotWithOffspring2Instance, direction, 42),
+//            "Die Methode \"initOffspring\" wurde nicht korrekt deklariert.");
+//        assertEquals(expectedResultValue, directionAccuField.get(robotWithOffspring2Instance),
+//            String.format("Die Methode \"initOffspring\" setzt das Attribut \"directionAccu\" nicht korrekt für Direction %s.",
+//                direction));
     }
 }
