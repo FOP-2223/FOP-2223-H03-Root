@@ -1,7 +1,6 @@
 package h03;
 
 import fopbot.Direction;
-import fopbot.Robot;
 import fopbot.World;
 import h03.transform.RobotWithOffspring2Transformer;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.TestCycle;
@@ -17,6 +17,7 @@ import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.MethodTester;
 import org.tudalgo.algoutils.reflect.ParameterMatcher;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -116,11 +117,28 @@ public class TutorTests_H2 {
             new ArrayList<>()).verify();
     }
 
-    @Test
+    // DONE
+    @ParameterizedTest
+    @CsvFileSource(resources = "/TutorTests_H2-getDirectionFromAccuImplementedCorrectly.csv", numLinesToSkip = 1)
     @DisplayName("Methode \"getDirectionFromAccu\" wurde korrekt implementiert.")
-    public void getDirectionFromAccuImplementedCorrectly() {
-        // TODO: verify that getDirectionFromAccu uses modular arithmetic and returns correct direction according to
-        //  directionAccu
+    public void getDirectionFromAccuImplementedCorrectly(int directionAccu, Direction expectedDirection) throws IllegalAccessException, InvocationTargetException {
+        var directionAccuField = robotWithOffspring2CT.resolve().resolveAttribute(
+            new AttributeMatcher("directionAccu", 0.8, int.class));
+        directionAccuField.setAccessible(true);
+
+        var getDirectionFromAccuMethod = new MethodTester(robotWithOffspring2CT.resolve(),
+            "getDirectionFromAccu", 0.8, Direction.class, new ArrayList<>()).resolveMethod();
+        getDirectionFromAccuMethod.setAccessible(true);
+
+        var robotWithOffspring2Instance = robotWithOffspring2CT.getClassInstance();
+
+        directionAccuField.set(robotWithOffspring2Instance, directionAccu);
+        var actual = getDirectionFromAccuMethod.invoke(robotWithOffspring2Instance);
+        assertEquals(expectedDirection, actual,
+            String.format("Die Methode \"%s\" liefert die falsche Direction zurück, wenn %s == %s ist.",
+                getDirectionFromAccuMethod.getName(),
+                directionAccuField.getName(),
+                directionAccu));
     }
 
     // DONE
@@ -165,9 +183,11 @@ public class TutorTests_H2 {
         final int value = 4738;
         directionAccuField.set(robotWithOffspring2Instance, value);
         assertDoesNotThrow(() -> addToDirectionOfOffspringMethod.invoke(robotWithOffspring2Instance, 193),
-            String.format("Die Methode \"%s\" wirft eine unerwartete Exception, wenn \"offspring\" nicht initialisiert wurde.", addToDirectionOfOffspringMethod.getName()));
+            String.format("Die Methode \"%s\" wirft eine unerwartete Exception, wenn \"offspring\" nicht initialisiert wurde.",
+                addToDirectionOfOffspringMethod.getName()));
         assertEquals(value, directionAccuField.get(robotWithOffspring2Instance),
-            String.format("Die Methode \"%s\" ändert den Wert von \"%s\", wenn \"offspring\" nicht initialisiert wurde.", addToDirectionOfOffspringMethod.getName(), directionAccuField.getName()));
+            String.format("Die Methode \"%s\" ändert den Wert von \"%s\", wenn \"offspring\" nicht initialisiert wurde.",
+                addToDirectionOfOffspringMethod.getName(), directionAccuField.getName()));
 
         // Initialize offspring
 
