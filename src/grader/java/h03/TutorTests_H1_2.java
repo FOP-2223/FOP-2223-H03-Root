@@ -37,9 +37,7 @@ public class TutorTests_H1_2 {
     @DisplayName("1 | Attribut offspring")
     public void t01() {
         robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("offspring", 1, Modifier.PROTECTED,
-                Robot.class));
-        // TODO: final keyword zulassen? derzeit verboten und Punktabzug, wenn nicht explizit gefordert
+            new AttributeMatcher("offspring", 1, Modifier.PROTECTED, Robot.class));
     }
 
     @Test
@@ -47,8 +45,7 @@ public class TutorTests_H1_2 {
     // TODO: parametrisierter Test
     public void t02() {
         final Field offspringField = robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("offspring", 0.8, Modifier.PROTECTED,
-                Robot.class));
+            new AttributeMatcher("offspring", 0.8, Robot.class));
 
         var methodTester = new MethodTester(robotWithOffspringCT
             .resolve(), "initOffspring", 0.8, Modifier.PUBLIC,
@@ -82,8 +79,7 @@ public class TutorTests_H1_2 {
     public void t03() {
         ClassTester<?> ct = robotWithOffspringCT.resolve();
         Field offspringField = ct.resolveAttribute(
-            new AttributeMatcher("offspring", 0.8, Modifier.PROTECTED,
-                Robot.class));
+            new AttributeMatcher("offspring", 0.8, Robot.class));
 
         Object robotInstance = robotWithOffspringCT.getClassInstance();
 
@@ -114,8 +110,7 @@ public class TutorTests_H1_2 {
     public void t04() {
         ClassTester<?> ct = robotWithOffspringCT.resolve();
         Field offspringField = ct.resolveAttribute(
-            new AttributeMatcher("offspring", 0.8, Modifier.PROTECTED,
-                Robot.class));
+            new AttributeMatcher("offspring", 0.8, Robot.class));
 
         var methodTester = new MethodTester(
             ct,

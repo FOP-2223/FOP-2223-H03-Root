@@ -48,7 +48,6 @@ public class TutorTests_H1_1 {
         robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("numberOfRowsOfWorld", 1, Modifier.PRIVATE | Modifier.FINAL,
                 int.class));
-        // TODO: final keyword zulassen? derzeit verboten und Punktabzug, wenn nicht explizit gefordert
     }
 
     @ParameterizedTest
@@ -70,12 +69,10 @@ public class TutorTests_H1_1 {
             numberOfCoinsOfWorldParameterMatcher);
 
         final Field numberOfColumnsOfWorldField = robotWithOffspringCT
-            .resolveAttribute(new AttributeMatcher("numberOfColumnsOfWorld", 0.8,
-                Modifier.PRIVATE | Modifier.FINAL, int.class));
+            .resolveAttribute(new AttributeMatcher("numberOfColumnsOfWorld", 0.8, int.class));
 
         final Field numberOfRowsOfWorldField = robotWithOffspringCT
-            .resolveAttribute(new AttributeMatcher("numberOfRowsOfWorld", 0.8,
-                Modifier.PRIVATE | Modifier.FINAL, int.class));
+            .resolveAttribute(new AttributeMatcher("numberOfRowsOfWorld", 0.8, int.class));
 
         final Field directionField = Robot.class.getDeclaredField("direction");
         final Field numberOfCoinsWorldField = Robot.class.getDeclaredField("numberOfCoins");

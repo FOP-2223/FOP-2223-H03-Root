@@ -39,9 +39,7 @@ public class TutorTests_H2 {
     @DisplayName("2 | Attribut directionAccu")
     public void t02() {
         robotWithOffspring2CT.resolve().resolveAttribute(
-            new AttributeMatcher("directionAccu", 1, Modifier.PRIVATE,
-                int.class));
-        // TODO: final keyword zulassen? derzeit verboten und Punktabzug, wenn nicht explizit gefordert
+            new AttributeMatcher("directionAccu", 1, Modifier.PRIVATE, int.class));
     }
 
     @Test

@@ -56,8 +56,7 @@ public class TutorTests_H3_1 {
             numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher);
 
         Field robotsField = twinRobotsCT
-            .resolveAttribute(new AttributeMatcher("robots", 0.8, Modifier.PRIVATE | Modifier.FINAL,
-                robotWithOffspringCT.assureClassResolved().getTheClass()));
+            .resolveAttribute(new AttributeMatcher("robots", 0.8, robotWithOffspringCT.assureClassResolved().getTheClass()));
 
         ((ClassTester<Object>) twinRobotsCT).setClassInstance(
             assertDoesNotThrow(() -> constructor.newInstance(numberOfColumnsOfWorld, numberOfRowsOfWorld)));

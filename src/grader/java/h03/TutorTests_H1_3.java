@@ -83,19 +83,18 @@ public class TutorTests_H1_3 {
                                      int valueToAssign, T expectedResultValue, boolean setWorldSize) {
         ClassTester<?> ct = robotWithOffspringCT.resolve();
         Field offspringField = ct.resolveAttribute(
-            new AttributeMatcher("offspring", 0.8, Modifier.PROTECTED,
-                Robot.class));
+            new AttributeMatcher("offspring", 0.8, Robot.class));
 
         Object robotInstance = robotWithOffspringCT.getClassInstance();
 
         if (setWorldSize) {
             Field numberOfColumnsOfWorldField = ct.resolveAttribute(
-                new AttributeMatcher("numberOfColumnsOfWorld", 0.8, Modifier.PRIVATE | Modifier.FINAL, int.class));
+                new AttributeMatcher("numberOfColumnsOfWorld", 0.8, int.class));
             assertDoesNotThrow(() -> numberOfColumnsOfWorldField.setAccessible(true));
             assertDoesNotThrow(() -> numberOfColumnsOfWorldField.set(robotInstance, World.getWidth()));
 
             Field numberOfRowsOfWorldField = ct.resolveAttribute(
-                new AttributeMatcher("numberOfRowsOfWorld", 0.8, Modifier.PRIVATE | Modifier.FINAL, int.class));
+                new AttributeMatcher("numberOfRowsOfWorld", 0.8, int.class));
             assertDoesNotThrow(() -> numberOfRowsOfWorldField.setAccessible(true));
             assertDoesNotThrow(() -> numberOfRowsOfWorldField.set(robotInstance, World.getHeight()));
         }
