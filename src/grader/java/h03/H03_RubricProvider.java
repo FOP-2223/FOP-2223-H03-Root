@@ -64,13 +64,10 @@ public class H03_RubricProvider implements RubricProvider {
         .shortDescription("Die Methoden initOffspring und offspringIsInitialized sind vollständig korrekt.")
         .grader(
             Grader.testAwareBuilder()
-                .requirePass(JUnitTestRef.and(
-                        JUnitTestRef.ofMethod(() ->
-                            TutorTests_H1_2.class.getMethod("t02")),
-                        JUnitTestRef.ofMethod(() ->
-                            TutorTests_H1_2.class.getMethod("t04"))
-                    )
-                )
+                .requirePass(JUnitTestRef.ofMethod(() ->
+                    TutorTests_H1_2.class.getMethod("t02")))
+                .requirePass(JUnitTestRef.ofMethod(() ->
+                    TutorTests_H1_2.class.getMethod("t04")))
                 .pointsPassedMax()
                 .pointsFailedMin()
                 .build())
