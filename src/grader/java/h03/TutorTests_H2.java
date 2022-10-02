@@ -34,9 +34,9 @@ public class TutorTests_H2 {
     @BeforeEach
     public void setup() {
         World.reset();
+        World.setSize(500, 500);
         World.setDelay(0);
         World.setVisible(false);
-        World.setSize(500, 500);
     }
 
     // DONE

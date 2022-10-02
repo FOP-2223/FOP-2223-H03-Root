@@ -30,9 +30,9 @@ public class TutorTests_H1_3 {
     @BeforeEach
     public void setup() {
         World.reset();
+        World.setSize(500, 500);
         World.setDelay(0);
         World.setVisible(false);
-        World.setSize(500, 500);
     }
 
     @ParameterizedTest
