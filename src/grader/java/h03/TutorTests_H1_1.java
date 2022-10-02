@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
@@ -33,25 +32,82 @@ public class TutorTests_H1_1 {
         World.setVisible(false);
     }
 
+    // DONE
     @Test
-    @DisplayName("1 | Existenz Klasse \"RobotWithOffspring\"")
-    public void t01() {
+    @DisplayName("Klasse \"RobotWithOffspring\" wurde korrekt deklariert.")
+    public void classRobotWithOffspringDeclaredCorrectly() {
         robotWithOffspringCT.verify(1);
     }
 
+    // DONE
     @Test
-    @DisplayName("2 | Attribute numberOfColumnsOfWorld und numberOfRowsOfWorld")
-    public void t02() {
+    @DisplayName("Attribut \"numberOfColumnsOfWorld\" wurde korrekt deklariert.")
+    public void numberOfColumnsOfWorldDeclaredCorrectly() {
         robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("numberOfColumnsOfWorld", 1, Modifier.PRIVATE | Modifier.FINAL,
                 int.class));
+    }
+
+    // DONE
+    @Test
+    @DisplayName("Attribut \"numberOfRowsOfWorld\" wurde korrekt deklariert.")
+    public void numberOfRowsOfWorldDeclaredCorrectly() {
         robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("numberOfRowsOfWorld", 1, Modifier.PRIVATE | Modifier.FINAL,
                 int.class));
     }
 
+    // DONE
+    @Test
+    @DisplayName("Konstruktor von \"RobotWithOffspring\" wurde korrekt deklariert.")
+    @SuppressWarnings("unchecked")
+    public void constructorDeclaredCorrectly() {
+        var numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", 0.8, int.class);
+        var numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", 0.8, int.class);
+        var directionParameterMatcher = new ParameterMatcher("direction", 0.8, Direction.class);
+        var numberOfCoinsOfWorldParameterMatcher = new ParameterMatcher("numberOfCoins", 0.8, int.class);
+
+        var constructor = (Constructor<Object>) robotWithOffspringCT.assureClassResolved().resolveConstructor(
+            numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher,
+            directionParameterMatcher, numberOfCoinsOfWorldParameterMatcher);
+
+        ((ClassTester<Object>) robotWithOffspringCT).assertConstructorValid(constructor, Modifier.PUBLIC,
+            numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher,
+            directionParameterMatcher, numberOfCoinsOfWorldParameterMatcher);
+    }
+
+    // DONE
     @ParameterizedTest
-    @CsvFileSource(resources = "/parameters.csv")
+    @CsvFileSource(resources = "/TutorTests_H1_1-constructorSetsAttributesCorrectly.csv", numLinesToSkip = 1)
+    @DisplayName("Konstruktor setzt \"numberOfColumnsOfWorld\" und \"numberOfRowsOfWorld\" korrekt.")
+    @SuppressWarnings("unchecked")
+    public void constructorSetsAttributesCorrectly(int numberOfColumnsOfWorld, int numberOfRowsOfWorld) {
+        var numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", 0.8, int.class);
+        var numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", 0.8, int.class);
+        var directionParameterMatcher = new ParameterMatcher("direction", 0.8, Direction.class);
+        var numberOfCoinsOfWorldParameterMatcher = new ParameterMatcher("numberOfCoins", 0.8, int.class);
+
+        var constructor = (Constructor<Object>) robotWithOffspringCT.assureClassResolved().resolveConstructor(
+            numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher,
+            directionParameterMatcher, numberOfCoinsOfWorldParameterMatcher);
+
+        var newInstance = assertDoesNotThrow(() -> constructor.newInstance(numberOfColumnsOfWorld, numberOfRowsOfWorld,
+                Direction.UP, 0),
+            "Der Konstruktor von RobotWithOffspring wirft eine unerwartete Exception.");
+        ((ClassTester<Object>) robotWithOffspringCT).setClassInstance(newInstance);
+
+        var numberOfColumnsOfWorldField = robotWithOffspringCT
+            .resolveAttribute(new AttributeMatcher("numberOfColumnsOfWorld", 0.8, int.class));
+
+        var numberOfRowsOfWorldField = robotWithOffspringCT
+            .resolveAttribute(new AttributeMatcher("numberOfRowsOfWorld", 0.8, int.class));
+
+        robotWithOffspringCT.assertFieldEquals(numberOfColumnsOfWorldField, numberOfColumnsOfWorld);
+        robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, numberOfRowsOfWorld);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/TutorTests_H1_1-constructorSetsAttributesCorrectly.csv")
     @DisplayName("3 | Konstruktor")
     @SuppressWarnings("unchecked")
     public void t03(int worldWidth, int worldHeight) throws NoSuchFieldException {
