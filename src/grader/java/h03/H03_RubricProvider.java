@@ -1,6 +1,10 @@
 package h03;
 
 import fopbot.Direction;
+import h03.utils.ChildCollectionCriterionBuilder;
+import h03.utils.OnePointCriterionBuilder;
+import h03.utils.RubricBuilder;
+import h03.utils.Tuple;
 import org.sourcegrade.jagr.api.rubric.Criterion;
 import org.sourcegrade.jagr.api.rubric.Grader;
 import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
@@ -176,39 +180,22 @@ public class H03_RubricProvider implements RubricProvider {
                 .build())
         .build();
 
-    public static final Criterion H2 = Criterion.builder()
-        .shortDescription("H1 | Roboter mit überschriebenen Methoden")
-        .addChildCriteria(H2_T1, H2_T2, H2_T3)
-        .build();
-
-    public static final Criterion H3_1_T1 = Criterion.builder()
-        .shortDescription("Das Attribut robots ist korrekt deklariert.")
-        .grader(
-            Grader.testAwareBuilder()
-                .requirePass(JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod(
-                    "t01")))
-                .pointsPassedMax()
-                .pointsFailedMin()
-                .build())
-        .build();
-
-    public static final Criterion H3_1 = Criterion.builder()
-        .shortDescription("H3.1 | Klasse mit Robotern")
-        .addChildCriteria(H3_1_T1)
-        .build();
-
-    public static final Criterion H3 = Criterion.builder()
-        .shortDescription("H3 | Klasse mit Robotern und Tests")
-        .addChildCriteria(H3_1)
-        .build();
-
-    public static final Rubric RUBRIC = Rubric.builder()
-        .title("H03 | Ihr Upgrade in die First Class")
-        .addChildCriteria(H1, H2, H3)
-        .build();
 
     @Override
     public Rubric getRubric() {
-        return RUBRIC;
+
+        var H2_T3 = new OnePointCriterionBuilder("Der Konstruktor von RobotWithOffspring2 ist vollständig korrekt.",
+            TutorTests_H2.class,
+            new Tuple("", TestCycle.class));
+
+        var H2 = new ChildCollectionCriterionBuilder("H2 | Roboter mit überschriebenen Methoden", H2_T1, H2_T2, H2_T3)
+
+        var H3_1_T1 = new OnePointCriterionBuilder("Das Attribut robots ist korrekt deklariert.",
+            TutorTests_H3_1.class,
+            new Tuple("t01", );
+        var H3_1 = new ChildCollectionCriterionBuilder("H3.1 | Klasse mit Robotern", H3_1_T1);
+        var H3 = new ChildCollectionCriterionBuilder("H3 | Klasse mit Robotern und Tests", H3_1);
+        var rubricBuilder = new RubricBuilder("H03 | Ihr Upgrade in die First Class", H1, H2, H3);
+        return rubricBuilder.build();
     }
 }
