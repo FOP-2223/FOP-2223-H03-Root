@@ -1,11 +1,9 @@
 package h03;
 
 import fopbot.Direction;
-import fopbot.FieldEntity;
-import fopbot.Robot;
 import fopbot.World;
-import h03.transform.RobotTransformer;
-import h03.transform.RobotWithOffspring2Transformer;
+import h03.transform.RobotWithOffspringTransformer;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,15 +14,14 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
+import org.sourcegrade.jagr.launcher.env.Jagr;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
 import org.tudalgo.algoutils.reflect.ParameterMatcher;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import static h03.H03_Class_Testers.robotWithOffspring2CT;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -86,23 +83,16 @@ public class TutorTests_H1_1 {
     // TODO: Review. Is this the only sequence of opcodes that can occur or are there different solutions possible?
     // Should we maybe just test for the result? But then students could ignore the constructor and just set the attributes.
     @Test
-    //@CsvFileSource(resources = "/TutorTests_H1_1-constructorCallsSuperConstructorCorrectly.csv", numLinesToSkip = 1)
     @DisplayName("Konstruktor ruft super-Konstruktor von \"Robot\" korrekt auf.")
     @ExtendWith(TestCycleResolver.class)
-//    public void constructorCallsSuperConstructorCorrectly(int numberOfColumnsOfWorld, int numberOfRowsOfWorld,
-//                                                          Direction direction, int numberOfCoins,
-//                                                          @NotNull TestCycle testCycle) {
     public void constructorCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle) {
-        final var className = Robot.class.getName();
-        testCycle.getClassLoader().visitClass(className, new RobotTransformer());
-    }
-
-
-
-    @Test
-    public void foo(){
-        robotWithOffspringCT.setSuperClass(MockRobot.class.getSuperclass());
-        robotWithOffspring2CT.verify(1);
+        final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
+        try {
+            testCycle.getClassLoader().visitClass(className, new RobotWithOffspringTransformer());
+            Jagr.Default.getInjector().getInstance(Logger.class).warn("No Error");
+        } catch (Throwable t) {
+            Jagr.Default.getInjector().getInstance(Logger.class).warn("Error " + t);
+        }
     }
 
     // DONE

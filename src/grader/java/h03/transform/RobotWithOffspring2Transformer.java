@@ -33,7 +33,7 @@ public class RobotWithOffspring2Transformer implements ClassTransformer {
             return super.visitMethod(access, name, descriptor, signature, exceptions);
         }
 
-        private class MV extends MethodVisitor {
+        private static class MV extends MethodVisitor {
             final int[] expectedOpCodes = {Opcodes.ALOAD, Opcodes.ILOAD, Opcodes.ILOAD, Opcodes.ALOAD, Opcodes.ILOAD};
 
             int currentIndex = 0;

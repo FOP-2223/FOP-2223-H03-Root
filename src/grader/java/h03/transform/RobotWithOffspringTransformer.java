@@ -8,10 +8,10 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.sourcegrade.jagr.api.testing.ClassTransformer;
 
-public class RobotTransformer implements ClassTransformer {
+public class RobotWithOffspringTransformer implements ClassTransformer {
     @Override
     public String getName() {
-        return "Robot-transformer";
+        return "RobotWithOffspring-transformer";
     }
 
     @Override
@@ -33,20 +33,35 @@ public class RobotTransformer implements ClassTransformer {
             return super.visitMethod(access, name, descriptor, signature, exceptions);
         }
 
-        private class MV extends MethodVisitor {
-            final int[] expectedOpCodes = {Opcodes.ALOAD, Opcodes.ILOAD, Opcodes.ILOAD, Opcodes.ALOAD, Opcodes.ILOAD};
-
-            int currentIndex = 0;
+        private static class MV extends MethodVisitor {
+            final int[][] expectedOpCodeVarIndex = {
+                {Opcodes.ALOAD, 0},
+                {Opcodes.ILOAD, 1},
+                {Opcodes.ICONST_2},
+                {Opcodes.IDIV},
+                {Opcodes.ILOAD, 2},
+                {Opcodes.ICONST_2},
+                {Opcodes.IDIV},
+                {Opcodes.ALOAD, 3},
+                {Opcodes.ILOAD, 4},
+            };
+            int currentStatementIndex = 0;
 
             public MV() {
                 super(Opcodes.ASM9);
             }
 
             @Override
+            public void visitInsn(int opcode) {
+                Assertions.assertEquals(expectedOpCodeVarIndex[currentStatementIndex][0], opcode);
+                currentStatementIndex++;
+            }
+
+            @Override
             public void visitVarInsn(int opcode, int varIndex) {
-                Assertions.assertEquals(expectedOpCodes[currentIndex], opcode);
-                Assertions.assertEquals(currentIndex, varIndex);
-                currentIndex++;
+                Assertions.assertEquals(expectedOpCodeVarIndex[currentStatementIndex][0], opcode);
+                Assertions.assertEquals(expectedOpCodeVarIndex[currentStatementIndex][1], varIndex);
+                currentStatementIndex++;
             }
 
             @Override
@@ -55,10 +70,9 @@ public class RobotTransformer implements ClassTransformer {
                     return;
                 }
 
-                Assertions.assertEquals(5, currentIndex);
+                Assertions.assertEquals(expectedOpCodeVarIndex.length, currentStatementIndex);
                 Assertions.assertEquals(Opcodes.INVOKESPECIAL, opcode);
-                // TODO: dynamically check name
-                Assertions.assertEquals("h03/RobotWithOffspring", owner);
+                Assertions.assertEquals("fopbot/Robot", owner);
                 Assertions.assertEquals("<init>", name);
                 Assertions.assertEquals("(IILfopbot/Direction;I)V", descriptor);
             }
