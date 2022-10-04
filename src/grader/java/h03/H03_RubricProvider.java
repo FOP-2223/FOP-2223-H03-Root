@@ -10,6 +10,43 @@ import org.sourcegrade.jagr.api.rubric.RubricProvider;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 
 public class H03_RubricProvider implements RubricProvider {
+    /*
+     * Punktekriterien:
+     * - H1.1 4 Punkte
+     *      - Klassendeklaration korrekt 1
+     *      - Attribute korrekt deklariert 1
+     *      - Konstruktor korrekt deklariert und setzt Attribute korrekt 1
+     *      - Konstruktor ruft super-Konstruktor korrekt auf 1
+     * - H1.2 4 Punkte
+     *      - offspring-Attribut korrekt deklariert 1
+     *      - offspring Methode korrekt deklariert und implementiert 1
+     *      - alle Getter korrekt implementiert 1
+     *      - Methode initOffspring korrekt implementiert 1
+     * - H1.3 5 Punkte
+     *      - addToXOfOffspring korrekt implementiert 1
+     *      - addToYOfOffspring korrekt implementiert 1
+     *      - addToDirectionOfOffspring besteht Standardfälle 1
+     *      - addToDirectionOfOffspring besteht Randfälle 1
+     *      - addToNumberOfCoinsOfOffspring korrekt implementiert 1
+     * - H2 6 Punkte
+     *      - directionAccu Attribut korrekt deklariert
+     *         und getDirectionOfOffspring korrekt implementiert 1
+     *      - Konstruktor korrekt deklariert und implementiert 1
+     *      - initOffspring korrekt implementiert 1
+     *      - getDirectionFromAccu besteht Standardfälle 1
+     *      - getDirectionFromAccu besteht Randfälle 1
+     *      - addToDirectionOfOffspring korrekt implementiert 1
+     * - H3.1 4 Punkte
+     *     - robots Attribut korrekt deklariert 1
+     *     - Konstruktor korrekt implementiert 1
+     *     - getRobotByIndex korrekt implementiert 1
+     *     - addToDirectionOfBothOffsprings korrekt implementiert 1
+     * - H3.2 3 Punkte
+     *     - ein zusätzlicher Aufruf mit negativem Parameter vorhanden 1
+     *     - ein zusätzlicher Aufruf mit negativem directionAccu-Wert vorhanden 1
+     *     - insgesamt mindestens 3 zusätzliche Aufrufe 1
+     */
+
     // TODO: JavaDoc prüfen
 
     @Override
