@@ -5,22 +5,19 @@ import org.sourcegrade.jagr.api.rubric.Grader;
 import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
 
 public class OnePointCriterionBuilder extends CriterionBuilder {
-    private final Class<?> testClass;
-    private final Tuple<String, Class<?>[]>[] testMethods;
+    private final JUnitTestRef[] testRefs;
 
-    public OnePointCriterionBuilder(String shortDescription, Class<?> testClass, Tuple<String, Class<?>[]>... testMethods) {
+    public OnePointCriterionBuilder(String shortDescription, JUnitTestRef... testRefs) {
         super(shortDescription);
-        this.testClass = testClass;
-        this.testMethods = testMethods;
+        this.testRefs = testRefs;
     }
 
     @Override
     public Criterion build() {
         var testAwareBuilder = Grader.testAwareBuilder();
 
-        for (var testMethod : testMethods) {
-            testAwareBuilder = testAwareBuilder.requirePass(JUnitTestRef.ofMethod(
-                () -> testClass.getMethod(testMethod.left, testMethod.right)));
+        for (var testRef : testRefs) {
+            testAwareBuilder = testAwareBuilder.requirePass(testRef);
         }
 
         return builderWithShortDescription()
