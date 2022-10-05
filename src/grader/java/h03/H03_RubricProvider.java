@@ -22,12 +22,11 @@ public class H03_RubricProvider implements RubricProvider {
      *      - offspring Methode korrekt deklariert und implementiert 1
      *      - alle Getter korrekt implementiert 1
      *      - Methode initOffspring korrekt implementiert 1
-     * - H1.3 5 Punkte
-     *      - addToXOfOffspring korrekt implementiert 1
-     *      - addToYOfOffspring korrekt implementiert 1
+     * - H1.3 4 Punkte
+     *      - addToXOfOffspring, addToYOfOffspring korrekt implementiert 1
+     *      - addToNumberOfCoinsOfOffspring korrekt implementiert 1
      *      - addToDirectionOfOffspring besteht Standardfälle 1
      *      - addToDirectionOfOffspring besteht Randfälle 1
-     *      - addToNumberOfCoinsOfOffspring korrekt implementiert 1
      * - H2 6 Punkte
      *      - directionAccu Attribut korrekt deklariert
      *         und getDirectionOfOffspring korrekt implementiert 1
