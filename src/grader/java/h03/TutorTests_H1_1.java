@@ -3,7 +3,6 @@ package h03;
 import fopbot.Direction;
 import fopbot.World;
 import h03.transform.RobotWithOffspringTransformer;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,12 +13,12 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
-import org.sourcegrade.jagr.launcher.env.Jagr;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
 import org.tudalgo.algoutils.reflect.ParameterMatcher;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 import static h03.H03_Class_Testers.robotWithOffspringCT;
@@ -85,14 +84,11 @@ public class TutorTests_H1_1 {
     @Test
     @DisplayName("Konstruktor ruft super-Konstruktor von \"Robot\" korrekt auf.")
     @ExtendWith(TestCycleResolver.class)
-    public void constructorCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle) {
+    public void constructorCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
-        try {
-            testCycle.getClassLoader().visitClass(className, new RobotWithOffspringTransformer());
-            Jagr.Default.getInjector().getInstance(Logger.class).warn("No Error");
-        } catch (Throwable t) {
-            Jagr.Default.getInjector().getInstance(Logger.class).warn("Error " + t);
-        }
+        var sut = testCycle.getClassLoader().loadClass(className, new RobotWithOffspringTransformer());
+        var constructor = sut.getConstructor(int.class, int.class, Direction.class, int.class);
+        constructor.newInstance(2,3,Direction.LEFT, 34);
     }
 
     // DONE

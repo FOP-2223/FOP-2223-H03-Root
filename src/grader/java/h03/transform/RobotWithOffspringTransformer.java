@@ -1,12 +1,15 @@
 package h03.transform;
 
-import org.junit.jupiter.api.Assertions;
+import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.sourcegrade.jagr.api.testing.ClassTransformer;
+import org.sourcegrade.jagr.launcher.env.Jagr;
+
+import java.util.Arrays;
 
 public class RobotWithOffspringTransformer implements ClassTransformer {
     @Override
@@ -16,65 +19,41 @@ public class RobotWithOffspringTransformer implements ClassTransformer {
 
     @Override
     public void transform(final ClassReader reader, final ClassWriter writer) {
-        reader.accept(new CV(), 0);
+        reader.accept(new CV(writer), 0);
     }
 
     private static class CV extends ClassVisitor {
-        public CV() {
-            super(Opcodes.ASM9);
+        public CV(ClassVisitor visitor) {
+            super(Opcodes.ASM9, visitor);
+        }
+
+        @Override
+        public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+            Jagr.Default.getInjector().getInstance(Logger.class).warn(String.format("%s, %s, %s, %s, %s, %s", version, access,
+                name, signature, superName, Arrays.toString(interfaces)));
+            super.visit(version, access, name, signature, "h03/TutorRobot", interfaces);
         }
 
         @Override
         public MethodVisitor visitMethod(final int access, final String name, final String descriptor,
                                          final String signature, final String[] exceptions) {
-            if ("<init>".equals(name) && "(IILfopbot/Direction;I)V".equals(descriptor)) {
-                return new MV();
-            }
-            return super.visitMethod(access, name, descriptor, signature, exceptions);
+            return new MV(super.visitMethod(access, name, descriptor, signature, exceptions));
         }
 
+
+
         private static class MV extends MethodVisitor {
-            final int[][] expectedOpCodeVarIndex = {
-                {Opcodes.ALOAD, 0},
-                {Opcodes.ILOAD, 1},
-                {Opcodes.ICONST_2},
-                {Opcodes.IDIV},
-                {Opcodes.ILOAD, 2},
-                {Opcodes.ICONST_2},
-                {Opcodes.IDIV},
-                {Opcodes.ALOAD, 3},
-                {Opcodes.ILOAD, 4},
-            };
-            int currentStatementIndex = 0;
-
-            public MV() {
-                super(Opcodes.ASM9);
-            }
-
-            @Override
-            public void visitInsn(int opcode) {
-                Assertions.assertEquals(expectedOpCodeVarIndex[currentStatementIndex][0], opcode);
-                currentStatementIndex++;
-            }
-
-            @Override
-            public void visitVarInsn(int opcode, int varIndex) {
-                Assertions.assertEquals(expectedOpCodeVarIndex[currentStatementIndex][0], opcode);
-                Assertions.assertEquals(expectedOpCodeVarIndex[currentStatementIndex][1], varIndex);
-                currentStatementIndex++;
+            public MV(MethodVisitor visitor) {
+                super(Opcodes.ASM9, visitor);
             }
 
             @Override
             public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-                if ("org/sourcegrade/jagr/core/executor/TimeoutHandler".equals(owner) && "checkTimeout".equals(name)) {
-                    return;
+                if ("fopbot/Robot".equals(owner) && Opcodes.INVOKESPECIAL == opcode) {
+                    super.visitMethodInsn(opcode, "h03/TutorRobot", name, descriptor, isInterface);
+                } else {
+                    super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
                 }
-
-                Assertions.assertEquals(expectedOpCodeVarIndex.length, currentStatementIndex);
-                Assertions.assertEquals(Opcodes.INVOKESPECIAL, opcode);
-                Assertions.assertEquals("fopbot/Robot", owner);
-                Assertions.assertEquals("<init>", name);
-                Assertions.assertEquals("(IILfopbot/Direction;I)V", descriptor);
             }
         }
     }
