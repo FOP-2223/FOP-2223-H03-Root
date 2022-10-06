@@ -21,6 +21,8 @@ import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static h03.H03_Class_Testers.twinRobotsCT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestForSubmission
 @DisplayName("H3.1")
@@ -33,13 +35,16 @@ public class TutorTests_H3_1 {
         World.setVisible(false);
     }
 
-    // TODO: why is this successful, although the type is an array?
+    // DONE
     @Test
     @DisplayName("Attribut \"robots\" wurde korrekt deklariert.")
     public void robotsDeclaredCorrectly() {
-        twinRobotsCT.resolve().resolveAttribute(
+        var attribute = twinRobotsCT.resolve().resolveAttribute(
             new AttributeMatcher("robots", 1, Modifier.PRIVATE | Modifier.FINAL,
                 robotWithOffspringCT.assureClassResolved().getClass()));
+
+        assertTrue(attribute.getType().isArray(),
+            "Der Datentyp von Attribut \"robots\" ist kein Array, sollte aber ein Array sein.");
     }
 
     @ParameterizedTest
@@ -58,6 +63,9 @@ public class TutorTests_H3_1 {
 
         Field robotsField = twinRobotsCT
             .resolveAttribute(new AttributeMatcher("robots", 0.8, robotWithOffspringCT.assureClassResolved().getTheClass()));
+
+        assertTrue(robotsField.getType().isArray(),
+            "Der Datentyp von Attribut \"robots\" ist kein Array, sollte aber ein Array sein.");
 
         ((ClassTester<Object>) twinRobotsCT).setClassInstance(
             assertDoesNotThrow(() -> constructor.newInstance(numberOfColumnsOfWorld, numberOfRowsOfWorld)));

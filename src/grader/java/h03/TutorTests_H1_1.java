@@ -23,6 +23,7 @@ import java.lang.reflect.Modifier;
 
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @TestForSubmission
 @DisplayName("H1.1")
@@ -46,18 +47,24 @@ public class TutorTests_H1_1 {
     @Test
     @DisplayName("Attribut \"numberOfColumnsOfWorld\" wurde korrekt deklariert.")
     public void numberOfColumnsOfWorldDeclaredCorrectly() {
-        robotWithOffspringCT.resolve().resolveAttribute(
+        var attribute = robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("numberOfColumnsOfWorld", 1, Modifier.PRIVATE | Modifier.FINAL,
                 int.class));
+
+        assertFalse(attribute.getType().isArray(),
+            "Der Datentyp von Attribut \"numberOfColumnsOfWorld\" ist ein Array, sollte aber kein Array sein.");
     }
 
     // DONE
     @Test
     @DisplayName("Attribut \"numberOfRowsOfWorld\" wurde korrekt deklariert.")
     public void numberOfRowsOfWorldDeclaredCorrectly() {
-        robotWithOffspringCT.resolve().resolveAttribute(
+        var attribute = robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("numberOfRowsOfWorld", 1, Modifier.PRIVATE | Modifier.FINAL,
                 int.class));
+
+        assertFalse(attribute.getType().isArray(),
+            "Der Datentyp von Attribut \"numberOfRowsOfWorld\" ist ein Array, sollte aber kein Array sein.");
     }
 
     // DONE
@@ -84,11 +91,12 @@ public class TutorTests_H1_1 {
     @Test
     @DisplayName("Konstruktor ruft super-Konstruktor von \"Robot\" korrekt auf.")
     @ExtendWith(TestCycleResolver.class)
-    public void constructorCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void constructorCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle) throws NoSuchMethodException,
+        InvocationTargetException, InstantiationException, IllegalAccessException {
         final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
         var sut = testCycle.getClassLoader().loadClass(className, new RobotWithOffspringTransformer());
         var constructor = sut.getConstructor(int.class, int.class, Direction.class, int.class);
-        constructor.newInstance(2,3,Direction.LEFT, 34);
+        constructor.newInstance(2, 3, Direction.LEFT, 34);
     }
 
     // DONE
@@ -113,9 +121,15 @@ public class TutorTests_H1_1 {
 
         var numberOfColumnsOfWorldField = robotWithOffspringCT
             .resolveAttribute(new AttributeMatcher("numberOfColumnsOfWorld", 0.8, int.class));
+        assertFalse(numberOfColumnsOfWorldField.getType().isArray(),
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
+                numberOfColumnsOfWorldField.getName()));
 
         var numberOfRowsOfWorldField = robotWithOffspringCT
             .resolveAttribute(new AttributeMatcher("numberOfRowsOfWorld", 0.8, int.class));
+        assertFalse(numberOfRowsOfWorldField.getType().isArray(),
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
+                numberOfRowsOfWorldField.getName()));
 
         robotWithOffspringCT.assertFieldEquals(numberOfColumnsOfWorldField, numberOfColumnsOfWorld);
         robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, numberOfRowsOfWorld);

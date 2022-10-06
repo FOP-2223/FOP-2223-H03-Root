@@ -20,6 +20,7 @@ import java.util.List;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestForSubmission
@@ -36,8 +37,11 @@ public class TutorTests_H1_2 {
     @Test
     @DisplayName("1 | Attribut offspring")
     public void t01() {
-        robotWithOffspringCT.resolve().resolveAttribute(
+        var attribute = robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("offspring", 1, Modifier.PROTECTED, Robot.class));
+
+        assertFalse(attribute.getType().isArray(),
+            "Der Datentyp von Attribut \"offspring\" ist ein Array, sollte aber kein Array sein.");
     }
 
     @Test
@@ -46,12 +50,15 @@ public class TutorTests_H1_2 {
     public void t02() {
         final Field offspringField = robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("offspring", 0.8, Robot.class));
+        assertFalse(offspringField.getType().isArray(),
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
+                offspringField.getName()));
 
         var methodTester = new MethodTester(robotWithOffspringCT
             .resolve(), "initOffspring", 0.8, Modifier.PUBLIC,
             void.class, new ArrayList<>(List.of(
-                new ParameterMatcher("direction", 0.8, Direction.class),
-                new ParameterMatcher("numberOfCoins", 0.8, int.class)))).verify();
+            new ParameterMatcher("direction", 0.8, Direction.class),
+            new ParameterMatcher("numberOfCoins", 0.8, int.class)))).verify();
 
         Object robotInstance = robotWithOffspringCT.getClassInstance();
 
@@ -80,6 +87,9 @@ public class TutorTests_H1_2 {
         ClassTester<?> ct = robotWithOffspringCT.resolve();
         Field offspringField = ct.resolveAttribute(
             new AttributeMatcher("offspring", 0.8, Robot.class));
+        assertFalse(offspringField.getType().isArray(),
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
+                offspringField.getName()));
 
         Object robotInstance = robotWithOffspringCT.getClassInstance();
 
@@ -111,6 +121,9 @@ public class TutorTests_H1_2 {
         ClassTester<?> ct = robotWithOffspringCT.resolve();
         Field offspringField = ct.resolveAttribute(
             new AttributeMatcher("offspring", 0.8, Robot.class));
+        assertFalse(offspringField.getType().isArray(),
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
+                offspringField.getName()));
 
         var methodTester = new MethodTester(
             ct,

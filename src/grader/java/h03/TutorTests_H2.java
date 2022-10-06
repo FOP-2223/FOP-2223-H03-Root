@@ -26,6 +26,7 @@ import static h03.H03_Class_Testers.robotWithOffspring2CT;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 // STUBS DONE
 @TestForSubmission
@@ -52,8 +53,11 @@ public class TutorTests_H2 {
     @Test
     @DisplayName("Attribut \"directionAccu\" wurde korrekt deklariert.")
     public void directionAccuDeclaredCorrectly() {
-        robotWithOffspring2CT.resolve().resolveAttribute(
+        var attribute = robotWithOffspring2CT.resolve().resolveAttribute(
             new AttributeMatcher("directionAccu", 1, Modifier.PRIVATE, int.class));
+
+        assertFalse(attribute.getType().isArray(),
+            "Der Datentyp von Attribut \"directionAccu\" ist ein Array, sollte aber kein Array sein.");
     }
 
     @Test
@@ -98,6 +102,9 @@ public class TutorTests_H2 {
         var directionAccuField = robotWithOffspring2CT.resolve().resolveAttribute(
             new AttributeMatcher("directionAccu", 0.8, int.class));
 
+        assertFalse(directionAccuField.getType().isArray(),
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.", directionAccuField.getName()));
+
         var robotWithOffspring2Instance = robotWithOffspring2CT.getClassInstance();
         directionAccuField.setAccessible(true);
         directionAccuField.set(robotWithOffspring2Instance, 42);
@@ -124,6 +131,8 @@ public class TutorTests_H2 {
     public void getDirectionFromAccuImplementedCorrectly(int directionAccu, Direction expectedDirection) throws IllegalAccessException, InvocationTargetException {
         var directionAccuField = robotWithOffspring2CT.resolve().resolveAttribute(
             new AttributeMatcher("directionAccu", 0.8, int.class));
+        assertFalse(directionAccuField.getType().isArray(),
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.", directionAccuField.getName()));
         directionAccuField.setAccessible(true);
 
         var getDirectionFromAccuMethod = new MethodTester(robotWithOffspring2CT.resolve(),
@@ -175,6 +184,8 @@ public class TutorTests_H2 {
 
         var directionAccuField = robotWithOffspring2CT.resolve().resolveAttribute(
             new AttributeMatcher("directionAccu", 0.8, int.class));
+        assertFalse(directionAccuField.getType().isArray(),
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.", directionAccuField.getName()));
         directionAccuField.setAccessible(true);
 
         var robotWithOffspring2Instance = robotWithOffspring2CT.getClassInstance();

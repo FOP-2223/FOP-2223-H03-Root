@@ -23,6 +23,7 @@ import java.util.List;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @TestForSubmission
 @DisplayName("H1.3")
@@ -85,16 +86,27 @@ public class TutorTests_H1_3 {
         Field offspringField = ct.resolveAttribute(
             new AttributeMatcher("offspring", 0.8, Robot.class));
 
+        assertFalse(offspringField.getType().isArray(),
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.", offspringField.getName()));
+
         Object robotInstance = robotWithOffspringCT.getClassInstance();
 
         if (setWorldSize) {
             Field numberOfColumnsOfWorldField = ct.resolveAttribute(
                 new AttributeMatcher("numberOfColumnsOfWorld", 0.8, int.class));
+            assertFalse(numberOfColumnsOfWorldField.getType().isArray(),
+                String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
+                    numberOfColumnsOfWorldField.getName()));
+
             assertDoesNotThrow(() -> numberOfColumnsOfWorldField.setAccessible(true));
             assertDoesNotThrow(() -> numberOfColumnsOfWorldField.set(robotInstance, World.getWidth()));
 
             Field numberOfRowsOfWorldField = ct.resolveAttribute(
                 new AttributeMatcher("numberOfRowsOfWorld", 0.8, int.class));
+            assertFalse(numberOfRowsOfWorldField.getType().isArray(),
+                String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
+                    numberOfRowsOfWorldField.getName()));
+
             assertDoesNotThrow(() -> numberOfRowsOfWorldField.setAccessible(true));
             assertDoesNotThrow(() -> numberOfRowsOfWorldField.set(robotInstance, World.getHeight()));
         }
