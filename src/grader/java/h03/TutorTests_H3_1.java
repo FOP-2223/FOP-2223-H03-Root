@@ -33,9 +33,10 @@ public class TutorTests_H3_1 {
         World.setVisible(false);
     }
 
+    // TODO: why is this successful, although the type is an array?
     @Test
-    @DisplayName("1 | Attribut robots")
-    public void t01() {
+    @DisplayName("Attribut \"robots\" wurde korrekt deklariert.")
+    public void robotsDeclaredCorrectly() {
         twinRobotsCT.resolve().resolveAttribute(
             new AttributeMatcher("robots", 1, Modifier.PRIVATE | Modifier.FINAL,
                 robotWithOffspringCT.assureClassResolved().getClass()));
