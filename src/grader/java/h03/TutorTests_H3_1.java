@@ -1,5 +1,6 @@
 package h03;
 
+import fopbot.Direction;
 import fopbot.World;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,19 +10,21 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
+import org.tudalgo.algoutils.reflect.MethodTester;
 import org.tudalgo.algoutils.reflect.ParameterMatcher;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 import static h03.H03_Class_Testers.robotWithOffspring2CT;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static h03.H03_Class_Testers.twinRobotsCT;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestForSubmission
@@ -65,7 +68,7 @@ public class TutorTests_H3_1 {
             .resolveAttribute(new AttributeMatcher("robots", 0.8, robotWithOffspringCT.assureClassResolved().getTheClass()));
 
         assertTrue(robotsField.getType().isArray(),
-            "Der Datentyp von Attribut \"robots\" ist kein Array, sollte aber ein Array sein.");
+            String.format("Der Datentyp von Attribut \"%s\" ist kein Array, sollte aber ein Array sein.", robotsField.getName()));
 
         ((ClassTester<Object>) twinRobotsCT).setClassInstance(
             assertDoesNotThrow(() -> constructor.newInstance(numberOfColumnsOfWorld, numberOfRowsOfWorld)));
@@ -103,5 +106,45 @@ public class TutorTests_H3_1 {
         //        robotWithOffspringCT.assertFieldEquals(numberOfCoinsWorldField, 29);
         //        robotWithOffspringCT.assertFieldEquals(xField, worldWidth / 2);
         //        robotWithOffspringCT.assertFieldEquals(yField, worldHeight / 2);
+    }
+
+    // DONE
+    @Test
+    @DisplayName("Methode \"getRobotByIndex\" wurde korrekt deklariert.")
+    public void getRobotByIndexDeclaredCorrectly() {
+        new MethodTester(twinRobotsCT.resolve(), "getRobotByIndex", 1, Modifier.PUBLIC,
+            robotWithOffspringCT.assureClassResolved().getTheClass(),
+            new ArrayList<>(List.of(new ParameterMatcher("index", 0, int.class)))).verify();
+    }
+
+    // DONE
+    @Test
+    @DisplayName("Methode \"getRobotByIndex\" wurde korrekt implementiert.")
+    public void getRobotByIndexImplementedCorrectly() throws IllegalAccessException {
+        Field robotsField = twinRobotsCT.assureClassResolved()
+            .resolveAttribute(new AttributeMatcher("robots", 0.8, robotWithOffspringCT.assureClassResolved().getTheClass()));
+        assertTrue(robotsField.getType().isArray(),
+            String.format("Der Datentyp von Attribut \"%s\" ist kein Array, sollte aber ein Array sein.", robotsField.getName()));
+
+        robotsField.setAccessible(true);
+        Object twinRobotsInstance = twinRobotsCT.resolve().getClassInstance();
+        var array = new RobotWithOffspring[2];
+        array[0] = new RobotWithOffspring(12, 33, Direction.LEFT, 68);
+        array[1] = new RobotWithOffspring2(53, 76, Direction.RIGHT, 361);
+        robotsField.set(twinRobotsInstance, array);
+
+        var methodTester = new MethodTester(twinRobotsCT.assureClassResolved(), "getRobotByIndex", 0.8, Modifier.PUBLIC,
+            robotWithOffspringCT.assureClassResolved().getTheClass(),
+            new ArrayList<>(List.of(new ParameterMatcher("index", 0, int.class)))).verify();
+
+        var actualFirstRobot = methodTester.invoke(0);
+        var actualSecondRobot = methodTester.invoke(1);
+
+        assertEquals(array[0], actualFirstRobot,
+            String.format("Die Methode \"%s\" gibt für Index 0 nicht das korrekte %s-Objekt aus dem Array %s zurück.",
+                methodTester.getTheMethod().getName(), robotWithOffspringCT.getTheClass().getName(), robotsField.getName()));
+        assertEquals(array[1], actualSecondRobot,
+            String.format("Die Methode \"%s\" gibt für Index 1 nicht das korrekte %s-Objekt aus dem Array %s zurück.",
+                methodTester.getTheMethod().getName(), robotWithOffspringCT.getTheClass().getName(), robotsField.getName()));
     }
 }
