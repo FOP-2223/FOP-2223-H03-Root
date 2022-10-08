@@ -117,7 +117,7 @@ public class TutorTests_H3_1 {
             new ArrayList<>(List.of(new ParameterMatcher("index", 0, int.class)))).verify();
     }
 
-    // DONE
+    // TODO: replace hard coded classes. What happens if the classes don't exist or have different constructors?
     @Test
     @DisplayName("Methode \"getRobotByIndex\" wurde korrekt implementiert.")
     public void getRobotByIndexImplementedCorrectly() throws IllegalAccessException {
@@ -146,5 +146,14 @@ public class TutorTests_H3_1 {
         assertEquals(array[1], actualSecondRobot,
             String.format("Die Methode \"%s\" gibt für Index 1 nicht das korrekte %s-Objekt aus dem Array %s zurück.",
                 methodTester.getTheMethod().getName(), robotWithOffspringCT.getTheClass().getName(), robotsField.getName()));
+    }
+
+    // DONE
+    @Test
+    @DisplayName("Methode \"addToDirectionOfBothOffsprings\" wurde korrekt deklariert.")
+    public void addToDirectionOfBothOffspringsDeclaredCorrectly() {
+        new MethodTester(twinRobotsCT.resolve(), "addToDirectionOfBothOffsprings", 1, Modifier.PUBLIC,
+            void.class,
+            new ArrayList<>(List.of(new ParameterMatcher("directionToBeAdded", 0, int.class)))).verify();
     }
 }
