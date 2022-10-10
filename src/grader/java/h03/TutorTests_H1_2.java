@@ -4,11 +4,11 @@ import fopbot.Direction;
 import fopbot.Robot;
 import fopbot.World;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.opentest4j.AssertionFailedError;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
@@ -16,6 +16,7 @@ import org.tudalgo.algoutils.reflect.MethodTester;
 import org.tudalgo.algoutils.reflect.ParameterMatcher;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,10 +99,12 @@ public class TutorTests_H1_2 {
             "Das Attribut numberOfCoins des offspring-Objekts wird nicht korrekt gesetzt.");
     }
 
-    @Test
-    @DisplayName("3 | Offspring-Getter")
-    // TODO: Parametrisierter Test
-    public void t03() {
+    // DONE
+    @ParameterizedTest
+    @CsvFileSource(resources = "/TutorTests_H1_2-allOffspringGetterMethodsCorrectlyDeclaredAndImplemented.csv", numLinesToSkip
+        = 1)
+    @DisplayName("Die get-Methoden für den offspring wurden korrekt deklariert und implementiert.")
+    public void allOffspringGetterMethodsCorrectlyDeclaredAndImplemented(int x, int y, Direction direction, int numberOfCoins) throws IllegalAccessException {
         ClassTester<?> ct = robotWithOffspringCT.resolve();
         Field offspringField = ct.resolveAttribute(
             new AttributeMatcher("offspring", 0.8, Robot.class));
@@ -111,40 +114,36 @@ public class TutorTests_H1_2 {
 
         Object robotInstance = robotWithOffspringCT.getClassInstance();
 
-        var offspring = new Robot(129, 472, Direction.RIGHT, 463);
-        assertDoesNotThrow(() -> offspringField.set(robotInstance, offspring));
+        var offspring = new Robot(x, y, direction, numberOfCoins);
+        offspringField.set(robotInstance, offspring);
 
-        testGetterMethod("getXOfOffspring", int.class, ct, 129);
-        testGetterMethod("getYOfOffspring", int.class, ct, 472);
-        testGetterMethod("getDirectionOfOffspring", Direction.class, ct, Direction.RIGHT);
-        testGetterMethod("getNumberOfCoinsOfOffspring", int.class, ct, 463);
+        testGetterMethod("getXOfOffspring", int.class, ct, x);
+        testGetterMethod("getYOfOffspring", int.class, ct, y);
+        testGetterMethod("getDirectionOfOffspring", Direction.class, ct, direction);
+        testGetterMethod("getNumberOfCoinsOfOffspring", int.class, ct, numberOfCoins);
     }
 
     private void testGetterMethod(String getterName, Class<?> returnType, ClassTester<?> ct, Object expectedValue) {
-        var methodTester = new MethodTester(
-            ct,
-            getterName,
-            0.8,
-            Modifier.PUBLIC,
-            returnType,
-            new ArrayList<>()).verify();
+        var methodTester = new MethodTester(ct, getterName, 0.8, Modifier.PUBLIC,
+            returnType, new ArrayList<>()).verify();
         var returnValue = methodTester.invoke();
 
-        assertEquals(expectedValue, returnValue, String.format("Falsche Rückgabe der Methode %s.", getterName));
+        assertEquals(expectedValue, returnValue,
+            String.format("Die Methode \"%s\" liefert falsche Werte zurück.", getterName));
     }
 
+    // DONE
     @Test
-    @DisplayName("4 | Methode offspringIsInitialized")
-    public void t04() {
-        ClassTester<?> ct = robotWithOffspringCT.resolve();
-        Field offspringField = ct.resolveAttribute(
+    @DisplayName("Methode \"offspringIsInitialized\" wurde korrekt deklariert und implementiert.")
+    public void offspringIsInitializedDeclaredAndImplementedCorrectly() throws IllegalAccessException {
+        Field offspringField = robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("offspring", 0.8, Robot.class));
         assertFalse(offspringField.getType().isArray(),
             String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
                 offspringField.getName()));
 
         var methodTester = new MethodTester(
-            ct,
+            robotWithOffspringCT.assureClassResolved(),
             "offspringIsInitialized",
             0.8,
             Modifier.PUBLIC,
@@ -153,14 +152,33 @@ public class TutorTests_H1_2 {
 
         var returnValueBeforeCall = methodTester.invoke();
         assertEquals(false, returnValueBeforeCall,
-            "offspringIsInitialized liefert true zurück, bevor der offspring initialisiert wurde.");
+            "\"offspringIsInitialized\" liefert true zurück, bevor der offspring initialisiert wurde.");
 
         Object robotInstance = robotWithOffspringCT.getClassInstance();
+
+        // Both the initOffspring method is called (if found) and the offspring is set manually via reflection
+        // We want to make sure that we give points for this method even if initOffspring is implemented wrongly
+        // We still call initOffspring if found, in case the student does not check for null, but
+        // sets a boolean variable indicating whether the offspring has been initialized (since this would
+        // also be a valid solution).
+        try {
+            var initOffspringMethodTester = new MethodTester(robotWithOffspringCT.assureClassResolved(),
+                "initOffspring", 0.8, Modifier.PUBLIC,
+                void.class,
+                new ArrayList<>(List.of(
+                    new ParameterMatcher("direction", 0.8, Direction.class),
+                    new ParameterMatcher("numberOfCoins", 0.8, int.class)
+                ))).resolveMethod();
+            initOffspringMethodTester.invoke(robotInstance, Direction.UP, 0);
+        } catch (AssertionFailedError | InvocationTargetException ex) {
+            // Nothing to do. The method should be called if found, but we ignore it if not.
+        }
+
         var offspring = new Robot(0, 0);
-        assertDoesNotThrow(() -> offspringField.set(robotInstance, offspring));
+        offspringField.set(robotInstance, offspring);
 
         var returnValueAfterCall = methodTester.invoke();
         assertEquals(true, returnValueAfterCall,
-            "offspringIsInitialized liefert false zurück, nachdem der offspring initialisiert wurde.");
+            "\"offspringIsInitialized\" liefert false zurück, nachdem der offspring initialisiert wurde.");
     }
 }

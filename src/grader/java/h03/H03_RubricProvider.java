@@ -19,9 +19,9 @@ public class H03_RubricProvider implements RubricProvider {
      *      - Konstruktor ruft super-Konstruktor korrekt auf 1
      * - H1.2 4 Punkte
      *      - offspring-Attribut korrekt deklariert 1
-     *      - offspring Methode korrekt deklariert und implementiert 1
+     *      - offspringIsInitialized Methode korrekt deklariert und implementiert 1
      *      - alle Getter korrekt implementiert 1
-     *      - Methode initOffspring korrekt implementiert 1
+     *      - Methode initOffspring korrekt und implementiert 1
      * - H1.3 4 Punkte
      *      - addToXOfOffspring, addToYOfOffspring korrekt implementiert 1
      *      - addToNumberOfCoinsOfOffspring korrekt implementiert 1
@@ -47,6 +47,7 @@ public class H03_RubricProvider implements RubricProvider {
      */
 
     // TODO: JavaDoc prüfen
+    // TODO: bei Methoden, wo ein Punkt für Deklaration und Implementierung zusammen vergeben wird: Toleranz für Schreibfehler in der Deklaration einbauen
 
     @Override
     public Rubric getRubric() {
