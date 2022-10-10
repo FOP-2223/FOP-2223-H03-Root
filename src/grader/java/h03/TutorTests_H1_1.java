@@ -4,6 +4,7 @@ import fopbot.Direction;
 import fopbot.World;
 import h03.transform.RobotWithOffspringTransformer;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,8 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @TestForSubmission
 @DisplayName("H1.1")
 public class TutorTests_H1_1 {
-    @BeforeEach
-    public void setup() {
+    @BeforeAll
+    public static void setup() {
         World.reset();
         World.setSize(500, 500);
         World.setDelay(0);

@@ -2,6 +2,7 @@ package h03;
 
 import fopbot.Direction;
 import fopbot.World;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,8 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestForSubmission
 @DisplayName("H3.1")
 public class TutorTests_H3_1 {
-    @BeforeEach
-    public void setup() {
+    @BeforeAll
+    public static void setup() {
         World.reset();
         World.setSize(500, 500);
         World.setDelay(0);

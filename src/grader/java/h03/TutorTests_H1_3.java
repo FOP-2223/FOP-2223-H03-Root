@@ -5,6 +5,7 @@ import fopbot.FieldEntity;
 import fopbot.Robot;
 import fopbot.World;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,8 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @TestForSubmission
 @DisplayName("H1.3")
 public class TutorTests_H1_3 {
-    @BeforeEach
-    public void setup() {
+    @BeforeAll
+    public static void setup() {
         World.reset();
         World.setSize(500, 500);
         World.setDelay(0);
