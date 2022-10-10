@@ -6,6 +6,8 @@ import fopbot.World;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
@@ -34,9 +36,10 @@ public class TutorTests_H1_2 {
         World.setVisible(false);
     }
 
+    // DONE
     @Test
-    @DisplayName("1 | Attribut offspring")
-    public void t01() {
+    @DisplayName("Attribut \"offspring\" wurde korrekt deklariert.")
+    public void offspringDeclaredCorrectly() {
         var attribute = robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("offspring", 1, Modifier.PROTECTED, Robot.class));
 
@@ -44,10 +47,23 @@ public class TutorTests_H1_2 {
             "Der Datentyp von Attribut \"offspring\" ist ein Array, sollte aber kein Array sein.");
     }
 
+    // DONE
     @Test
-    @DisplayName("2 | Methode initOffspring")
-    // TODO: parametrisierter Test
-    public void t02() {
+    @DisplayName("Methode \"initOffspring\" wurde korrekt deklariert.")
+    public void initOffspringDeclaredCorrectly() {
+        new MethodTester(robotWithOffspringCT.resolve(), "initOffspring", 1, Modifier.PUBLIC,
+            void.class,
+            new ArrayList<>(List.of(
+                new ParameterMatcher("direction", 0.8, Direction.class),
+                new ParameterMatcher("numberOfCoins", 0.8, int.class)
+            ))).verify();
+    }
+
+    // DONE
+    @ParameterizedTest
+    @CsvFileSource(resources = "/TutorTests_H1_2-initOffspringImplementedCorrectly.csv", numLinesToSkip = 1)
+    @DisplayName("Methode \"initOffspring\" wurde korrekt implementiert.")
+    public void initOffspringImplementedCorrectly(int x, int y, Direction direction, int numberOfCoins) throws NoSuchFieldException, NoSuchMethodException, IllegalAccessException {
         final Field offspringField = robotWithOffspringCT.resolve().resolveAttribute(
             new AttributeMatcher("offspring", 0.8, Robot.class));
         assertFalse(offspringField.getType().isArray(),
@@ -60,23 +76,24 @@ public class TutorTests_H1_2 {
             new ParameterMatcher("direction", 0.8, Direction.class),
             new ParameterMatcher("numberOfCoins", 0.8, int.class)))).verify();
 
-        Object robotInstance = robotWithOffspringCT.getClassInstance();
+        Robot robotInstance = (Robot) robotWithOffspringCT.resolveRealInstance().getClassInstance();
 
-        ((Robot) robotInstance).setX(264);
-        ((Robot) robotInstance).setY(123);
+        robotInstance.setX(x);
+        robotInstance.setY(y);
 
-        methodTester.invoke(Direction.DOWN, 192);
+        methodTester.invoke(direction, numberOfCoins);
+
         Object offspring = assertDoesNotThrow(() -> offspringField.get(robotInstance));
         assertNotNull(offspring, "offspring ist null auch nachdem initOffspring aufgerufen wurde.");
-        assertEquals(Robot.class, offspring.getClass(), "offspring ist nach Aufruf von initOffspring nicht vom Typ "
-            + "Robot.");
-        assertEquals(264, ((Robot) offspring).getX(),
+        assertEquals(Robot.class, offspring.getClass(),
+            "offspring ist nach Aufruf von initOffspring nicht vom Typ Robot.");
+        assertEquals(x, ((Robot) offspring).getX(),
             "Das Attribut x des offspring-Objekts wird nicht korrekt gesetzt.");
-        assertEquals(123, ((Robot) offspring).getY(),
+        assertEquals(y, ((Robot) offspring).getY(),
             "Das Attribut y des offspring-Objekts wird nicht korrekt gesetzt.");
-        assertEquals(Direction.DOWN, ((Robot) offspring).getDirection(),
+        assertEquals(direction, ((Robot) offspring).getDirection(),
             "Das Attribut direction des offspring-Objekts wird nicht korrekt gesetzt.");
-        assertEquals(192, ((Robot) offspring).getNumberOfCoins(),
+        assertEquals(numberOfCoins, ((Robot) offspring).getNumberOfCoins(),
             "Das Attribut numberOfCoins des offspring-Objekts wird nicht korrekt gesetzt.");
     }
 
