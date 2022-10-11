@@ -87,19 +87,6 @@ public class TutorTests_H1_1 {
             directionParameterMatcher, numberOfCoinsOfWorldParameterMatcher);
     }
 
-    // TODO: Review. Is this the only sequence of opcodes that can occur or are there different solutions possible?
-    // Should we maybe just test for the result? But then students could ignore the constructor and just set the attributes.
-    @Test
-    @DisplayName("Konstruktor ruft super-Konstruktor von \"Robot\" korrekt auf.")
-    @ExtendWith(TestCycleResolver.class)
-    public void constructorCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle) throws NoSuchMethodException,
-        InvocationTargetException, InstantiationException, IllegalAccessException {
-        final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
-        var sut = testCycle.getClassLoader().loadClass(className, new RobotWithOffspringTransformer());
-        var constructor = sut.getConstructor(int.class, int.class, Direction.class, int.class);
-        constructor.newInstance(2, 3, Direction.LEFT, 34);
-    }
-
     // DONE
     @ParameterizedTest
     @CsvFileSource(resources = "/TutorTests_H1_1-constructorSetsAttributesCorrectly.csv", numLinesToSkip = 1)
@@ -134,5 +121,18 @@ public class TutorTests_H1_1 {
 
         robotWithOffspringCT.assertFieldEquals(numberOfColumnsOfWorldField, numberOfColumnsOfWorld);
         robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, numberOfRowsOfWorld);
+    }
+
+    // TODO: Review. Is this the only sequence of opcodes that can occur or are there different solutions possible?
+    // Should we maybe just test for the result? But then students could ignore the constructor and just set the attributes.
+    @Test
+    @DisplayName("Konstruktor ruft super-Konstruktor von \"Robot\" korrekt auf.")
+    @ExtendWith(TestCycleResolver.class)
+    public void constructorCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle) throws NoSuchMethodException,
+        InvocationTargetException, InstantiationException, IllegalAccessException {
+        final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
+        var sut = testCycle.getClassLoader().loadClass(className, new RobotWithOffspringTransformer());
+        var constructor = sut.getConstructor(int.class, int.class, Direction.class, int.class);
+        constructor.newInstance(2, 3, Direction.LEFT, 34);
     }
 }

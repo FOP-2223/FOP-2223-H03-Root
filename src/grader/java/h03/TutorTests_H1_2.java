@@ -53,7 +53,7 @@ public class TutorTests_H1_2 {
     @Test
     @DisplayName("Methode \"initOffspring\" wurde korrekt deklariert.")
     public void initOffspringDeclaredCorrectly() {
-        new MethodTester(robotWithOffspringCT.resolve(), "initOffspring", 1, Modifier.PUBLIC,
+        new MethodTester(robotWithOffspringCT.resolve(), "initOffspring", 0.8, Modifier.PUBLIC,
             void.class,
             new ArrayList<>(List.of(
                 new ParameterMatcher("direction", 0.8, Direction.class),
