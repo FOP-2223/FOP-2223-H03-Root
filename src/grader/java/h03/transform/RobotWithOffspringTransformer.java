@@ -40,8 +40,6 @@ public class RobotWithOffspringTransformer implements ClassTransformer {
             return new MV(super.visitMethod(access, name, descriptor, signature, exceptions));
         }
 
-
-
         private static class MV extends MethodVisitor {
             public MV(MethodVisitor visitor) {
                 super(Opcodes.ASM9, visitor);
