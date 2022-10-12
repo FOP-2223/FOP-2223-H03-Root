@@ -47,21 +47,25 @@ public class H03_RubricProvider implements RubricProvider {
      */
 
     // TODO: JavaDoc prüfen
-    // TODO: bei Methoden, wo ein Punkt für Deklaration und Implementierung zusammen vergeben wird: Toleranz für Schreibfehler in der Deklaration einbauen
+    // TODO: bei Methoden, wo ein Punkt für Deklaration und Implementierung zusammen vergeben wird: Toleranz für Schreibfehler
+    //  in der Deklaration einbauen
 
     @Override
     public Rubric getRubric() {
         var H1_1_T1 = new OnePointCriterionBuilder("Die Klasse \"RobotWithOffspring\" wurde korrekt deklariert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("classRobotWithOffspringDeclaredCorrectly")));
 
-        var H1_1_T2 = new OnePointCriterionBuilder("Die Attribute \"numberOfColumnsOfWorld\" und \"numberOfRowsOfWorld\" wurden korrekt deklariert.",
+        var H1_1_T2 = new OnePointCriterionBuilder("Die Attribute \"numberOfColumnsOfWorld\" und \"numberOfRowsOfWorld\" wurden" +
+            " korrekt deklariert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("numberOfColumnsOfWorldDeclaredCorrectly")),
             JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("numberOfRowsOfWorldDeclaredCorrectly")));
 
         var H1_1_T3 = new OnePointCriterionBuilder(
-            "Der Konstruktor von \"RobotWithOffspring\" wurde korrekt deklariert und setzt die Attribute \"numberOfColumnsOfWorld\" und \"numberOfRowsOfWorld\" korrekt.",
+            "Der Konstruktor von \"RobotWithOffspring\" wurde korrekt deklariert und setzt die Attribute " +
+                "\"numberOfColumnsOfWorld\" und \"numberOfRowsOfWorld\" korrekt.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("constructorDeclaredCorrectly")),
-            JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("constructorSetsAttributesCorrectly", int.class, int.class)));
+            JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("constructorSetsAttributesCorrectly", int.class,
+                int.class)));
 
         // TODO: constructorCallsSuperConstructorCorrectly
 
@@ -74,33 +78,53 @@ public class H03_RubricProvider implements RubricProvider {
 
         var H1_2_T2 = new OnePointCriterionBuilder("Die Methode \"initOffspring\" wurde korrekt deklariert und implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod("initOffspringDeclaredCorrectly")),
-            JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod("initOffspringImplementedCorrectly", int.class, int.class, Direction.class, int.class)));
+            JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod("initOffspringImplementedCorrectly", int.class,
+                int.class, Direction.class, int.class)));
 
-        var H1_2_T3 = new OnePointCriterionBuilder("Die get-Methoden für den offspring wurden korrekt deklariert und implementiert.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod("allOffspringGetterMethodsCorrectlyDeclaredAndImplemented", int.class, int.class, Direction.class, int.class)));
+        var H1_2_T3 = new OnePointCriterionBuilder("Die get-Methoden für den offspring wurden korrekt deklariert und " +
+            "implementiert.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod(
+                "allOffspringGetterMethodsCorrectlyDeclaredAndImplemented", int.class, int.class, Direction.class, int.class)));
 
-        var H1_2_T4 = new OnePointCriterionBuilder("Die Methode \"offspringIsInitialized\" wurde korrekt deklariert und implementiert.",
+        var H1_2_T4 = new OnePointCriterionBuilder("Die Methode \"offspringIsInitialized\" wurde korrekt deklariert und " +
+            "implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod("offspringIsInitializedDeclaredAndImplementedCorrectly")));
 
         var H1_2 = new ChildCollectionCriterionBuilder("H1.2 | Attribut vom Referenztyp und get-Methoden für dessen Attribute",
             H1_2_T1, H1_2_T2, H1_2_T3, H1_2_T4);
 
-        var H1_3_T1 = new OnePointCriterionBuilder("Die Methode addToXOfOffspring ist vollständig korrekt.",
+        // H1.3 Stitching done
+        var H1_3_T1 = new OnePointCriterionBuilder(" Die Methoden \"addToXOfOffspring\" und \"addToYOfOffspring\" wurden " +
+            "korrekt deklariert und implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
-                "t01", int.class, int.class, Direction.class, int.class, int.class, int.class)));
-        var H1_3_T2 = new OnePointCriterionBuilder("Die Methode addToYOfOffspring ist vollständig korrekt.",
+                "addToXOfOffspringDeclaredAndImplementedCorrectly",
+                int.class, int.class, Direction.class, int.class, int.class, int.class)),
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
-                "t02", int.class, int.class, Direction.class, int.class, int.class, int.class)));
-        var H1_3_T3 = new OnePointCriterionBuilder("Die Methode addToDirectionOfOffspring ist vollständig korrekt.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
-                "t03", int.class, int.class, Direction.class, int.class, int.class,
-                Direction.class)));
-        var H1_3_T4 = new OnePointCriterionBuilder("Die Methode addToNumberOfCoinsOfOffspring ist vollständig korrekt.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod("t04", int.class, int.class, Direction.class, int.class
-                , int.class, int.class)));
+                "addToYOfOffspringDeclaredAndImplementedCorrectly",
+                int.class, int.class, Direction.class, int.class, int.class, int.class)));
 
-        var H1_3 = new ChildCollectionCriterionBuilder("H1.3 | Attributwerte relativ zum momentanen Wert ändern", H1_3_T1,
-            H1_3_T2, H1_3_T3, H1_3_T4);
+        var H1_3_T2 = new OnePointCriterionBuilder("Die Methode \"addToNumberOfCoinsOfOffspring\" wurde korrekt deklariert und " +
+            "implementiert.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
+                "addToNumberOfCoinsOfOffspringDeclaredAndImplementedCorrectly",
+                int.class, int.class, Direction.class, int.class, int.class, int.class)));
+
+        var H1_3_T3 = new OnePointCriterionBuilder("Die Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die " +
+            "Implementierung besteht einfache Testfälle.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
+                "addToDirectionOfOffspringDeclaredCorrectlyAndPassesBaseTests", int.class, int.class, Direction.class,
+                int.class, int.class,
+                Direction.class)));
+
+        var H1_3_T4 = new OnePointCriterionBuilder("Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die " +
+            "Implementierung besteht komplexe und Rand-Testfälle.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
+                "addToDirectionOfOffspringDeclaredCorrectlyAndPassesAdvancedTests", int.class, int.class, Direction.class,
+                int.class, int.class,
+                Direction.class)));
+
+        var H1_3 = new ChildCollectionCriterionBuilder("H1.3 | Attributwerte relativ zum momentanen Wert ändern",
+            H1_3_T1, H1_3_T2, H1_3_T3, H1_3_T4);
 
         var H1 = new ChildCollectionCriterionBuilder("H1 | Roboter mit Abkömmling", H1_1, H1_2, H1_3);
 

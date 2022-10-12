@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
@@ -51,33 +50,52 @@ public class TutorTests_H1_3 {
     @ParameterizedTest
     @CsvFileSource(resources = "/TutorTests_H1_3-addToYOfOffspringDeclaredAndImplementedCorrectly.csv", numLinesToSkip = 1)
     @DisplayName("Methode \"addToYOfOffspring\" wurde korrekt deklariert und implementiert.")
-    public void addToYOfOffspringDeclaredAndImplementedCorrectly(int x, int y, Direction direction, int numberOfCoins, int yToAssign, int expectedResultY) throws IllegalAccessException {
+    public void addToYOfOffspringDeclaredAndImplementedCorrectly(int x, int y, Direction direction, int numberOfCoins,
+                                                                 int yToAssign, int expectedResultY) throws IllegalAccessException {
         var offspring = new Robot(x, y, direction, numberOfCoins);
         testAddToMethod("addToYOfOffspring", FieldEntity::getY, offspring, yToAssign, expectedResultY, true);
     }
 
+    // DONE
     @ParameterizedTest
-    @CsvSource({"12,32,UP,34,43,LEFT"})
-    @DisplayName("3 | Methode addToDirectionOfOffspring")
-    // TODO: Parametrisierter Test
-    // TODO: test multiple cases for too big, too small etc.
-    public void t03(int x, int y, Direction direction, int numberOfCoins, int directionToAssign,
-                    Direction expectedResultDirection) throws IllegalAccessException {
-        var offspring = new Robot(x, y, direction, numberOfCoins);
-        testAddToMethod("addToDirectionOfOffspring", Robot::getDirection, offspring, directionToAssign,
-            expectedResultDirection, false);
-    }
-
-    @ParameterizedTest
-    @CsvSource({"12,32,UP,34,23,57"})
-    @DisplayName("4 | Methode addToNumberOfCoinsOfOffspring")
-    // TODO: Parametrisierter Test
-    // TODO: test multiple cases for too big, too small etc.
-    public void t04(int x, int y, Direction direction, int numberOfCoins, int coinsToAssign, int expectedResultCoins) throws IllegalAccessException {
+    @CsvFileSource(resources = "/TutorTests_H1_3-addToNumberOfCoinsOfOffspringDeclaredAndImplementedCorrectly.csv",
+        numLinesToSkip = 1)
+    @DisplayName("Methode \"addToNumberOfCoinsOfOffspring\" wurde korrekt deklariert und implementiert.")
+    public void addToNumberOfCoinsOfOffspringDeclaredAndImplementedCorrectly(int x, int y, Direction direction,
+                                                                             int numberOfCoins, int coinsToAssign,
+                                                                             int expectedResultCoins) throws IllegalAccessException {
         var offspring = new Robot(x, y, direction, numberOfCoins);
         testAddToMethod("addToNumberOfCoinsOfOffspring", Robot::getNumberOfCoins, offspring, coinsToAssign,
             expectedResultCoins, false);
-        // TODO: check no library is used for modular arithmetic
+    }
+
+    // TODO: check no library is used for modular arithmetic
+    @ParameterizedTest
+    @CsvFileSource(resources = "/TutorTests_H1_3-addToDirectionOfOffspring-baseCases.csv", numLinesToSkip = 1)
+    @DisplayName("Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die Implementierung besteht einfache " +
+        "Testfälle.")
+    public void addToDirectionOfOffspringDeclaredCorrectlyAndPassesBaseTests(int x, int y, Direction direction,
+                                                                             int numberOfCoins, int directionToAssign,
+                                                                             Direction expectedResultDirection) throws IllegalAccessException {
+        testAddToDirectionOfOffspring(x, y, direction, numberOfCoins, directionToAssign, expectedResultDirection);
+    }
+
+    // TODO: check no library is used for modular arithmetic
+    @ParameterizedTest
+    @CsvFileSource(resources = "/TutorTests_H1_3-addToDirectionOfOffspring-advancedCases.csv", numLinesToSkip = 1)
+    @DisplayName("Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die Implementierung besteht komplexe und " +
+        "Rand-Testfälle.")
+    public void addToDirectionOfOffspringDeclaredCorrectlyAndPassesAdvancedTests(int x, int y, Direction direction,
+                                                                                 int numberOfCoins, int directionToAssign,
+                                                                                 Direction expectedResultDirection) throws IllegalAccessException {
+        testAddToDirectionOfOffspring(x, y, direction, numberOfCoins, directionToAssign, expectedResultDirection);
+    }
+
+    private void testAddToDirectionOfOffspring(int x, int y, Direction direction, int numberOfCoins, int directionToAssign,
+                                               Direction expectedResultDirection) throws IllegalAccessException {
+        var offspring = new Robot(x, y, direction, numberOfCoins);
+        testAddToMethod("addToDirectionOfOffspring", Robot::getDirection, offspring, directionToAssign,
+            expectedResultDirection, false);
     }
 
     private <T> void testAddToMethod(String methodName, @NotNull ValueGetter<T> valueGetter, Robot offspring,
