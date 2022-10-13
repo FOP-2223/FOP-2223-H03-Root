@@ -29,7 +29,7 @@ public class Main {
         // int directionAccu = robot2.directionAccu;
         // robot2.directionAccu = 2;
 
-        // System.out.println(robot2.getDirectionFromAccu());
+        // Direction d = robot2.getDirectionFromAccu();
 
         Robot r = null;
         // r.getX();
