@@ -69,7 +69,8 @@ public class TutorTests_H1_3 {
             expectedResultCoins, false);
     }
 
-    // TODO: check no library is used for modular arithmetic
+    // TODO: check no library is used for modular arithmetic: WHITELIST methods from java and Robot and RobotWithOffspring
+    // e.g. Math.floormod
     @ParameterizedTest
     @CsvFileSource(resources = "/TutorTests_H1_3-addToDirectionOfOffspring-baseCases.csv", numLinesToSkip = 1)
     @DisplayName("Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die Implementierung besteht einfache " +
