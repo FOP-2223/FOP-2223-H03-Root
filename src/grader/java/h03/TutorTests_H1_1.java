@@ -1,19 +1,19 @@
 package h03;
 
-import fopbot.Direction;
-import fopbot.World;
-import h03.transform.RobotWithOffspringTransformer;
+import fopbot.*;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.sourcegrade.jagr.api.testing.ClassTransformer;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
+import org.sourcegrade.jagr.launcher.env.Jagr;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
 import org.tudalgo.algoutils.reflect.ParameterMatcher;
@@ -23,8 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 import static h03.H03_Class_Testers.robotWithOffspringCT;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestForSubmission
 @DisplayName("H1.1")
@@ -131,8 +130,11 @@ public class TutorTests_H1_1 {
     public void constructorCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle) throws NoSuchMethodException,
         InvocationTargetException, InstantiationException, IllegalAccessException {
         final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
-        var sut = testCycle.getClassLoader().loadClass(className, new RobotWithOffspringTransformer());
+        var sut = testCycle.getClassLoader().loadClass(className,
+            ClassTransformer.injectSuperclass(className, TutorRobot.class.getName()));
         var constructor = sut.getConstructor(int.class, int.class, Direction.class, int.class);
-        constructor.newInstance(2, 3, Direction.LEFT, 34);
+        TutorRobot robot = (TutorRobot) constructor.newInstance(2, 3, Direction.LEFT, 34);
+        Jagr.Default.getInjector().getInstance(Logger.class)
+            .error("TutorRobot: " + robot.getClass().getName());
     }
 }

@@ -2,7 +2,7 @@ plugins {
     java
     application
     id("org.sourcegrade.style") version "1.3.0"
-    id("org.sourcegrade.jagr-gradle") version "0.6.0-SNAPSHOT"
+    id("org.sourcegrade.jagr-gradle") version "0.6.0"
 }
 
 version = "0.1.0-SNAPSHOT"
@@ -20,6 +20,7 @@ jagr {
         create("grader") {
             graderName.set("FOP-2223-H03")
             rubricProviderName.set("h03.H03_RubricProvider")
+            disableTimeouts()
         }
     }
 }
