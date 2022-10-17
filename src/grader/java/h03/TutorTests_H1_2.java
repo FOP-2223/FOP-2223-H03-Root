@@ -156,8 +156,9 @@ public class TutorTests_H1_2 {
 
         Object robotInstance = robotWithOffspringCT.getClassInstance();
 
-        // Both the initOffspring method is called (if found) and the offspring is set manually via reflection
-        // We want to make sure that we give points for this method even if initOffspring is implemented wrongly
+        // Both the initOffspring method is called (if found) and the offspring is set manually via reflection. Here's the reasoning:
+        // We want to make sure that we give points for this method even if initOffspring is implemented wrongly, so we set
+        // the offspring manually.
         // We still call initOffspring if found, in case the student does not check for null, but
         // sets a boolean variable indicating whether the offspring has been initialized (since this would
         // also be a valid solution).
