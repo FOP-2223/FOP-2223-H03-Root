@@ -1,7 +1,7 @@
 package h03;
 
-import fopbot.*;
-import org.apache.logging.log4j.Logger;
+import fopbot.Direction;
+import fopbot.World;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +13,6 @@ import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.ClassTransformer;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
-import org.sourcegrade.jagr.launcher.env.Jagr;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
 import org.tudalgo.algoutils.reflect.ParameterMatcher;
@@ -23,7 +22,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 import static h03.H03_Class_Testers.robotWithOffspringCT;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @TestForSubmission
 @DisplayName("H1.1")
@@ -101,9 +102,10 @@ public class TutorTests_H1_1 {
             numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher,
             directionParameterMatcher, numberOfCoinsOfWorldParameterMatcher);
 
-        var newInstance = assertDoesNotThrow(() -> constructor.newInstance(numberOfColumnsOfWorld, numberOfRowsOfWorld,
-                Direction.UP, 0),
-            "Der Konstruktor von RobotWithOffspring wirft eine unerwartete Exception.");
+        var newInstance = assertDoesNotThrow(() -> constructor.newInstance(
+                numberOfColumnsOfWorld, numberOfRowsOfWorld, Direction.UP, 0),
+            String.format("Der Konstruktor von \"%s\" wirft eine unerwartete Exception.",
+                robotWithOffspringCT.assureClassResolved().getTheClass().getName()));
         ((ClassTester<Object>) robotWithOffspringCT).setClassInstance(newInstance);
 
         var numberOfColumnsOfWorldField = robotWithOffspringCT
@@ -124,17 +126,23 @@ public class TutorTests_H1_1 {
 
     // TODO: Review. Is this the only sequence of opcodes that can occur or are there different solutions possible?
     // Should we maybe just test for the result? But then students could ignore the constructor and just set the attributes.
+    //@ParameterizedTest
+    //@CsvFileSource(resources = "/TutorTests_H1_1-constructorSetsAttributesCorrectly.csv", numLinesToSkip = 1)
     @Test
     @DisplayName("Konstruktor ruft super-Konstruktor von \"Robot\" korrekt auf.")
     @ExtendWith(TestCycleResolver.class)
-    public void constructorCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle) throws NoSuchMethodException,
-        InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void constructorCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle)
+        throws InvocationTargetException, InstantiationException, IllegalAccessException {
         final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
         var sut = testCycle.getClassLoader().loadClass(className,
             ClassTransformer.injectSuperclass(className, TutorRobot.class.getName()));
-        var constructor = sut.getConstructor(int.class, int.class, Direction.class, int.class);
-        TutorRobot robot = (TutorRobot) constructor.newInstance(2, 3, Direction.LEFT, 34);
-        Jagr.Default.getInjector().getInstance(Logger.class)
-            .error("TutorRobot: " + robot.getClass().getName());
+
+        var constructor = assertDoesNotThrow(() -> sut.getConstructor(int.class, int.class, Direction.class, int.class),
+            String.format("Der Konstruktor der Klasse  \"%s\" wurde nicht korrekt deklariert.", className));
+
+        TutorRobot robot = (TutorRobot) assertDoesNotThrow(() -> constructor.newInstance(2, 4, Direction.LEFT, 34),
+            String.format("Der Konstruktor von \"%s\" wirft eine unerwartete Exception.", className));
+
+        assertEquals(1, robot.callsToTutorRobotConstructorIntIntDirectionInt.size());
     }
 }

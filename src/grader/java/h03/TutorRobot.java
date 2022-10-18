@@ -4,10 +4,11 @@ import fopbot.Direction;
 import fopbot.KarelWorld;
 import fopbot.Robot;
 import fopbot.RobotFamily;
-import org.apache.logging.log4j.Logger;
-import org.sourcegrade.jagr.launcher.env.Jagr;
 
-public class TutorRobot extends Robot {
+import java.util.ArrayList;
+import java.util.List;
+
+class TutorRobot extends Robot {
     public TutorRobot(int x, int y) {
         super(x, y);
     }
@@ -16,9 +17,12 @@ public class TutorRobot extends Robot {
         super(x, y, family);
     }
 
+    List<CallToTutorRobotConstructorIntIntDirectionInt> callsToTutorRobotConstructorIntIntDirectionInt = new ArrayList<>();
+
     public TutorRobot(int x, int y, Direction direction, int numberOfCoins) {
         super(x, y, direction, numberOfCoins);
-        Jagr.Default.getInjector().getInstance(Logger.class).warn("sdassdasdasdasdads");
+        callsToTutorRobotConstructorIntIntDirectionInt.add(
+            new CallToTutorRobotConstructorIntIntDirectionInt(x, y, direction, numberOfCoins));
     }
 
     public TutorRobot(int x, int y, Direction direction, int numberOfCoins, RobotFamily family) {
