@@ -2,7 +2,7 @@ plugins {
     java
     application
     id("org.sourcegrade.style") version "1.3.0"
-    id("org.sourcegrade.jagr-gradle") version "0.6.0"
+    id("org.sourcegrade.jagr-gradle") version "0.6.1"
 }
 
 version = "0.1.0-SNAPSHOT"
@@ -26,7 +26,7 @@ jagr {
 }
 
 dependencies {
-    implementation("org.tudalgo:algoutils-tutor:0.1.0-SNAPSHOT")
+    implementation("org.tudalgo:algoutils-tutor:0.3.1")
     implementation("org.jetbrains:annotations:23.0.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
     implementation("org.tudalgo:fopbot:0.4.0-SNAPSHOT")
