@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
 import static h03.H03_Class_Testers.robotWithOffspringCT;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -123,13 +124,12 @@ public class TutorTests_H1_1 {
         robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, numberOfRowsOfWorld);
     }
 
-    // TODO: Review. Is this the only sequence of opcodes that can occur or are there different solutions possible?
-    // Should we maybe just test for the result? But then students could ignore the constructor and just set the attributes.
     @ParameterizedTest
     @CsvFileSource(resources = "/TutorTests_H1_1-constructorCallsSuperConstructorCorrectly.csv", numLinesToSkip = 1)
     @DisplayName("Konstruktor ruft super-Konstruktor von \"Robot\" korrekt auf.")
     @ExtendWith(TestCycleResolver.class)
-    public void constructorCallsSuperConstructorCorrectly(int x, int y, Direction direction, int numberOfCoins,
+    public void constructorCallsSuperConstructorCorrectly(int numberOfColumnsOfWorld, int numberOfRowsOfWorld,
+                                                          Direction direction, int numberOfCoins,
                                                           int expectedX, int expectedY, @NotNull TestCycle testCycle) {
         final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
         var sut = testCycle.getClassLoader().loadClass(className,
@@ -138,13 +138,25 @@ public class TutorTests_H1_1 {
         var constructor = assertDoesNotThrow(() -> sut.getConstructor(int.class, int.class, Direction.class, int.class),
             String.format("Der Konstruktor der Klasse  \"%s\" wurde nicht korrekt deklariert.", className));
 
-        TutorRobot robot = (TutorRobot) assertDoesNotThrow(() -> constructor.newInstance(x, y, direction, numberOfCoins),
+        TutorRobot robot = (TutorRobot) assertDoesNotThrow(() -> constructor.newInstance(numberOfColumnsOfWorld,
+                numberOfRowsOfWorld, direction, numberOfCoins),
             String.format("Der Konstruktor von \"%s\" wirft eine unerwartete Exception.", className));
 
-        assertEquals(1, robot.callsToTutorRobotConstructorIntIntDirectionInt.size());
-        assertEquals(expectedX, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getX());
-        assertEquals(expectedY, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getY());
-        assertEquals(direction, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getDirection());
-        assertEquals(numberOfCoins, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getNumberOfCoins());
+        assertEquals(1, robot.callsToTutorRobotConstructorIntIntDirectionInt.size(), "Der super-Konstruktor der Klasse " +
+            "\"Robot\" wurde nicht aufgerufen.");
+        assertAll(
+            () -> assertEquals(expectedX, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getX(),
+                String.format("Beim Aufruf des super-Konstruktors wird der x-Wert für den Ausgangswert %s für die " +
+                    "numberOfColumnsOfWorld nicht korrekt gesetzt" +
+                    ".", numberOfColumnsOfWorld)),
+            () -> assertEquals(expectedY, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getY(),
+                String.format("Beim Aufruf des super-Konstruktors wird der y-Wert für den Ausgangswert %s für die " +
+                    "numberOfRowsOfWorld nicht korrekt gesetzt" +
+                    ".", numberOfRowsOfWorld)),
+            () -> assertEquals(direction, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getDirection(),
+                String.format("Beim Aufruf des super-Konstruktors wird die Direction nicht korrekt gesetzt.", direction)),
+            () -> assertEquals(numberOfCoins, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getNumberOfCoins(),
+                String.format("Beim Aufruf des super-Konstruktors wird die Anzahl Münzen nicht korrekt gesetzt.", numberOfCoins))
+        );
     }
 }

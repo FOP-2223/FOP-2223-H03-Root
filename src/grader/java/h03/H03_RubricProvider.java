@@ -67,10 +67,13 @@ public class H03_RubricProvider implements RubricProvider {
             JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("constructorSetsAttributesCorrectly", int.class,
                 int.class)));
 
-        // TODO: constructorCallsSuperConstructorCorrectly
+        var H1_1_T4 = new OnePointCriterionBuilder(
+            "Der Konstruktor von \"RobotWithOffspring\" ruft den super-Konstruktor von \"Robot\" korrekt auf.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("constructorCallsSuperConstructorCorrectly",
+                int.class, int.class, Direction.class, int.class, int.class, int.class, TestCycle.class)));
 
         var H1_1 = new ChildCollectionCriterionBuilder("H1.1 | Abgeleitete Klasse, ihr Konstruktor und zusätzliche Attribute",
-            H1_1_T1, H1_1_T2, H1_1_T3);
+            H1_1_T1, H1_1_T2, H1_1_T3, H1_1_T4);
 
         // H1.2 DONE
         var H1_2_T1 = new OnePointCriterionBuilder("Das Attribut \"offspring\" wurde korrekt deklariert.",
