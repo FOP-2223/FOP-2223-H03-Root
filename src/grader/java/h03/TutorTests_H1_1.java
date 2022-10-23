@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @TestForSubmission
 @DisplayName("H1.1")
@@ -138,25 +139,30 @@ public class TutorTests_H1_1 {
         var constructor = assertDoesNotThrow(() -> sut.getConstructor(int.class, int.class, Direction.class, int.class),
             String.format("Der Konstruktor der Klasse  \"%s\" wurde nicht korrekt deklariert.", className));
 
-        TutorRobot robot = (TutorRobot) assertDoesNotThrow(() -> constructor.newInstance(numberOfColumnsOfWorld,
-                numberOfRowsOfWorld, direction, numberOfCoins),
-            String.format("Der Konstruktor von \"%s\" wirft eine unerwartete Exception.", className));
+        TutorRobot robot;
+
+        try {
+            robot = (TutorRobot) constructor.newInstance(numberOfColumnsOfWorld,
+                numberOfRowsOfWorld, direction, numberOfCoins);
+        } catch (Throwable e) {
+            fail(String.format("Der Konstruktor von \"%s\" wirft eine unerwartete Exception: %s", className, e.getCause()));
+            return;
+        }
 
         assertEquals(1, robot.callsToTutorRobotConstructorIntIntDirectionInt.size(), "Der super-Konstruktor der Klasse " +
             "\"Robot\" wurde nicht aufgerufen.");
-        assertAll(
+        assertAll("Der super-Konstruktor wird nicht korrekt aufgerufen.",
             () -> assertEquals(expectedX, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getX(),
                 String.format("Beim Aufruf des super-Konstruktors wird der x-Wert für den Ausgangswert %s für die " +
-                    "numberOfColumnsOfWorld nicht korrekt gesetzt" +
-                    ".", numberOfColumnsOfWorld)),
+                    "numberOfColumnsOfWorld nicht korrekt gesetzt.", numberOfColumnsOfWorld)),
             () -> assertEquals(expectedY, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getY(),
                 String.format("Beim Aufruf des super-Konstruktors wird der y-Wert für den Ausgangswert %s für die " +
-                    "numberOfRowsOfWorld nicht korrekt gesetzt" +
-                    ".", numberOfRowsOfWorld)),
+                    "numberOfRowsOfWorld nicht korrekt gesetzt.", numberOfRowsOfWorld)),
             () -> assertEquals(direction, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getDirection(),
-                String.format("Beim Aufruf des super-Konstruktors wird die Direction nicht korrekt gesetzt.", direction)),
+                "Beim Aufruf des super-Konstruktors wird die Direction nicht korrekt gesetzt."),
             () -> assertEquals(numberOfCoins, robot.callsToTutorRobotConstructorIntIntDirectionInt.get(0).getNumberOfCoins(),
-                String.format("Beim Aufruf des super-Konstruktors wird die Anzahl Münzen nicht korrekt gesetzt.", numberOfCoins))
+                "Beim Aufruf des super-Konstruktors wird die Anzahl Münzen nicht korrekt gesetzt."
+            )
         );
     }
 }
