@@ -55,8 +55,8 @@ public class H03_RubricProvider implements RubricProvider {
         var H1_1_T1 = new OnePointCriterionBuilder("Die Klasse \"RobotWithOffspring\" wurde korrekt deklariert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("classRobotWithOffspringDeclaredCorrectly")));
 
-        var H1_1_T2 = new OnePointCriterionBuilder("Die Attribute \"numberOfColumnsOfWorld\" und \"numberOfRowsOfWorld\" wurden" +
-            " korrekt deklariert.",
+        var H1_1_T2 = new OnePointCriterionBuilder(
+            "Die Attribute \"numberOfColumnsOfWorld\" und \"numberOfRowsOfWorld\" wurden korrekt deklariert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("numberOfColumnsOfWorldDeclaredCorrectly")),
             JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("numberOfRowsOfWorldDeclaredCorrectly")));
 
@@ -72,10 +72,10 @@ public class H03_RubricProvider implements RubricProvider {
             JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("constructorCallsSuperConstructorCorrectly",
                 int.class, int.class, Direction.class, int.class, int.class, int.class, TestCycle.class)));
 
+        // H1.1 DONE
         var H1_1 = new ChildCollectionCriterionBuilder("H1.1 | Abgeleitete Klasse, ihr Konstruktor und zusätzliche Attribute",
             H1_1_T1, H1_1_T2, H1_1_T3, H1_1_T4);
 
-        // H1.2 DONE
         var H1_2_T1 = new OnePointCriterionBuilder("Das Attribut \"offspring\" wurde korrekt deklariert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod("offspringDeclaredCorrectly")));
 
@@ -93,6 +93,7 @@ public class H03_RubricProvider implements RubricProvider {
             "implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod("offspringIsInitializedDeclaredAndImplementedCorrectly")));
 
+        // H1.2 DONE
         var H1_2 = new ChildCollectionCriterionBuilder("H1.2 | Attribut vom Referenztyp und get-Methoden für dessen Attribute",
             H1_2_T1, H1_2_T2, H1_2_T3, H1_2_T4);
 
