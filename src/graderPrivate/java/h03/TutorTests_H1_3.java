@@ -4,12 +4,16 @@ import fopbot.Direction;
 import fopbot.FieldEntity;
 import fopbot.Robot;
 import fopbot.World;
+import h03.transform.RobotWithOffspringTransformer;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.sourcegrade.jagr.api.testing.TestCycle;
+import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
 import org.tudalgo.algoutils.reflect.MethodTester;
@@ -86,9 +90,14 @@ public class TutorTests_H1_3 {
     @CsvFileSource(resources = "/TutorTests_H1_3-addToDirectionOfOffspring-advancedCases.csv", numLinesToSkip = 1)
     @DisplayName("Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die Implementierung besteht komplexe und " +
         "Rand-Testfälle.")
+    @ExtendWith(TestCycleResolver.class)
     public void addToDirectionOfOffspringDeclaredCorrectlyAndPassesAdvancedTests(int x, int y, Direction direction,
                                                                                  int numberOfCoins, int directionToAssign,
-                                                                                 Direction expectedResultDirection) throws IllegalAccessException {
+                                                                                 Direction expectedResultDirection,
+                                                                                 @NotNull TestCycle testCycle) throws IllegalAccessException {
+        final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
+        testCycle.getClassLoader().visitClass(className, new RobotWithOffspringTransformer());
+
         testAddToDirectionOfOffspring(x, y, direction, numberOfCoins, directionToAssign, expectedResultDirection);
     }
 

@@ -70,6 +70,7 @@ public class TutorTests_H2 {
         // TODO: überprüfen, dass directionAccu nicht initialisiert wird
         // TODO: Verifizieren, dass der Test im Grader korrekt durchläuft
         // TODO: Error messages, wenn Test fehlschlägt, hinzufügen
+        // TODO: im Transformer den Klassennamen dynamisch setzen
     }
 
     // DONE
