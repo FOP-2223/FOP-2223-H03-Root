@@ -33,11 +33,10 @@ jagr {
 }
 
 dependencies {
-    implementation("org.tudalgo:algoutils-tutor:0.3.1")
     implementation(libs.annotations)
     implementation(libs.algoutils.student)
     testImplementation(libs.junit.core)
-    implementation("org.tudalgo:fopbot:0.4.0-SNAPSHOT")
+    implementation(libs.fopbot)
 }
 
 application {
