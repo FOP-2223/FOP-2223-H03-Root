@@ -44,8 +44,9 @@ public class RobotWithOffspring2TransformerForInitOffspring implements ClassTran
 
         private static class MV extends MethodVisitor {
             private final String initOffspringMethodName;
-            final int[] expectedOpCodes = {Opcodes.ALOAD, Opcodes.ALOAD, Opcodes.ILOAD};
-            int currentIndex = 0;
+            private final int[] expectedOpCodes = {Opcodes.ALOAD, Opcodes.ALOAD, Opcodes.ILOAD};
+            private int currentIndex = 0;
+            private boolean superConstructorCalled = false;
 
             public MV(String initOffspringMethodName) {
                 super(Opcodes.ASM9);
@@ -54,22 +55,27 @@ public class RobotWithOffspring2TransformerForInitOffspring implements ClassTran
 
             @Override
             public void visitVarInsn(int opcode, int varIndex) {
-                Assertions.assertEquals(expectedOpCodes[currentIndex], opcode);
-                Assertions.assertEquals(currentIndex, varIndex);
-                currentIndex++;
+                if (!superConstructorCalled) {
+                    Assertions.assertEquals(expectedOpCodes[currentIndex], opcode);
+                    Assertions.assertEquals(currentIndex, varIndex);
+                    currentIndex++;
+                }
             }
 
             @Override
             public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-                if ("org/sourcegrade/jagr/core/executor/TimeoutHandler".equals(owner) && "checkTimeout".equals(name)) {
-                    return;
-                }
+                if (!superConstructorCalled) {
+                    if ("org/sourcegrade/jagr/core/executor/TimeoutHandler".equals(owner) && "checkTimeout".equals(name)) {
+                        return;
+                    }
 
-                Assertions.assertEquals(3, currentIndex);
-                Assertions.assertEquals(Opcodes.INVOKESPECIAL, opcode);
-                Assertions.assertEquals("h03/RobotWithOffspring", owner);
-                Assertions.assertEquals(initOffspringMethodName, name);
-                Assertions.assertEquals("(Lfopbot/Direction;I)V", descriptor);
+                    Assertions.assertEquals(3, currentIndex);
+                    Assertions.assertEquals(Opcodes.INVOKESPECIAL, opcode);
+                    Assertions.assertEquals("h03/RobotWithOffspring", owner);
+                    Assertions.assertEquals(initOffspringMethodName, name);
+                    Assertions.assertEquals("(Lfopbot/Direction;I)V", descriptor);
+                    superConstructorCalled = true;
+                }
             }
         }
     }

@@ -3,7 +3,9 @@ package h03;
 import fopbot.Direction;
 import fopbot.World;
 import h03.transform.RobotWithOffspring2TransformerForConstructor;
+import h03.transform.RobotWithOffspring2TransformerForGetDirectionOfOffspring;
 import h03.transform.RobotWithOffspring2TransformerForInitOffspring;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -88,7 +90,7 @@ public class TutorTests_H2 {
     @Test
     @DisplayName("Überschriebene Methode \"initOffspring\" ruft den super-Konstruktor korrekt auf.")
     @ExtendWith(TestCycleResolver.class)
-    public void initOffspringCallsSuperConstructorCorrectly(TestCycle testCycle) {
+    public void initOffspringCallsSuperConstructorCorrectly(@NotNull TestCycle testCycle) {
         final var className = robotWithOffspring2CT.assureClassResolved().getTheClass().getName();
         var initOffspringMethod = new MethodTester(robotWithOffspring2CT.resolve(), "initOffspring", 0.8, void.class,
             new ArrayList<>(List.of(
@@ -172,10 +174,22 @@ public class TutorTests_H2 {
             new ArrayList<>()).verify();
     }
 
+    // TODO: mostly done. But what if the method is implemented slightly different
+    // maybe its better to exchange the private method getDirectionFromAccu and test it that way
     @Test
     @DisplayName("Überschriebene Methode \"getDirectionOfOffspring\" wurde korrekt implementiert.")
-    public void getDirectionOfOffspringImplementedCorrectly() {
-        // TODO: verify that getDirectionOfOffspring calls getDirectionFromAccu and returns that value
+    @ExtendWith(TestCycleResolver.class)
+    public void getDirectionOfOffspringImplementedCorrectly(@NotNull TestCycle testCycle) {
+        final var className = robotWithOffspring2CT.assureClassResolved().getTheClass().getName();
+
+        var getDirectionOfOffspringMethod = new MethodTester(robotWithOffspring2CT.resolve(), "getDirectionOfOffspring", 0.8,
+            Direction.class, null).resolveMethod();
+
+        var getDirectionFromAccuMethod = new MethodTester(robotWithOffspring2CT.resolve(),
+            "getDirectionFromAccu", 0.8, Direction.class, new ArrayList<>()).resolveMethod();
+
+        testCycle.getClassLoader().visitClass(className,
+            new RobotWithOffspring2TransformerForGetDirectionOfOffspring(getDirectionOfOffspringMethod.getName(), getDirectionFromAccuMethod.getName()));
     }
 
     // DONE

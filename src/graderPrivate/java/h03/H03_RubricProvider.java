@@ -31,7 +31,7 @@ public class H03_RubricProvider implements RubricProvider {
      *      - directionAccu Attribut korrekt deklariert
      *         und getDirectionOfOffspring korrekt implementiert 1
      *      - Konstruktor korrekt deklariert und implementiert 1
-     *      - initOffspring korrekt implementiert 1
+     *      - initOffspring korrekt deklariert und implementiert 1
      *      - getDirectionFromAccu besteht Standardfälle 1
      *      - getDirectionFromAccu besteht Randfälle 1
      *      - addToDirectionOfOffspring korrekt implementiert 1
@@ -137,7 +137,11 @@ public class H03_RubricProvider implements RubricProvider {
             JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod(
                 "initOffspringCallsSuperConstructorCorrectly", TestCycle.class)));
 
-        var H2 = new ChildCollectionCriterionBuilder("H2 | Roboter mit überschriebenen Methoden", H2_T1);
+        var H2_T2 = new OnePointCriterionBuilder("Die überschriebene Methode \"getDirectionOfOffspring\" wurde korrekt implementiert.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod(
+                "getDirectionOfOffspringImplementedCorrectly", TestCycle.class)));
+
+        var H2 = new ChildCollectionCriterionBuilder("H2 | Roboter mit überschriebenen Methoden", H2_T1, H2_T2);
 
         var H3_1_T1 = new OnePointCriterionBuilder("Das Attribut robots ist korrekt deklariert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("t01")));
