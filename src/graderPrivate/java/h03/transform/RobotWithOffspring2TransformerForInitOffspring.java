@@ -8,38 +8,48 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.sourcegrade.jagr.api.testing.ClassTransformer;
 
-public class RobotWithOffspring2Transformer implements ClassTransformer {
+public class RobotWithOffspring2TransformerForInitOffspring implements ClassTransformer {
+    private final String initOffspringMethodName;
+
+    public RobotWithOffspring2TransformerForInitOffspring(String initOffspringMethodName) {
+        this.initOffspringMethodName = initOffspringMethodName;
+    }
+
     @Override
     public String getName() {
-        return "RobotWithOffspring2-transformer";
+        return "RobotWithOffspring2-transformerForInitOffspring";
     }
 
     @Override
     public void transform(final ClassReader reader, final ClassWriter writer) {
-        reader.accept(new CV(), 0);
+        reader.accept(new CV(initOffspringMethodName), 0);
     }
 
     private static class CV extends ClassVisitor {
-        public CV() {
+        private final String initOffspringMethodName;
+
+        public CV(String initOffspringMethodName) {
             super(Opcodes.ASM9);
+            this.initOffspringMethodName = initOffspringMethodName;
         }
 
         @Override
         public MethodVisitor visitMethod(final int access, final String name, final String descriptor,
                                          final String signature, final String[] exceptions) {
-            if ("<init>".equals(name) && "(IILfopbot/Direction;I)V".equals(descriptor)) {
-                return new MV();
+            if (initOffspringMethodName.equals(name) && "(Lfopbot/Direction;I)V".equals(descriptor)) {
+                return new MV(initOffspringMethodName);
             }
             return super.visitMethod(access, name, descriptor, signature, exceptions);
         }
 
         private static class MV extends MethodVisitor {
-            final int[] expectedOpCodes = {Opcodes.ALOAD, Opcodes.ILOAD, Opcodes.ILOAD, Opcodes.ALOAD, Opcodes.ILOAD};
-
+            private final String initOffspringMethodName;
+            final int[] expectedOpCodes = {Opcodes.ALOAD, Opcodes.ALOAD, Opcodes.ILOAD};
             int currentIndex = 0;
 
-            public MV() {
+            public MV(String initOffspringMethodName) {
                 super(Opcodes.ASM9);
+                this.initOffspringMethodName = initOffspringMethodName;
             }
 
             @Override
@@ -55,12 +65,11 @@ public class RobotWithOffspring2Transformer implements ClassTransformer {
                     return;
                 }
 
-                Assertions.assertEquals(5, currentIndex);
+                Assertions.assertEquals(3, currentIndex);
                 Assertions.assertEquals(Opcodes.INVOKESPECIAL, opcode);
-                // TODO: dynamically check name
                 Assertions.assertEquals("h03/RobotWithOffspring", owner);
-                Assertions.assertEquals("<init>", name);
-                Assertions.assertEquals("(IILfopbot/Direction;I)V", descriptor);
+                Assertions.assertEquals(initOffspringMethodName, name);
+                Assertions.assertEquals("(Lfopbot/Direction;I)V", descriptor);
             }
         }
     }

@@ -2,9 +2,9 @@ package h03;
 
 import fopbot.Direction;
 import fopbot.World;
-import h03.transform.RobotWithOffspring2Transformer;
+import h03.transform.RobotWithOffspring2TransformerForConstructor;
+import h03.transform.RobotWithOffspring2TransformerForInitOffspring;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -66,7 +66,7 @@ public class TutorTests_H2 {
     @ExtendWith(TestCycleResolver.class)
     public void constructorImplementedCorrectly(TestCycle testCycle) {
         final var className = robotWithOffspring2CT.assureClassResolved().getTheClass().getName();
-        testCycle.getClassLoader().visitClass(className, new RobotWithOffspring2Transformer());
+        testCycle.getClassLoader().visitClass(className, new RobotWithOffspring2TransformerForConstructor());
         // TODO: überprüfen, dass directionAccu nicht initialisiert wird
         // TODO: Verifizieren, dass der Test im Grader korrekt durchläuft
         // TODO: Error messages, wenn Test fehlschlägt, hinzufügen
@@ -84,10 +84,20 @@ public class TutorTests_H2 {
             ))).verify();
     }
 
+    // DONE
     @Test
     @DisplayName("Überschriebene Methode \"initOffspring\" ruft den super-Konstruktor korrekt auf.")
-    public void initOffspringCallsSuperConstructorCorrectly() {
-        // TODO: check that initOffspring calls constructor directly
+    @ExtendWith(TestCycleResolver.class)
+    public void initOffspringCallsSuperConstructorCorrectly(TestCycle testCycle) {
+        final var className = robotWithOffspring2CT.assureClassResolved().getTheClass().getName();
+        var initOffspringMethod = new MethodTester(robotWithOffspring2CT.resolve(), "initOffspring", 0.8, void.class,
+            new ArrayList<>(List.of(
+                new ParameterMatcher("direction", 0, Direction.class),
+                new ParameterMatcher("numberOfCoins", 0, int.class)
+            ))).resolveMethod();
+
+        testCycle.getClassLoader().visitClass(className,
+            new RobotWithOffspring2TransformerForInitOffspring(initOffspringMethod.getName()));
     }
 
     // DONE
@@ -105,7 +115,8 @@ public class TutorTests_H2 {
             new AttributeMatcher("directionAccu", 0.8, int.class));
 
         assertFalse(directionAccuField.getType().isArray(),
-            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.", directionAccuField.getName()));
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
+                directionAccuField.getName()));
 
         var robotWithOffspring2Instance = robotWithOffspring2CT.getClassInstance();
         directionAccuField.setAccessible(true);
@@ -134,7 +145,8 @@ public class TutorTests_H2 {
         var directionAccuField = robotWithOffspring2CT.resolve().resolveAttribute(
             new AttributeMatcher("directionAccu", 0.8, int.class));
         assertFalse(directionAccuField.getType().isArray(),
-            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.", directionAccuField.getName()));
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
+                directionAccuField.getName()));
         directionAccuField.setAccessible(true);
 
         var getDirectionFromAccuMethod = new MethodTester(robotWithOffspring2CT.resolve(),
@@ -187,7 +199,8 @@ public class TutorTests_H2 {
         var directionAccuField = robotWithOffspring2CT.resolve().resolveAttribute(
             new AttributeMatcher("directionAccu", 0.8, int.class));
         assertFalse(directionAccuField.getType().isArray(),
-            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.", directionAccuField.getName()));
+            String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
+                directionAccuField.getName()));
         directionAccuField.setAccessible(true);
 
         var robotWithOffspring2Instance = robotWithOffspring2CT.getClassInstance();

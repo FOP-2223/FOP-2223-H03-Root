@@ -4,7 +4,6 @@ import fopbot.Direction;
 import fopbot.FieldEntity;
 import fopbot.Robot;
 import fopbot.World;
-import h03.transform.RobotWithOffspringTransformer;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -96,7 +95,7 @@ public class TutorTests_H1_3 {
                                                                                  Direction expectedResultDirection,
                                                                                  @NotNull TestCycle testCycle) throws IllegalAccessException {
         final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
-        testCycle.getClassLoader().visitClass(className, new RobotWithOffspringTransformer());
+        //testCycle.getClassLoader().visitClass(className, new RobotWithOffspringTransformer());
 
         testAddToDirectionOfOffspring(x, y, direction, numberOfCoins, directionToAssign, expectedResultDirection);
     }

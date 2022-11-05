@@ -132,14 +132,12 @@ public class H03_RubricProvider implements RubricProvider {
 
         var H1 = new ChildCollectionCriterionBuilder("H1 | Roboter mit Abkömmling", H1_1, H1_2, H1_3);
 
-        var H2_T1 = new OnePointCriterionBuilder("Das Attribut directionAccu ist korrekt deklariert.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod("t01")));
-        var H2_T2 = new OnePointCriterionBuilder("Das Attribut directionAccu ist korrekt deklariert.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod("t03", TestCycle.class)));
-        var H2_T3 = new OnePointCriterionBuilder("Der Konstruktor von RobotWithOffspring2 ist vollständig korrekt.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod("t03", TestCycle.class)));
+        var H2_T1 = new OnePointCriterionBuilder("Die überschriebene Methode \"initOffspring\" ruft den super-Konstruktor " +
+            "korrekt auf.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod(
+                "initOffspringCallsSuperConstructorCorrectly", TestCycle.class)));
 
-        var H2 = new ChildCollectionCriterionBuilder("H2 | Roboter mit überschriebenen Methoden", H2_T1, H2_T2, H2_T3);
+        var H2 = new ChildCollectionCriterionBuilder("H2 | Roboter mit überschriebenen Methoden", H2_T1);
 
         var H3_1_T1 = new OnePointCriterionBuilder("Das Attribut robots ist korrekt deklariert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("t01")));
