@@ -147,7 +147,17 @@ public class H03_RubricProvider implements RubricProvider {
             JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("t01")));
         var H3_1 = new ChildCollectionCriterionBuilder("H3.1 | Klasse mit Robotern", H3_1_T1);
 
-        var H3 = new ChildCollectionCriterionBuilder("H3 | Klasse mit Robotern und Tests", H3_1);
+        var H3_2_T1 = new OnePointCriterionBuilder("TwinRobots wird mindestens noch drei weitere Male getestet.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNumberOfInvocations", TestCycle.class)));
+        var H3_2_T2 = new OnePointCriterionBuilder(
+            "addToDirectionOfBothOffsprings wird mindestens einmal mit einer negativen Zahl als Parameter aufgerufen.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNegativeArgument", TestCycle.class)));
+        var H3_2_T3 = new OnePointCriterionBuilder("addToDirectionOfBothOffsprings wird mindestens einmal aufgerufen, "
+                + "während das directionAccu-Attribut von RobotWithOffspring2 negativ ist.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNegativeFieldValue", TestCycle.class)));
+        var H3_2 = new ChildCollectionCriterionBuilder("H3.2 | Testen", H3_2_T1, H3_2_T2, H3_2_T3);
+
+        var H3 = new ChildCollectionCriterionBuilder("H3 | Klasse mit Robotern und Tests", H3_1, H3_2);
 
         var rubricBuilder = new RubricBuilder("H03 | Ihr Upgrade in die First Class", H1, H2, H3);
         return rubricBuilder.build();
