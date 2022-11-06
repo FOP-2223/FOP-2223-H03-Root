@@ -4,6 +4,7 @@ import fopbot.Direction;
 import fopbot.FieldEntity;
 import fopbot.Robot;
 import fopbot.World;
+import h03.transform.FloorModCheckTransformer;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -72,19 +73,22 @@ public class TutorTests_H1_3 {
             expectedResultCoins, false);
     }
 
-    // TODO: check no library is used for modular arithmetic: WHITELIST methods from java and Robot and RobotWithOffspring
-    // e.g. Math.floormod
+    // DONE
     @ParameterizedTest
     @CsvFileSource(resources = "/TutorTests_H1_3-addToDirectionOfOffspring-baseCases.csv", numLinesToSkip = 1)
     @DisplayName("Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die Implementierung besteht einfache " +
         "Testfälle.")
+    @ExtendWith(TestCycleResolver.class)
     public void addToDirectionOfOffspringDeclaredCorrectlyAndPassesBaseTests(int x, int y, Direction direction,
                                                                              int numberOfCoins, int directionToAssign,
-                                                                             Direction expectedResultDirection) throws IllegalAccessException {
+                                                                             Direction expectedResultDirection, @NotNull TestCycle testCycle) throws IllegalAccessException {
+        final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
+        testCycle.getClassLoader().visitClass(className, new FloorModCheckTransformer());
+
         testAddToDirectionOfOffspring(x, y, direction, numberOfCoins, directionToAssign, expectedResultDirection);
     }
 
-    // TODO: check no library is used for modular arithmetic
+    // DONE
     @ParameterizedTest
     @CsvFileSource(resources = "/TutorTests_H1_3-addToDirectionOfOffspring-advancedCases.csv", numLinesToSkip = 1)
     @DisplayName("Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die Implementierung besteht komplexe und " +
@@ -95,7 +99,7 @@ public class TutorTests_H1_3 {
                                                                                  Direction expectedResultDirection,
                                                                                  @NotNull TestCycle testCycle) throws IllegalAccessException {
         final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
-        //testCycle.getClassLoader().visitClass(className, new RobotWithOffspringTransformer());
+        testCycle.getClassLoader().visitClass(className, new FloorModCheckTransformer());
 
         testAddToDirectionOfOffspring(x, y, direction, numberOfCoins, directionToAssign, expectedResultDirection);
     }

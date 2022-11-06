@@ -47,6 +47,7 @@ public class H03_RubricProvider implements RubricProvider {
      */
 
     // TODO: JavaDoc prüfen
+    // TODO: investigate timeouts
     // TODO: bei Methoden, wo ein Punkt für Deklaration und Implementierung zusammen vergeben wird: Toleranz für Schreibfehler
     //  in der Deklaration einbauen
 
@@ -72,7 +73,6 @@ public class H03_RubricProvider implements RubricProvider {
             JUnitTestRef.ofMethod(() -> TutorTests_H1_1.class.getMethod("constructorCallsSuperConstructorCorrectly",
                 int.class, int.class, Direction.class, int.class, int.class, int.class, TestCycle.class)));
 
-        // H1.1 DONE
         var H1_1 = new ChildCollectionCriterionBuilder("H1.1 | Abgeleitete Klasse, ihr Konstruktor und zusätzliche Attribute",
             H1_1_T1, H1_1_T2, H1_1_T3, H1_1_T4);
 
@@ -93,11 +93,9 @@ public class H03_RubricProvider implements RubricProvider {
             "implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod("offspringIsInitializedDeclaredAndImplementedCorrectly")));
 
-        // H1.2 DONE
         var H1_2 = new ChildCollectionCriterionBuilder("H1.2 | Attribut vom Referenztyp und get-Methoden für dessen Attribute",
             H1_2_T1, H1_2_T2, H1_2_T3, H1_2_T4);
 
-        // H1.3 Stitching done
         var H1_3_T1 = new OnePointCriterionBuilder(" Die Methoden \"addToXOfOffspring\" und \"addToYOfOffspring\" wurden " +
             "korrekt deklariert und implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
@@ -118,18 +116,19 @@ public class H03_RubricProvider implements RubricProvider {
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
                 "addToDirectionOfOffspringDeclaredCorrectlyAndPassesBaseTests", int.class, int.class, Direction.class,
                 int.class, int.class,
-                Direction.class)));
+                Direction.class, TestCycle.class)));
 
         var H1_3_T4 = new OnePointCriterionBuilder("Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die " +
             "Implementierung besteht komplexe und Rand-Testfälle.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
                 "addToDirectionOfOffspringDeclaredCorrectlyAndPassesAdvancedTests", int.class, int.class, Direction.class,
                 int.class, int.class,
-                Direction.class)));
+                Direction.class, TestCycle.class)));
 
         var H1_3 = new ChildCollectionCriterionBuilder("H1.3 | Attributwerte relativ zum momentanen Wert ändern",
             H1_3_T1, H1_3_T2, H1_3_T3, H1_3_T4);
 
+        // H1 DONE
         var H1 = new ChildCollectionCriterionBuilder("H1 | Roboter mit Abkömmling", H1_1, H1_2, H1_3);
 
         var H2_T1 = new OnePointCriterionBuilder("RobotWithOffspring2 deklariert das Attribut directionAccu korrekt.",
