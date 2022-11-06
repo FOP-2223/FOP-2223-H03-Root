@@ -132,16 +132,22 @@ public class H03_RubricProvider implements RubricProvider {
 
         var H1 = new ChildCollectionCriterionBuilder("H1 | Roboter mit Abkömmling", H1_1, H1_2, H1_3);
 
-        var H2_T1 = new OnePointCriterionBuilder("Die überschriebene Methode \"initOffspring\" ruft den super-Konstruktor " +
-            "korrekt auf.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod(
-                "initOffspringCallsSuperConstructorCorrectly", TestCycle.class)));
+        var H2_T1 = new OnePointCriterionBuilder("RobotWithOffspring2 deklariert das Attribut directionAccu korrekt.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod("directionAccuDeclaredCorrectly")));
+        var H2_T2 = new OnePointCriterionBuilder("Der Konstruktor wird korrekt deklariert und ruft intern den super-Konstruktor auf.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod("testConstructor", TestCycle.class)));
+        var H2_T3 = new OnePointCriterionBuilder("Die überschriebene Methode \"initOffspring\" ist korrekt implementiert.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod("testInitOffspring", TestCycle.class)));
+        var H2_T4 = new OnePointCriterionBuilder("Methode \"getDirectionFromAccu\" funktioniert für normale Werte wie erwartet.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod("testGetDirectionFromAccu_normal", int.class, Direction.class)));
+        var H2_T5 = new OnePointCriterionBuilder("Methode \"getDirectionFromAccu\" funktioniert für kompliziertere Werte wie erwartet.");
+        var H2_T6 = new OnePointCriterionBuilder("Die überschriebene Methode \"addToDirectionOfOffspring\" wurde korrekt " +
+            "implementiert.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod("testAddToDirectionOfOffspring",
+                Direction.class, int.class, int.class, Direction.class)));
 
-        var H2_T2 = new OnePointCriterionBuilder("Die überschriebene Methode \"getDirectionOfOffspring\" wurde korrekt implementiert.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod(
-                "getDirectionOfOffspringImplementedCorrectly", TestCycle.class)));
-
-        var H2 = new ChildCollectionCriterionBuilder("H2 | Roboter mit überschriebenen Methoden", H2_T1, H2_T2);
+        var H2 = new ChildCollectionCriterionBuilder("H2 | Roboter mit überschriebenen Methoden",
+            H2_T1, H2_T2, H2_T3, H2_T4, H2_T5, H2_T6);
 
         var H3_1_T1 = new OnePointCriterionBuilder("Das Attribut robots ist korrekt deklariert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("t01")));
