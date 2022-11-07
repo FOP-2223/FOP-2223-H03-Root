@@ -23,6 +23,11 @@ public class ClassTransformerTemplate implements ClassTransformer {
     }
 
     @Override
+    public int getWriterFlags() {
+        return ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES;
+    }
+
+    @Override
     public void transform(ClassReader reader, ClassWriter writer) {
         reader.accept(classVisitorSupplier.apply(writer), ClassReader.SKIP_DEBUG);
     }
