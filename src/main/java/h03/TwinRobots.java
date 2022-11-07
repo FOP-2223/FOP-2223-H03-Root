@@ -3,7 +3,7 @@ package h03;
 import fopbot.Direction;
 
 public class TwinRobots {
-    private final RobotWithOffspring[] robots;
+    private RobotWithOffspring[] robots;
 
     /**
      * Constructor of TwinRobots. Instantiates the two robots and initializes their
