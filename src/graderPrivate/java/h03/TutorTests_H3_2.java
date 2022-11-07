@@ -1,12 +1,10 @@
 package h03;
 
 import fopbot.Direction;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.objectweb.asm.*;
 import org.opentest4j.AssertionFailedError;
-import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.ClassTransformer;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
@@ -16,8 +14,7 @@ import org.tudalgo.algoutils.tutor.general.assertions.Assertions2;
 import java.util.ArrayList;
 import java.util.List;
 
-@TestForSubmission
-@DisplayName("H3.2")
+//@TestForSubmission
 public class TutorTests_H3_2 {
 
     public static int twinRobotsMethodInvocations;

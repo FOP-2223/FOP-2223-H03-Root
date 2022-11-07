@@ -27,7 +27,7 @@ import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static h03.H03_Class_Testers.twinRobotsCT;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
-@TestForSubmission
+//@TestForSubmission
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TutorTests_H3_1 {
 
