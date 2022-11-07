@@ -3,11 +3,10 @@ package h03;
 import fopbot.Direction;
 import h03.utils.ChildCollectionCriterionBuilder;
 import h03.utils.OnePointCriterionBuilder;
-import h03.utils.RubricBuilder;
-import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
-import org.sourcegrade.jagr.api.rubric.Rubric;
-import org.sourcegrade.jagr.api.rubric.RubricProvider;
+import org.sourcegrade.jagr.api.rubric.*;
 import org.sourcegrade.jagr.api.testing.TestCycle;
+
+import java.util.List;
 
 public class H03_RubricProvider implements RubricProvider {
     /*
@@ -115,20 +114,16 @@ public class H03_RubricProvider implements RubricProvider {
             "Implementierung besteht einfache Testfälle.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
                 "addToDirectionOfOffspringDeclaredCorrectlyAndPassesBaseTests", int.class, int.class, Direction.class,
-                int.class, int.class,
-                Direction.class, TestCycle.class)));
+                int.class, int.class, Direction.class, TestCycle.class)));
 
         var H1_3_T4 = new OnePointCriterionBuilder("Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die " +
             "Implementierung besteht komplexe und Rand-Testfälle.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
-                "addToDirectionOfOffspringDeclaredCorrectlyAndPassesAdvancedTests", int.class, int.class, Direction.class,
-                int.class, int.class,
-                Direction.class, TestCycle.class)));
+            JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod("addToDirectionOfOffspringDeclaredCorrectlyAndPassesAdvancedTests",
+                int.class, int.class, Direction.class, int.class, int.class, Direction.class, TestCycle.class)));
 
         var H1_3 = new ChildCollectionCriterionBuilder("H1.3 | Attributwerte relativ zum momentanen Wert ändern",
             H1_3_T1, H1_3_T2, H1_3_T3, H1_3_T4);
 
-        // H1 DONE
         var H1 = new ChildCollectionCriterionBuilder("H1 | Roboter mit Abkömmling", H1_1, H1_2, H1_3);
 
         var H2_T1 = new OnePointCriterionBuilder("RobotWithOffspring2 deklariert das Attribut directionAccu korrekt.",
@@ -148,23 +143,69 @@ public class H03_RubricProvider implements RubricProvider {
         var H2 = new ChildCollectionCriterionBuilder("H2 | Roboter mit überschriebenen Methoden",
             H2_T1, H2_T2, H2_T3, H2_T4, H2_T5, H2_T6);
 
-        var H3_1_T1 = new OnePointCriterionBuilder("Das Attribut robots ist korrekt deklariert.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("t01")));
-        var H3_1 = new ChildCollectionCriterionBuilder("H3.1 | Klasse mit Robotern", H3_1_T1);
+        Grader grader = (testCycle, criterion) -> new GradeResult() {
+            @Override
+            public int getMinPoints() {
+                return 0;
+            }
 
-        var H3_2_T1 = new OnePointCriterionBuilder("TwinRobots wird mindestens noch drei weitere Male getestet.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNumberOfInvocations", TestCycle.class)));
-        var H3_2_T2 = new OnePointCriterionBuilder(
-            "addToDirectionOfBothOffsprings wird mindestens einmal mit einer negativen Zahl als Parameter aufgerufen.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNegativeArgument", TestCycle.class)));
-        var H3_2_T3 = new OnePointCriterionBuilder("addToDirectionOfBothOffsprings wird mindestens einmal aufgerufen, "
-                + "während das directionAccu-Attribut von RobotWithOffspring2 negativ ist.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNegativeFieldValue", TestCycle.class)));
-        var H3_2 = new ChildCollectionCriterionBuilder("H3.2 | Testen", H3_2_T1, H3_2_T2, H3_2_T3);
+            @Override
+            public int getMaxPoints() {
+                return 1;
+            }
 
-        var H3 = new ChildCollectionCriterionBuilder("H3 | Klasse mit Robotern und Tests", H3_1, H3_2);
+            @Override
+            public List<String> getComments() {
+                return List.of("not tested by public grader");
+            }
+        };
 
-        var rubricBuilder = new RubricBuilder("H03 | Ihr Upgrade in die First Class", H1, H2, H3);
-        return rubricBuilder.build();
+        var H3_1_T1 = Criterion.builder()
+            .shortDescription("Das Attribut robots ist korrekt deklariert.")
+            .grader(grader)
+            .build();
+        var H3_1_T2 = Criterion.builder()
+            .shortDescription("Der Konstruktor ist korrekt implementiert.")
+            .grader(grader)
+            .build();
+        var H3_1_T3 = Criterion.builder()
+            .shortDescription("Methode getRobotsByIndex ist korrekt implementiert.")
+            .grader(grader)
+            .build();
+        var H3_1_T4 = Criterion.builder()
+            .shortDescription("Methode addToDirectionOfBothOffsprings ist korrekt implementiert.")
+            .grader(grader)
+            .build();
+        var H3_1 = Criterion.builder()
+            .shortDescription("H3.1 | Klasse mit Robotern")
+            .addChildCriteria(H3_1_T1, H3_1_T2, H3_1_T3, H3_1_T4)
+            .build();
+
+        var H3_2_T1 = Criterion.builder()
+            .shortDescription("TwinRobots wird mindestens noch drei weitere Male getestet.")
+            .grader(grader)
+            .build();
+        var H3_2_T2 = Criterion.builder()
+            .shortDescription("addToDirectionOfBothOffsprings wird mindestens einmal mit einer negativen Zahl als Parameter aufgerufen.")
+            .grader(grader)
+            .build();
+        var H3_2_T3 = Criterion.builder()
+            .shortDescription("Einer der Testfälle läuft ab, während das directionAccu-Attribut von RobotWithOffspring2 negativ ist.")
+            .grader(grader)
+            .build();
+        var H3_2 = Criterion.builder()
+            .shortDescription("H3.2 | Testen")
+            .addChildCriteria(H3_2_T1, H3_2_T2, H3_2_T3)
+            .build();
+
+        var H3 = Criterion.builder()
+            .shortDescription("H3 | Klasse mit Robotern und Tests")
+            .addChildCriteria(H3_1, H3_2)
+            .build();
+
+        return Rubric.builder()
+            .title("H03 | Ihr Upgrade in die First Class")
+            .addChildCriteria(H1.build(), H2.build(), H3)
+            .build();
     }
 }
