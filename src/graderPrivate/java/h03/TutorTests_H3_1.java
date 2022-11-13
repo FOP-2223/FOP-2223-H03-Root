@@ -135,6 +135,7 @@ public class TutorTests_H3_1 {
     }
 
     @Test
+    @Order(3)
     @DisplayName("Methode \"getRobotByIndex\" wurde korrekt deklariert.")
     public void testGetRobotByIndex() throws ReflectiveOperationException {
         MethodTester methodTester = new MethodTester(twinRobotsCT.resolve(), "getRobotByIndex", 1, Modifier.PUBLIC,
@@ -159,14 +160,34 @@ public class TutorTests_H3_1 {
             result -> "Method getRobotByIndex(int) did not return the expected object");
     }
 
-    /*
-    // DONE
     @Test
+    @Order(4)
     @DisplayName("Methode \"addToDirectionOfBothOffsprings\" wurde korrekt deklariert.")
-    public void addToDirectionOfBothOffspringsDeclaredCorrectly() {
-        new MethodTester(twinRobotsCT.resolve(), "addToDirectionOfBothOffsprings", 1, Modifier.PUBLIC,
+    @ExtendWith(TestCycleResolver.class)
+    public void testAddToDirectionOfBothOffsprings(TestCycle testCycle) throws ReflectiveOperationException {
+        MethodTester methodTester = new MethodTester(twinRobotsCT.resolve(),
+            "addToDirectionOfBothOffsprings",
+            1,
+            Modifier.PUBLIC,
             void.class,
             new ArrayList<>(List.of(new ParameterMatcher("directionToBeAdded", 0, int.class)))).verify();
+        Class<?> twinRobotsClass = testCycle.getClassLoader().loadClass(twinRobotsCT.findClass().getName(),
+            new ClassTransformerTemplate(twinRobotsCT.getTheClass().getName(), H3_1_Transformers.ADD_TO_DIRECTION_OF_OFFSPRING_TRANSFORMER));
+        Field robotsField = twinRobotsClass.getDeclaredField("robots");
+        Object instance = twinRobotsClass.getDeclaredConstructor(int.class, int.class).newInstance(0, 0);
+        H3_1_Transformers.addToDirectionOfOffspringInvocations = 0;
+
+        robotsField.trySetAccessible();
+        twinRobotsClass.getDeclaredMethod("addToDirectionOfBothOffsprings", int.class).invoke(instance, 0);
+
+        Context context = contextBuilder()
+            .add("robots", Arrays.toString((Object[]) robotsField.get(instance)))
+            .add("directionToBeAdded", 0)
+            .build();
+        testOfObjectBuilder()
+            .expected(ExpectedObject.of("at least 2 times", o -> o instanceof Integer i && i >= 2))
+            .build()
+            .run(H3_1_Transformers.addToDirectionOfOffspringInvocations)
+            .check(context, result -> "The robot's addDirectionToOffspring(int) methods have not been invoked at least once each");
     }
-    */
 }

@@ -169,9 +169,8 @@ public class H03_RubricProvider implements RubricProvider {
         var H3_1_T3 = new OnePointCriterionBuilder("Methode getRobotsByIndex ist korrekt implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("testGetRobotByIndex")))
             .build();
-        var H3_1_T4 = Criterion.builder()
-            .shortDescription("Methode addToDirectionOfBothOffsprings ist korrekt implementiert.")
-            .grader(grader)
+        var H3_1_T4 = new OnePointCriterionBuilder("Methode addToDirectionOfBothOffsprings ist korrekt implementiert.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("testAddToDirectionOfBothOffsprings", TestCycle.class)))
             .build();
         var H3_1 = Criterion.builder()
             .shortDescription("H3.1 | Klasse mit Robotern")

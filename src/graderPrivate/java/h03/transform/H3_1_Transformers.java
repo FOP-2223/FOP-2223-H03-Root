@@ -57,4 +57,36 @@ public class H3_1_Transformers {
             }
         }
     };
+
+    public static int addToDirectionOfOffspringInvocations = 0;
+    public static final Function<ClassWriter, ClassVisitor> ADD_TO_DIRECTION_OF_OFFSPRING_TRANSFORMER = writer ->
+        new ClassVisitor(ASM9, writer) {
+            @Override
+            public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                if (name.equals("addToDirectionOfBothOffsprings") && descriptor.equals("(I)V")) {
+                    return new MethodVisitor(ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
+                        @Override
+                        public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+                            if (owner.startsWith("h03/RobotWithOffspring")
+                                && name.equals("addToDirectionOfOffspring")
+                                && descriptor.equals("(I)V")) {
+                                visitFieldInsn(GETSTATIC,
+                                    "h03/transform/H3_1_Transformers",
+                                    "addToDirectionOfOffspringInvocations",
+                                    "I");
+                                visitInsn(ICONST_1);
+                                visitInsn(IADD);
+                                visitFieldInsn(PUTSTATIC,
+                                    "h03/transform/H3_1_Transformers",
+                                    "addToDirectionOfOffspringInvocations",
+                                    "I");
+                            }
+                            super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+                        }
+                    };
+                } else {
+                    return super.visitMethod(access, name, descriptor, signature, exceptions);
+                }
+            }
+        };
 }
