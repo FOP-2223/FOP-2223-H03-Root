@@ -13,6 +13,7 @@ import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
+import org.tudalgo.algoutils.reflect.MethodTester;
 import org.tudalgo.algoutils.reflect.ParameterMatcher;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions2;
 import org.tudalgo.algoutils.tutor.general.assertions.Context;
@@ -133,47 +134,32 @@ public class TutorTests_H3_1 {
             .check(context, result -> "constructor of RobotWithOffspring2 was not invoked with the expected arguments");
     }
 
-    /*
-    // DONE
     @Test
     @DisplayName("Methode \"getRobotByIndex\" wurde korrekt deklariert.")
-    public void getRobotByIndexDeclaredCorrectly() {
-        new MethodTester(twinRobotsCT.resolve(), "getRobotByIndex", 1, Modifier.PUBLIC,
+    public void testGetRobotByIndex() throws ReflectiveOperationException {
+        MethodTester methodTester = new MethodTester(twinRobotsCT.resolve(), "getRobotByIndex", 1, Modifier.PUBLIC,
             robotWithOffspringCT.assureClassResolved().getTheClass(),
             new ArrayList<>(List.of(new ParameterMatcher("index", 0, int.class)))).verify();
-    }
 
-    // TODO: replace hard coded classes. What happens if the classes don't exist or have different constructors?
-    @Test
-    @DisplayName("Methode \"getRobotByIndex\" wurde korrekt implementiert.")
-    public void getRobotByIndexImplementedCorrectly() throws IllegalAccessException {
-        Field robotsField = twinRobotsCT.assureClassResolved()
-            .resolveAttribute(new AttributeMatcher("robots", 0.8, robotWithOffspringCT.assureClassResolved().getTheClass()));
-        assertTrue(robotsField.getType().isArray(),
-            String.format("Der Datentyp von Attribut \"%s\" ist kein Array, sollte aber ein Array sein.", robotsField.getName()));
-
-        robotsField.setAccessible(true);
         Object twinRobotsInstance = twinRobotsCT.resolve().getClassInstance();
         var array = new RobotWithOffspring[2];
         array[0] = new RobotWithOffspring(12, 33, Direction.LEFT, 68);
         array[1] = new RobotWithOffspring2(53, 76, Direction.RIGHT, 361);
         robotsField.set(twinRobotsInstance, array);
 
-        var methodTester = new MethodTester(twinRobotsCT.assureClassResolved(), "getRobotByIndex", 0.8, Modifier.PUBLIC,
-            robotWithOffspringCT.assureClassResolved().getTheClass(),
-            new ArrayList<>(List.of(new ParameterMatcher("index", 0, int.class)))).verify();
+        Context context = contextBuilder()
+            .add("robots", Arrays.toString(array))
+            .build();
 
-        var actualFirstRobot = methodTester.invoke(0);
-        var actualSecondRobot = methodTester.invoke(1);
-
-        assertEquals(array[0], actualFirstRobot,
-            String.format("Die Methode \"%s\" gibt für Index 0 nicht das korrekte %s-Objekt aus dem Array %s zurück.",
-                methodTester.getTheMethod().getName(), robotWithOffspringCT.getTheClass().getName(), robotsField.getName()));
-        assertEquals(array[1], actualSecondRobot,
-            String.format("Die Methode \"%s\" gibt für Index 1 nicht das korrekte %s-Objekt aus dem Array %s zurück.",
-                methodTester.getTheMethod().getName(), robotWithOffspringCT.getTheClass().getName(), robotsField.getName()));
+        assertCallEquals(array[0], () -> methodTester.invoke(0),
+            contextBuilder().add(context).add("index", 0).build(),
+            result -> "Method getRobotByIndex(int) did not return the expected object");
+        assertCallEquals(array[1], () -> methodTester.invoke(1),
+            contextBuilder().add(context).add("index", 1).build(),
+            result -> "Method getRobotByIndex(int) did not return the expected object");
     }
 
+    /*
     // DONE
     @Test
     @DisplayName("Methode \"addToDirectionOfBothOffsprings\" wurde korrekt deklariert.")
