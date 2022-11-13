@@ -14,20 +14,25 @@ import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
 import org.tudalgo.algoutils.reflect.AttributeMatcher;
 import org.tudalgo.algoutils.reflect.ClassTester;
 import org.tudalgo.algoutils.reflect.ParameterMatcher;
+import org.tudalgo.algoutils.tutor.general.assertions.Assertions2;
 import org.tudalgo.algoutils.tutor.general.assertions.Context;
+import org.tudalgo.algoutils.tutor.general.assertions.TestOfObject;
+import org.tudalgo.algoutils.tutor.general.assertions.expected.ExpectedObject;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static h03.H03_Class_Testers.robotWithOffspring2CT;
 import static h03.H03_Class_Testers.robotWithOffspringCT;
 import static h03.H03_Class_Testers.twinRobotsCT;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
-//@TestForSubmission
+@TestForSubmission
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TutorTests_H3_1 {
 
@@ -49,12 +54,11 @@ public class TutorTests_H3_1 {
     @Test
     @Order(1)
     @DisplayName("Attribut \"robots\" wurde korrekt deklariert.")
-    public void robotsDeclaredCorrectly() {
+    public void testRobotsField() {
         robotsField = twinRobotsCT.resolve().resolveAttribute(
             new AttributeMatcher("robots", 1, Modifier.PRIVATE, robotWithOffspringCT.assureClassResolved().getClass()));
 
-        assertTrue(robotsField.getType().isArray(), emptyContext(),
-            result -> "expected field robots to be an array but it isn't");
+        assertTrue(robotsField.getType().isArray(), emptyContext(), result -> "expected field robots to be an array but it isn't");
         robotsField.trySetAccessible();
     }
 
@@ -64,7 +68,8 @@ public class TutorTests_H3_1 {
     @DisplayName("2 | Konstruktor")
     @ExtendWith(TestCycleResolver.class)
     @SuppressWarnings("unchecked")
-    public void t02(int numberOfColumnsOfWorld, int numberOfRowsOfWorld, TestCycle testCycle) throws ReflectiveOperationException {
+    public void testTwinRobotsConstructor(int numberOfColumnsOfWorld, int numberOfRowsOfWorld, TestCycle testCycle)
+        throws ReflectiveOperationException {
         if (robotsField == null) {
             fail(emptyContext(), result -> "Field robots could not be resolved");
         }
@@ -102,34 +107,33 @@ public class TutorTests_H3_1 {
         String className = twinRobotsCT.getTheClass().getName();
         Class<?> clazz = testCycle.getClassLoader()
             .loadClass(className, new ClassTransformerTemplate(className, H3_1_Transformers.CONSTRUCTOR_TRANSFORMER));
-        Constructor<?> twinRobotsConstructor = clazz.getDeclaredConstructor(int.class, int.class, Direction.class, int.class);
-        Object transformedInstance = twinRobotsConstructor.newInstance(0, 0, Direction.UP, 0);
-        System.out.println();
+        Constructor<?> twinRobotsConstructor = clazz.getDeclaredConstructor(int.class, int.class);
+        Object transformedInstance = twinRobotsConstructor.newInstance(numberOfColumnsOfWorld, numberOfRowsOfWorld);
 
-        //        var mt = new MethodTester(robotWithOffspringCT, "initOffSpring", 0.8,
-        //            Modifier.PUBLIC,
-        //            void.class, new ArrayList<>(List.of(new ParameterMatcher("direction", 0.8, Direction.class), new
-        //            ParameterMatcher("numberOfCoins", 0.8, int.class))));
-        //        getAverageSpeeedMT.resolveMethod();
-        //
-        //        assertDoesNotThrow(
-        //            () -> when(getAverageSpeeedMT.getTheMethod().invoke(fast_mammalia, ArgumentMatchers.anyDouble()))
-        //                .thenReturn(10d),
-        //            "Could not Overwrite Method.");
-    }
-        /*assertEquals(robotWithOffspring2CT.assureClassResolved().getTheClass(), secondRobot.getClass(), "Das Objekt "
-            + "am Index 1 im Array \"robots\" ist nicht vom Typ \"RobotWithOffspring2\"");
+        List<Object[]> robotWithOffspringInvocations = (List<Object[]>) H3_1_Transformers.CONSTRUCTOR_VALUES.get("robotWithOffspringParams");
+        List<Object[]> robotWithOffspring2Invocations = (List<Object[]>) H3_1_Transformers.CONSTRUCTOR_VALUES.get("robotWithOffspring2Params");
 
-        // TODO: fertig schreiben
+        assertEquals(1, robotWithOffspringInvocations.size(), context,
+            result -> "constructor of RobotWithOffspring was not invoked exactly once");
+        assertEquals(1, robotWithOffspring2Invocations.size(), context,
+            result -> "constructor of RobotWithOffspring2 was not invoked exactly once");
 
-        //        robotWithOffspringCT.assertFieldEquals(numberOfColumnsOfWorldField, worldWidth);
-        //        robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, worldHeight);
-        //        robotWithOffspringCT.assertFieldEquals(directionField, Direction.DOWN);
-        //        robotWithOffspringCT.assertFieldEquals(numberOfCoinsWorldField, 29);
-        //        robotWithOffspringCT.assertFieldEquals(xField, worldWidth / 2);
-        //        robotWithOffspringCT.assertFieldEquals(yField, worldHeight / 2);
+        Object[] expectedParams0 = {numberOfColumnsOfWorld, numberOfRowsOfWorld, Direction.RIGHT, 0};
+        Object[] expectedParams1 = {numberOfColumnsOfWorld, numberOfRowsOfWorld, Direction.UP, 0};
+        TestOfObject<Object[]> paramTesterRobotWithOffspring = Assertions2.<Object[]>testOfObjectBuilder()
+            .expected(ExpectedObject.of(expectedParams0, actual -> Arrays.equals(expectedParams0, actual)))
+            .build();
+        TestOfObject<Object[]> paramTesterRobotWithOffspring2 = Assertions2.<Object[]>testOfObjectBuilder()
+            .expected(ExpectedObject.of(expectedParams1, actual -> Arrays.equals(expectedParams1, actual)))
+            .build();
+
+        paramTesterRobotWithOffspring.run(robotWithOffspringInvocations.get(0))
+            .check(context, result -> "constructor of RobotWithOffspring was not invoked with the expected arguments");
+        paramTesterRobotWithOffspring2.run(robotWithOffspring2Invocations.get(0))
+            .check(context, result -> "constructor of RobotWithOffspring2 was not invoked with the expected arguments");
     }
 
+    /*
     // DONE
     @Test
     @DisplayName("Methode \"getRobotByIndex\" wurde korrekt deklariert.")
@@ -177,5 +181,6 @@ public class TutorTests_H3_1 {
         new MethodTester(twinRobotsCT.resolve(), "addToDirectionOfBothOffsprings", 1, Modifier.PUBLIC,
             void.class,
             new ArrayList<>(List.of(new ParameterMatcher("directionToBeAdded", 0, int.class)))).verify();
-    }*/
+    }
+    */
 }

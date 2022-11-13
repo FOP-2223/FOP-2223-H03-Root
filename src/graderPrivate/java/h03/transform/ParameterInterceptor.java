@@ -4,7 +4,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static org.objectweb.asm.Opcodes.*;
 
@@ -47,7 +46,11 @@ public class ParameterInterceptor {
     private void unboxPrimitiveValue(Type type) {
         switch (type.getDescriptor()) {
             case "I" -> {
+                mv.visitTypeInsn(CHECKCAST, "java/lang/Integer");
                 mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
+            }
+            default -> {
+                mv.visitTypeInsn(CHECKCAST, type.getInternalName());
             }
         }
     }
