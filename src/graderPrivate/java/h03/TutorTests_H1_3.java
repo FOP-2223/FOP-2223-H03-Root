@@ -81,7 +81,8 @@ public class TutorTests_H1_3 {
     @ExtendWith(TestCycleResolver.class)
     public void addToDirectionOfOffspringDeclaredCorrectlyAndPassesBaseTests(int x, int y, Direction direction,
                                                                              int numberOfCoins, int directionToAssign,
-                                                                             Direction expectedResultDirection, @NotNull TestCycle testCycle) throws IllegalAccessException {
+                                                                             Direction expectedResultDirection,
+                                                                             @NotNull TestCycle testCycle) throws IllegalAccessException {
         final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
         testCycle.getClassLoader().visitClass(className, new FloorModCheckTransformer());
 
@@ -155,7 +156,9 @@ public class TutorTests_H1_3 {
         offspringField.setAccessible(true);
         offspringField.set(robotInstance, offspring);
 
-        assertDoesNotThrow(() -> methodTester.invoke(valueToAssign));
+        assertDoesNotThrow(() -> methodTester.invoke(valueToAssign),
+            String.format("Die Methode \"%s\" wirft eine Exception beim Aufruf.",
+                methodName));
 
         var newValue = valueGetter.getValue(offspring);
         assertEquals(expectedResultValue, newValue,
