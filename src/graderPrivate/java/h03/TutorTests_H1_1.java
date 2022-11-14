@@ -92,7 +92,7 @@ public class TutorTests_H1_1 {
     @CsvFileSource(resources = "/TutorTests_H1_1-constructorSetsAttributesCorrectly.csv", numLinesToSkip = 1)
     @DisplayName("Konstruktor setzt \"numberOfColumnsOfWorld\" und \"numberOfRowsOfWorld\" korrekt.")
     @SuppressWarnings("unchecked")
-    public void constructorSetsAttributesCorrectly(int numberOfColumnsOfWorld, int numberOfRowsOfWorld) {
+    public void constructorSetsAttributesCorrectly(int numberOfColumnsOfWorld, int numberOfRowsOfWorld) throws IllegalAccessException {
         var numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", 0.8, int.class);
         var numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", 0.8, int.class);
         var directionParameterMatcher = new ParameterMatcher("direction", 0.8, Direction.class);
@@ -120,8 +120,13 @@ public class TutorTests_H1_1 {
             String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
                 numberOfRowsOfWorldField.getName()));
 
-        robotWithOffspringCT.assertFieldEquals(numberOfColumnsOfWorldField, numberOfColumnsOfWorld);
-        robotWithOffspringCT.assertFieldEquals(numberOfRowsOfWorldField, numberOfRowsOfWorld);
+        numberOfColumnsOfWorldField.setAccessible(true);
+        var actualNumberOfColumns = numberOfColumnsOfWorldField.get(robotWithOffspringCT.getClassInstance());
+        assertEquals(actualNumberOfColumns, numberOfColumnsOfWorld, "Die Anzahl der Spalten wird nicht korrekt gesetzt.");
+
+        numberOfRowsOfWorldField.setAccessible(true);
+        var actualNumberOfRows = numberOfRowsOfWorldField.get(robotWithOffspringCT.getClassInstance());
+        assertEquals(actualNumberOfRows, numberOfRowsOfWorld, "Die Anzahl der Zeilen wird nicht korrekt gesetzt.");
     }
 
     // DONE
