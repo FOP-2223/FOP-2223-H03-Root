@@ -153,13 +153,13 @@ public class H03_RubricProvider implements RubricProvider {
         var H3_1 = new ChildCollectionCriterionBuilder("H3.1 | Klasse mit Robotern", H3_1_T1, H3_1_T2, H3_1_T3, H3_1_T4);
 
         var H3_2_T1 = new OnePointCriterionBuilder("TwinRobots wird mindestens noch drei weitere Male getestet.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNumberOfInvocations", TestCycle.class)));
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNumberOfInvocations")));
         var H3_2_T2 = new OnePointCriterionBuilder(
             "addToDirectionOfBothOffsprings wird mindestens einmal mit einer negativen Zahl als Parameter aufgerufen.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNegativeArgument", TestCycle.class)));
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNegativeArgument")));
         var H3_2_T3 = new OnePointCriterionBuilder(
             "Einer der Testfälle läuft ab, während das directionAccu-Attribut von RobotWithOffspring2 negativ ist.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNegativeFieldValue", TestCycle.class)));
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNegativeFieldValue")));
         var H3_2 = new ChildCollectionCriterionBuilder("H3.2 | Testen", H3_2_T1, H3_2_T2, H3_2_T3);
 
         var H3 = new ChildCollectionCriterionBuilder("H3 | Klasse mit Robotern und Tests", H3_1, H3_2);
