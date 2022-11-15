@@ -3,10 +3,9 @@ package h03;
 import fopbot.Direction;
 import h03.utils.ChildCollectionCriterionBuilder;
 import h03.utils.OnePointCriterionBuilder;
+import h03.utils.RubricBuilder;
 import org.sourcegrade.jagr.api.rubric.*;
 import org.sourcegrade.jagr.api.testing.TestCycle;
-
-import java.util.List;
 
 public class H03_RubricProvider implements RubricProvider {
     /*
@@ -83,20 +82,20 @@ public class H03_RubricProvider implements RubricProvider {
             JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod("initOffspringImplementedCorrectly", int.class,
                 int.class, Direction.class, int.class)));
 
-        var H1_2_T3 = new OnePointCriterionBuilder("Die get-Methoden für den offspring wurden korrekt deklariert und " +
-            "implementiert.",
+        var H1_2_T3 = new OnePointCriterionBuilder(
+            "Die get-Methoden für den offspring wurden korrekt deklariert und implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod(
                 "allOffspringGetterMethodsCorrectlyDeclaredAndImplemented", int.class, int.class, Direction.class, int.class)));
 
-        var H1_2_T4 = new OnePointCriterionBuilder("Die Methode \"offspringIsInitialized\" wurde korrekt deklariert und " +
-            "implementiert.",
+        var H1_2_T4 = new OnePointCriterionBuilder(
+            "Die Methode \"offspringIsInitialized\" wurde korrekt deklariert und implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_2.class.getMethod("offspringIsInitializedDeclaredAndImplementedCorrectly")));
 
         var H1_2 = new ChildCollectionCriterionBuilder("H1.2 | Attribut vom Referenztyp und get-Methoden für dessen Attribute",
             H1_2_T1, H1_2_T2, H1_2_T3, H1_2_T4);
 
-        var H1_3_T1 = new OnePointCriterionBuilder(" Die Methoden \"addToXOfOffspring\" und \"addToYOfOffspring\" wurden " +
-            "korrekt deklariert und implementiert.",
+        var H1_3_T1 = new OnePointCriterionBuilder(
+            "Die Methoden \"addToXOfOffspring\" und \"addToYOfOffspring\" wurden korrekt deklariert und implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
                 "addToXOfOffspringDeclaredAndImplementedCorrectly",
                 int.class, int.class, Direction.class, int.class, int.class, int.class)),
@@ -104,20 +103,20 @@ public class H03_RubricProvider implements RubricProvider {
                 "addToYOfOffspringDeclaredAndImplementedCorrectly",
                 int.class, int.class, Direction.class, int.class, int.class, int.class)));
 
-        var H1_3_T2 = new OnePointCriterionBuilder("Die Methode \"addToNumberOfCoinsOfOffspring\" wurde korrekt deklariert und " +
-            "implementiert.",
+        var H1_3_T2 = new OnePointCriterionBuilder(
+            "Die Methode \"addToNumberOfCoinsOfOffspring\" wurde korrekt deklariert und implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
                 "addToNumberOfCoinsOfOffspringDeclaredAndImplementedCorrectly",
                 int.class, int.class, Direction.class, int.class, int.class, int.class)));
 
-        var H1_3_T3 = new OnePointCriterionBuilder("Die Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die " +
-            "Implementierung besteht einfache Testfälle.",
+        var H1_3_T3 = new OnePointCriterionBuilder(
+            "Die Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die Implementierung besteht einfache Testfälle.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
                 "addToDirectionOfOffspringDeclaredCorrectlyAndPassesBaseTests", int.class, int.class, Direction.class,
                 int.class, int.class, Direction.class, TestCycle.class)));
 
-        var H1_3_T4 = new OnePointCriterionBuilder("Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die " +
-            "Implementierung besteht komplexe und Rand-Testfälle.",
+        var H1_3_T4 = new OnePointCriterionBuilder(
+            "Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die Implementierung besteht komplexe und Rand-Testfälle.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod("addToDirectionOfOffspringDeclaredCorrectlyAndPassesAdvancedTests",
                 int.class, int.class, Direction.class, int.class, int.class, Direction.class, TestCycle.class)));
 
@@ -135,73 +134,36 @@ public class H03_RubricProvider implements RubricProvider {
         var H2_T4 = new OnePointCriterionBuilder("Methode \"getDirectionFromAccu\" funktioniert für normale Werte wie erwartet.",
             JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod("testGetDirectionFromAccu_normal", int.class, Direction.class)));
         var H2_T5 = new OnePointCriterionBuilder("Methode \"getDirectionFromAccu\" funktioniert für kompliziertere Werte wie erwartet.");
-        var H2_T6 = new OnePointCriterionBuilder("Die überschriebene Methode \"addToDirectionOfOffspring\" wurde korrekt " +
-            "implementiert.",
+        var H2_T6 = new OnePointCriterionBuilder(
+            "Die überschriebene Methode \"addToDirectionOfOffspring\" wurde korrekt implementiert.",
             JUnitTestRef.ofMethod(() -> TutorTests_H2.class.getMethod("testAddToDirectionOfOffspring",
                 Direction.class, int.class, int.class, Direction.class)));
 
         var H2 = new ChildCollectionCriterionBuilder("H2 | Roboter mit überschriebenen Methoden",
             H2_T1, H2_T2, H2_T3, H2_T4, H2_T5, H2_T6);
 
-        Grader grader = (testCycle, criterion) -> new GradeResult() {
-            @Override
-            public int getMinPoints() {
-                return 0;
-            }
-
-            @Override
-            public int getMaxPoints() {
-                return 1;
-            }
-
-            @Override
-            public List<String> getComments() {
-                return List.of("not tested by public grader");
-            }
-        };
-
         var H3_1_T1 = new OnePointCriterionBuilder("Das Attribut robots ist korrekt deklariert.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("testRobotsField")))
-            .build();
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("testRobotsField")));
         var H3_1_T2 = new OnePointCriterionBuilder("Der Konstruktor ist korrekt implementiert.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("testTwinRobotsConstructor", int.class, int.class, TestCycle.class)))
-            .build();
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("testTwinRobotsConstructor", int.class, int.class, TestCycle.class)));
         var H3_1_T3 = new OnePointCriterionBuilder("Methode getRobotsByIndex ist korrekt implementiert.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("testGetRobotByIndex")))
-            .build();
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("testGetRobotByIndex")));
         var H3_1_T4 = new OnePointCriterionBuilder("Methode addToDirectionOfBothOffsprings ist korrekt implementiert.",
-            JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("testAddToDirectionOfBothOffsprings", TestCycle.class)))
-            .build();
-        var H3_1 = Criterion.builder()
-            .shortDescription("H3.1 | Klasse mit Robotern")
-            .addChildCriteria(H3_1_T1, H3_1_T2, H3_1_T3, H3_1_T4)
-            .build();
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_1.class.getMethod("testAddToDirectionOfBothOffsprings", TestCycle.class)));
+        var H3_1 = new ChildCollectionCriterionBuilder("H3.1 | Klasse mit Robotern", H3_1_T1, H3_1_T2, H3_1_T3, H3_1_T4);
 
-        var H3_2_T1 = Criterion.builder()
-            .shortDescription("TwinRobots wird mindestens noch drei weitere Male getestet.")
-            .grader(grader)
-            .build();
-        var H3_2_T2 = Criterion.builder()
-            .shortDescription("addToDirectionOfBothOffsprings wird mindestens einmal mit einer negativen Zahl als Parameter aufgerufen.")
-            .grader(grader)
-            .build();
-        var H3_2_T3 = Criterion.builder()
-            .shortDescription("Einer der Testfälle läuft ab, während das directionAccu-Attribut von RobotWithOffspring2 negativ ist.")
-            .grader(grader)
-            .build();
-        var H3_2 = Criterion.builder()
-            .shortDescription("H3.2 | Testen")
-            .addChildCriteria(H3_2_T1, H3_2_T2, H3_2_T3)
-            .build();
+        var H3_2_T1 = new OnePointCriterionBuilder("TwinRobots wird mindestens noch drei weitere Male getestet.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNumberOfInvocations", TestCycle.class)));
+        var H3_2_T2 = new OnePointCriterionBuilder(
+            "addToDirectionOfBothOffsprings wird mindestens einmal mit einer negativen Zahl als Parameter aufgerufen.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNegativeArgument", TestCycle.class)));
+        var H3_2_T3 = new OnePointCriterionBuilder(
+            "Einer der Testfälle läuft ab, während das directionAccu-Attribut von RobotWithOffspring2 negativ ist.",
+            JUnitTestRef.ofMethod(() -> TutorTests_H3_2.class.getDeclaredMethod("testNegativeFieldValue", TestCycle.class)));
+        var H3_2 = new ChildCollectionCriterionBuilder("H3.2 | Testen", H3_2_T1, H3_2_T2, H3_2_T3);
 
-        var H3 = Criterion.builder()
-            .shortDescription("H3 | Klasse mit Robotern und Tests")
-            .addChildCriteria(H3_1, H3_2)
-            .build();
+        var H3 = new ChildCollectionCriterionBuilder("H3 | Klasse mit Robotern und Tests", H3_1, H3_2);
 
-        return Rubric.builder()
-            .title("H03 | Ihr Upgrade in die First Class")
-            .addChildCriteria(H1.build(), H2.build(), H3)
-            .build();
+        return new RubricBuilder("H03 | Ihr Upgrade in die First Class", H1, H2, H3).build();
     }
 }
