@@ -210,7 +210,7 @@ public class TutorTests_H2 {
         Context context = contextBuilder()
             .add("offspring", robot)
             .add("directionAccu", directionAccu)
-            .add("directionToBeAdded", directionAccu)
+            .add("directionToBeAdded", directionToBeAdded)
             .build();
         addToDirectionOfOffspringMethod.invoke(instance, directionToBeAdded);
 
