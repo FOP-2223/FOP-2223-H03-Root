@@ -113,12 +113,12 @@ public class H03_RubricProvider implements RubricProvider {
             "Die Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die Implementierung besteht einfache Testfälle.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod(
                 "addToDirectionOfOffspringDeclaredCorrectlyAndPassesBaseTests", int.class, int.class, Direction.class,
-                int.class, int.class, Direction.class, TestCycle.class)));
+                int.class, int.class, Direction.class)));
 
         var H1_3_T4 = new OnePointCriterionBuilder(
             "Methode \"addToDirectionOfOffspring\" wurde korrekt deklariert und die Implementierung besteht komplexe und Rand-Testfälle.",
             JUnitTestRef.ofMethod(() -> TutorTests_H1_3.class.getMethod("addToDirectionOfOffspringDeclaredCorrectlyAndPassesAdvancedTests",
-                int.class, int.class, Direction.class, int.class, int.class, Direction.class, TestCycle.class)));
+                int.class, int.class, Direction.class, int.class, int.class, Direction.class)));
 
         var H1_3 = new ChildCollectionCriterionBuilder("H1.3 | Attributwerte relativ zum momentanen Wert ändern",
             H1_3_T1, H1_3_T2, H1_3_T3, H1_3_T4);
