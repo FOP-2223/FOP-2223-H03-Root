@@ -2,7 +2,6 @@ package h03;
 
 import fopbot.Direction;
 import fopbot.World;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,8 +26,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @TestForSubmission
-@DisplayName("H1.1")
+@ExtendWith(TestCycleResolver.class)
 public class TutorTests_H1_1 {
+
+    public static boolean classTransformed = false;
+    public static Class<?> sut;
+
+    public TutorTests_H1_1(TestCycle testCycle) {
+        if (!classTransformed) {
+            String className = robotWithOffspringCT.findClass().getName();
+            sut = testCycle.getClassLoader()
+                .loadClass(className, ClassTransformer.injectSuperclass(className, TutorRobot.class.getName()));
+            classTransformed = true;
+        }
+    }
+
     @BeforeAll
     public static void setup() {
         World.reset();
@@ -133,17 +145,12 @@ public class TutorTests_H1_1 {
     @ParameterizedTest
     @CsvFileSource(resources = "/TutorTests_H1_1-constructorCallsSuperConstructorCorrectly.csv", numLinesToSkip = 1)
     @DisplayName("Konstruktor ruft super-Konstruktor von \"Robot\" korrekt auf.")
-    @ExtendWith(TestCycleResolver.class)
     public void constructorCallsSuperConstructorCorrectly(int numberOfColumnsOfWorld, int numberOfRowsOfWorld,
                                                           Direction direction, int numberOfCoins,
-                                                          int expectedX, int expectedY, @NotNull TestCycle testCycle) {
+                                                          int expectedX, int expectedY) {
         final var className = robotWithOffspringCT.assureClassResolved().getTheClass().getName();
-        var sut = testCycle.getClassLoader().loadClass(className,
-            ClassTransformer.injectSuperclass(className, TutorRobot.class.getName()));
-
         var constructor = assertDoesNotThrow(() -> sut.getConstructor(int.class, int.class, Direction.class, int.class),
             String.format("Der Konstruktor der Klasse  \"%s\" wurde nicht korrekt deklariert.", className));
-
         TutorRobot robot;
 
         try {
