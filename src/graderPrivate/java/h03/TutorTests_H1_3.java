@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.opentest4j.AssertionFailedError;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
@@ -21,6 +22,7 @@ import org.tudalgo.algoutils.reflect.MethodTester;
 import org.tudalgo.algoutils.reflect.ParameterMatcher;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,6 +153,25 @@ public class TutorTests_H1_3 {
 
         call(() -> methodTester.invoke(13), emptyContext(), result ->
             "Die Methode " + methodName + " wirft eine Exception, wenn der offspring nicht initialisiert ist.");
+
+        // Both the initOffspring method is called (if found) and the offspring is set manually via reflection. Here's the reasoning:
+        // We want to make sure that we give points for this method even if initOffspring is implemented wrongly, so we set
+        // the offspring manually.
+        // We still call initOffspring if found, in case the student does not check for null, but
+        // sets a boolean variable indicating whether the offspring has been initialized (since this would
+        // also be a valid solution).
+        try {
+            var initOffspringMethodTester = new MethodTester(robotWithOffspringCT.assureClassResolved(),
+                "initOffspring", 0.8, Modifier.PUBLIC,
+                void.class,
+                new ArrayList<>(List.of(
+                    new ParameterMatcher("direction", 0.8, Direction.class),
+                    new ParameterMatcher("numberOfCoins", 0.8, int.class)
+                ))).resolveMethod();
+            initOffspringMethodTester.invoke(robotInstance, Direction.UP, 0);
+        } catch (AssertionFailedError | InvocationTargetException ex) {
+            // Nothing to do. The method should be called if found, but we ignore it if not.
+        }
 
         offspringField.trySetAccessible();
         offspringField.set(robotInstance, offspring);
