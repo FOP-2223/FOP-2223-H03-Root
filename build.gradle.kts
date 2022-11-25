@@ -64,3 +64,5 @@ tasks {
         targetCompatibility = "17"
     }
 }
+
+jagr.graders["graderPrivate"].disableTimeouts()

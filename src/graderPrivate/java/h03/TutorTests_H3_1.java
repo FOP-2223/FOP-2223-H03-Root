@@ -28,9 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static h03.H03_Class_Testers.robotWithOffspring2CT;
-import static h03.H03_Class_Testers.robotWithOffspringCT;
-import static h03.H03_Class_Testers.twinRobotsCT;
+import static h03.H03_Class_Testers.*;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 @TestForSubmission
@@ -57,7 +55,7 @@ public class TutorTests_H3_1 {
     @DisplayName("Attribut \"robots\" wurde korrekt deklariert.")
     public void testRobotsField() {
         robotsField = twinRobotsCT.resolve().resolveAttribute(
-            new AttributeMatcher("robots", 1, Modifier.PRIVATE, robotWithOffspringCT.assureClassResolved().getClass()));
+            new AttributeMatcher("robots", MIN_SIM, Modifier.PRIVATE, robotWithOffspringCT.assureClassResolved().getClass()));
 
         assertTrue(robotsField.getType().isArray(), emptyContext(), result -> "expected field robots to be an array but it isn't");
         robotsField.trySetAccessible();
@@ -75,8 +73,8 @@ public class TutorTests_H3_1 {
             fail(emptyContext(), result -> "Field robots could not be resolved");
         }
 
-        ParameterMatcher numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", 0.8, int.class);
-        ParameterMatcher numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", 0.8, int.class);
+        ParameterMatcher numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", MIN_SIM_PARAM, int.class);
+        ParameterMatcher numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", MIN_SIM_PARAM, int.class);
         Constructor<Object> constructor = (Constructor<Object>) twinRobotsCT.resolveConstructor(
             numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher);
 
@@ -138,9 +136,9 @@ public class TutorTests_H3_1 {
     @Order(3)
     @DisplayName("Methode \"getRobotByIndex\" wurde korrekt deklariert.")
     public void testGetRobotByIndex() throws ReflectiveOperationException {
-        MethodTester methodTester = new MethodTester(twinRobotsCT.resolve(), "getRobotByIndex", 1, Modifier.PUBLIC,
+        MethodTester methodTester = new MethodTester(twinRobotsCT.resolve(), "getRobotByIndex", MIN_SIM, Modifier.PUBLIC,
             robotWithOffspringCT.assureClassResolved().getTheClass(),
-            new ArrayList<>(List.of(new ParameterMatcher("index", 0, int.class)))).verify();
+            new ArrayList<>(List.of(new ParameterMatcher("index", MIN_SIM_PARAM, int.class)))).verify();
 
         Object twinRobotsInstance = twinRobotsCT.resolve().getClassInstance();
         var array = new RobotWithOffspring[2];
@@ -167,10 +165,10 @@ public class TutorTests_H3_1 {
     public void testAddToDirectionOfBothOffsprings(TestCycle testCycle) throws ReflectiveOperationException {
         MethodTester methodTester = new MethodTester(twinRobotsCT.resolve(),
             "addToDirectionOfBothOffsprings",
-            1,
+            MIN_SIM,
             Modifier.PUBLIC,
             void.class,
-            new ArrayList<>(List.of(new ParameterMatcher("directionToBeAdded", 0, int.class)))).verify();
+            new ArrayList<>(List.of(new ParameterMatcher("directionToBeAdded", MIN_SIM_PARAM, int.class)))).verify();
         Class<?> twinRobotsClass = testCycle.getClassLoader().loadClass(twinRobotsCT.findClass().getName(),
             new ClassTransformerTemplate(twinRobotsCT.getTheClass().getName(), H3_1_Transformers.ADD_TO_DIRECTION_OF_OFFSPRING_TRANSFORMER));
         Field robotsField = twinRobotsClass.getDeclaredField("robots");

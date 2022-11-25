@@ -23,8 +23,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import static h03.H03_Class_Testers.robotWithOffspring2CT;
-import static h03.H03_Class_Testers.robotWithOffspringCT;
+import static h03.H03_Class_Testers.*;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 @TestForSubmission
@@ -63,7 +62,7 @@ public class TutorTests_H2 {
         }
 
         directionAccuField = robotWithOffspring2CT.resolve().resolveAttribute(
-            new AttributeMatcher("directionAccu", 1, Modifier.PRIVATE, int.class));
+            new AttributeMatcher("directionAccu", MIN_SIM, Modifier.PRIVATE, int.class));
         directionAccuField.trySetAccessible();
     }
 
@@ -127,10 +126,10 @@ public class TutorTests_H2 {
             fail(emptyContext(), result -> "Field directionAccu could not be resolved");
         }
 
-        Method initOffspringMethod = new MethodTester(robotWithOffspring2CT.resolve(), "initOffspring", 1, Modifier.PUBLIC, void.class,
+        Method initOffspringMethod = new MethodTester(robotWithOffspring2CT.resolve(), "initOffspring", MIN_SIM, Modifier.PUBLIC, void.class,
             new ArrayList<>(List.of(
-                new ParameterMatcher("direction", 0, Direction.class),
-                new ParameterMatcher("numberOfCoins", 0, int.class)
+                new ParameterMatcher("direction", MIN_SIM_PARAM, Direction.class),
+                new ParameterMatcher("numberOfCoins", MIN_SIM_PARAM, int.class)
             )))
             .resolveMethod();
         String className = robotWithOffspring2CT.assureClassResolved().getTheClass().getName();
@@ -161,7 +160,7 @@ public class TutorTests_H2 {
     public void testGetDirectionFromAccu_normal(int directionAccu, Direction expectedDirection) throws ReflectiveOperationException {
         if (getDirectionFromAccuMethod == null) {
             getDirectionFromAccuMethod = new MethodTester(robotWithOffspring2CT.resolve(),
-                "getDirectionFromAccu", 0.8, Direction.class, new ArrayList<>()).resolveMethod();
+                "getDirectionFromAccu", MIN_SIM, Direction.class, new ArrayList<>()).resolveMethod();
             getDirectionFromAccuMethod.trySetAccessible();
         }
 
@@ -196,10 +195,10 @@ public class TutorTests_H2 {
         if (addToDirectionOfOffspringMethod == null) {
             addToDirectionOfOffspringMethod = new MethodTester(robotWithOffspring2CT.resolve(),
                 "addToDirectionOfOffspring",
-                1,
+                MIN_SIM,
                 Modifier.PUBLIC,
                 void.class,
-                new ArrayList<>(List.of(new ParameterMatcher("directionToBeAdded", 0, int.class)))
+                new ArrayList<>(List.of(new ParameterMatcher("directionToBeAdded", MIN_SIM_PARAM, int.class)))
             ).resolveMethod();
         }
 

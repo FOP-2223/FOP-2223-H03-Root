@@ -27,7 +27,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import static h03.H03_Class_Testers.robotWithOffspringCT;
+import static h03.H03_Class_Testers.*;
 import static h03.transform.H1_3_Transformers.floorModInsnPresent;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
@@ -121,7 +121,7 @@ public class TutorTests_H1_3 {
                                      int valueToAssign, T expectedResultValue, boolean setWorldSize) throws IllegalAccessException {
         ClassTester<?> ct = robotWithOffspringCT.resolve();
         Field offspringField = ct.resolveAttribute(
-            new AttributeMatcher("offspring", 0.8, Robot.class));
+            new AttributeMatcher("offspring", MIN_SIM, Robot.class));
 
         assertFalse(offspringField.getType().isArray(), emptyContext(), result ->
             "Der Datentyp von Attribut " + offspringField.getName() + " ist ein Array, sollte aber kein Array sein.");
@@ -130,7 +130,7 @@ public class TutorTests_H1_3 {
 
         if (setWorldSize) {
             Field numberOfColumnsOfWorldField = ct.resolveAttribute(
-                new AttributeMatcher("numberOfColumnsOfWorld", 0.8, int.class));
+                new AttributeMatcher("numberOfColumnsOfWorld", MIN_SIM, int.class));
             assertFalse(numberOfColumnsOfWorldField.getType().isArray(), emptyContext(), result ->
                 "Der Datentyp von Attribut " + numberOfColumnsOfWorldField.getName() + " ist ein Array, sollte aber kein Array sein.");
 
@@ -138,7 +138,7 @@ public class TutorTests_H1_3 {
             numberOfColumnsOfWorldField.set(robotInstance, World.getWidth());
 
             Field numberOfRowsOfWorldField = ct.resolveAttribute(
-                new AttributeMatcher("numberOfRowsOfWorld", 0.8, int.class));
+                new AttributeMatcher("numberOfRowsOfWorld", MIN_SIM, int.class));
             assertFalse(numberOfRowsOfWorldField.getType().isArray(), emptyContext(), result ->
                 "Der Datentyp von Attribut " + numberOfRowsOfWorldField.getName() + " ist ein Array, sollte aber kein Array sein.");
 
@@ -146,9 +146,9 @@ public class TutorTests_H1_3 {
             numberOfRowsOfWorldField.set(robotInstance, World.getHeight());
         }
 
-        var methodTester = new MethodTester(ct, methodName, 0.8, Modifier.PUBLIC, void.class,
+        var methodTester = new MethodTester(ct, methodName, MIN_SIM, Modifier.PUBLIC, void.class,
             new ArrayList<>(List.of(
-                new ParameterMatcher("foobar", 0, int.class)
+                new ParameterMatcher("foobar", MIN_SIM_PARAM, int.class)
             ))).verify();
 
         call(() -> methodTester.invoke(13), emptyContext(), result ->
@@ -162,11 +162,11 @@ public class TutorTests_H1_3 {
         // also be a valid solution).
         try {
             var initOffspringMethodTester = new MethodTester(robotWithOffspringCT.assureClassResolved(),
-                "initOffspring", 0.8, Modifier.PUBLIC,
+                "initOffspring", MIN_SIM, Modifier.PUBLIC,
                 void.class,
                 new ArrayList<>(List.of(
-                    new ParameterMatcher("direction", 0.8, Direction.class),
-                    new ParameterMatcher("numberOfCoins", 0.8, int.class)
+                    new ParameterMatcher("direction", MIN_SIM_PARAM, Direction.class),
+                    new ParameterMatcher("numberOfCoins", MIN_SIM_PARAM, int.class)
                 ))).resolveMethod();
             initOffspringMethodTester.invoke(robotInstance, Direction.UP, 0);
         } catch (AssertionFailedError | InvocationTargetException ex) {

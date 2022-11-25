@@ -21,7 +21,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import static h03.H03_Class_Testers.robotWithOffspringCT;
+import static h03.H03_Class_Testers.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -43,7 +43,7 @@ public class TutorTests_H1_2 {
     @DisplayName("Attribut \"offspring\" wurde korrekt deklariert.")
     public void offspringDeclaredCorrectly() {
         var attribute = robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("offspring", 1, Modifier.PROTECTED, Robot.class));
+            new AttributeMatcher("offspring", MIN_SIM, Modifier.PROTECTED, Robot.class));
 
         assertFalse(attribute.getType().isArray(),
             "Der Datentyp von Attribut \"offspring\" ist ein Array, sollte aber kein Array sein.");
@@ -53,11 +53,11 @@ public class TutorTests_H1_2 {
     @Test
     @DisplayName("Methode \"initOffspring\" wurde korrekt deklariert.")
     public void initOffspringDeclaredCorrectly() {
-        new MethodTester(robotWithOffspringCT.resolve(), "initOffspring", 0.8, Modifier.PUBLIC,
+        new MethodTester(robotWithOffspringCT.resolve(), "initOffspring", MIN_SIM, Modifier.PUBLIC,
             void.class,
             new ArrayList<>(List.of(
-                new ParameterMatcher("direction", 0.8, Direction.class),
-                new ParameterMatcher("numberOfCoins", 0.8, int.class)
+                new ParameterMatcher("direction", MIN_SIM_PARAM, Direction.class),
+                new ParameterMatcher("numberOfCoins", MIN_SIM_PARAM, int.class)
             ))).verify();
     }
 
@@ -67,16 +67,16 @@ public class TutorTests_H1_2 {
     @DisplayName("Methode \"initOffspring\" wurde korrekt implementiert.")
     public void initOffspringImplementedCorrectly(int x, int y, Direction direction, int numberOfCoins) throws NoSuchFieldException, NoSuchMethodException, IllegalAccessException {
         final Field offspringField = robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("offspring", 0.8, Robot.class));
+            new AttributeMatcher("offspring", MIN_SIM, Robot.class));
         assertFalse(offspringField.getType().isArray(),
             String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
                 offspringField.getName()));
 
         var methodTester = new MethodTester(robotWithOffspringCT
-            .resolve(), "initOffspring", 0.8, Modifier.PUBLIC,
+            .resolve(), "initOffspring", MIN_SIM, Modifier.PUBLIC,
             void.class, new ArrayList<>(List.of(
-            new ParameterMatcher("direction", 0.8, Direction.class),
-            new ParameterMatcher("numberOfCoins", 0.8, int.class)))).verify();
+            new ParameterMatcher("direction", MIN_SIM_PARAM, Direction.class),
+            new ParameterMatcher("numberOfCoins", MIN_SIM_PARAM, int.class)))).verify();
 
         Robot robotInstance = (Robot) robotWithOffspringCT.resolveRealInstance().getClassInstance();
 
@@ -107,7 +107,7 @@ public class TutorTests_H1_2 {
     public void allOffspringGetterMethodsCorrectlyDeclaredAndImplemented(int x, int y, Direction direction, int numberOfCoins) throws IllegalAccessException {
         ClassTester<?> ct = robotWithOffspringCT.resolve();
         Field offspringField = ct.resolveAttribute(
-            new AttributeMatcher("offspring", 0.8, Robot.class));
+            new AttributeMatcher("offspring", MIN_SIM, Robot.class));
         assertFalse(offspringField.getType().isArray(),
             String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
                 offspringField.getName()));
@@ -124,7 +124,7 @@ public class TutorTests_H1_2 {
     }
 
     private void testGetterMethod(String getterName, Class<?> returnType, ClassTester<?> ct, Object expectedValue) {
-        var methodTester = new MethodTester(ct, getterName, 0.8, Modifier.PUBLIC,
+        var methodTester = new MethodTester(ct, getterName, MIN_SIM, Modifier.PUBLIC,
             returnType, new ArrayList<>()).verify();
         var returnValue = methodTester.invoke();
 
@@ -137,7 +137,7 @@ public class TutorTests_H1_2 {
     @DisplayName("Methode \"offspringIsInitialized\" wurde korrekt deklariert und implementiert.")
     public void offspringIsInitializedDeclaredAndImplementedCorrectly() throws IllegalAccessException {
         Field offspringField = robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("offspring", 0.8, Robot.class));
+            new AttributeMatcher("offspring", MIN_SIM, Robot.class));
         assertFalse(offspringField.getType().isArray(),
             String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
                 offspringField.getName()));
@@ -145,7 +145,7 @@ public class TutorTests_H1_2 {
         var methodTester = new MethodTester(
             robotWithOffspringCT.assureClassResolved(),
             "offspringIsInitialized",
-            0.8,
+            MIN_SIM,
             Modifier.PUBLIC,
             boolean.class,
             new ArrayList<>()).verify();
@@ -164,11 +164,11 @@ public class TutorTests_H1_2 {
         // also be a valid solution).
         try {
             var initOffspringMethodTester = new MethodTester(robotWithOffspringCT.assureClassResolved(),
-                "initOffspring", 0.8, Modifier.PUBLIC,
+                "initOffspring", MIN_SIM, Modifier.PUBLIC,
                 void.class,
                 new ArrayList<>(List.of(
-                    new ParameterMatcher("direction", 0.8, Direction.class),
-                    new ParameterMatcher("numberOfCoins", 0.8, int.class)
+                    new ParameterMatcher("direction", MIN_SIM_PARAM, Direction.class),
+                    new ParameterMatcher("numberOfCoins", MIN_SIM_PARAM, int.class)
                 ))).resolveMethod();
             initOffspringMethodTester.invoke(robotInstance, Direction.UP, 0);
         } catch (AssertionFailedError | InvocationTargetException ex) {

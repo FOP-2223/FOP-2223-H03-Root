@@ -19,7 +19,7 @@ import org.tudalgo.algoutils.reflect.ParameterMatcher;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
-import static h03.H03_Class_Testers.robotWithOffspringCT;
+import static h03.H03_Class_Testers.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -53,7 +53,7 @@ public class TutorTests_H1_1 {
     @Test
     @DisplayName("Klasse \"RobotWithOffspring\" wurde korrekt deklariert.")
     public void classRobotWithOffspringDeclaredCorrectly() {
-        robotWithOffspringCT.verify(1);
+        robotWithOffspringCT.verify(MIN_SIM);
     }
 
     // DONE
@@ -61,7 +61,7 @@ public class TutorTests_H1_1 {
     @DisplayName("Attribut \"numberOfColumnsOfWorld\" wurde korrekt deklariert.")
     public void numberOfColumnsOfWorldDeclaredCorrectly() {
         var attribute = robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("numberOfColumnsOfWorld", 1, Modifier.PRIVATE | Modifier.FINAL,
+            new AttributeMatcher("numberOfColumnsOfWorld", MIN_SIM, Modifier.PRIVATE | Modifier.FINAL,
                 int.class));
 
         assertFalse(attribute.getType().isArray(),
@@ -73,7 +73,7 @@ public class TutorTests_H1_1 {
     @DisplayName("Attribut \"numberOfRowsOfWorld\" wurde korrekt deklariert.")
     public void numberOfRowsOfWorldDeclaredCorrectly() {
         var attribute = robotWithOffspringCT.resolve().resolveAttribute(
-            new AttributeMatcher("numberOfRowsOfWorld", 1, Modifier.PRIVATE | Modifier.FINAL,
+            new AttributeMatcher("numberOfRowsOfWorld", MIN_SIM, Modifier.PRIVATE | Modifier.FINAL,
                 int.class));
 
         assertFalse(attribute.getType().isArray(),
@@ -85,10 +85,10 @@ public class TutorTests_H1_1 {
     @DisplayName("Konstruktor von \"RobotWithOffspring\" wurde korrekt deklariert.")
     @SuppressWarnings("unchecked")
     public void constructorDeclaredCorrectly() {
-        var numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", 0.8, int.class);
-        var numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", 0.8, int.class);
-        var directionParameterMatcher = new ParameterMatcher("direction", 0.8, Direction.class);
-        var numberOfCoinsOfWorldParameterMatcher = new ParameterMatcher("numberOfCoins", 0.8, int.class);
+        var numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", MIN_SIM_PARAM, int.class);
+        var numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", MIN_SIM_PARAM, int.class);
+        var directionParameterMatcher = new ParameterMatcher("direction", MIN_SIM_PARAM, Direction.class);
+        var numberOfCoinsOfWorldParameterMatcher = new ParameterMatcher("numberOfCoins", MIN_SIM_PARAM, int.class);
 
         var constructor = (Constructor<Object>) robotWithOffspringCT.assureClassResolved().resolveConstructor(
             numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher,
@@ -105,10 +105,10 @@ public class TutorTests_H1_1 {
     @DisplayName("Konstruktor setzt \"numberOfColumnsOfWorld\" und \"numberOfRowsOfWorld\" korrekt.")
     @SuppressWarnings("unchecked")
     public void constructorSetsAttributesCorrectly(int numberOfColumnsOfWorld, int numberOfRowsOfWorld) throws IllegalAccessException {
-        var numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", 0.8, int.class);
-        var numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", 0.8, int.class);
-        var directionParameterMatcher = new ParameterMatcher("direction", 0.8, Direction.class);
-        var numberOfCoinsOfWorldParameterMatcher = new ParameterMatcher("numberOfCoins", 0.8, int.class);
+        var numberOfColumnsOfWorldParameterMatcher = new ParameterMatcher("numberOfColumnsOfWorld", MIN_SIM_PARAM, int.class);
+        var numberOfRowsOfWorldParameterMatcher = new ParameterMatcher("numberOfRowsOfWorld", MIN_SIM_PARAM, int.class);
+        var directionParameterMatcher = new ParameterMatcher("direction", MIN_SIM_PARAM, Direction.class);
+        var numberOfCoinsOfWorldParameterMatcher = new ParameterMatcher("numberOfCoins", MIN_SIM_PARAM, int.class);
 
         var constructor = (Constructor<Object>) robotWithOffspringCT.assureClassResolved().resolveConstructor(
             numberOfColumnsOfWorldParameterMatcher, numberOfRowsOfWorldParameterMatcher,
@@ -121,13 +121,13 @@ public class TutorTests_H1_1 {
         ((ClassTester<Object>) robotWithOffspringCT).setClassInstance(newInstance);
 
         var numberOfColumnsOfWorldField = robotWithOffspringCT
-            .resolveAttribute(new AttributeMatcher("numberOfColumnsOfWorld", 0.8, int.class));
+            .resolveAttribute(new AttributeMatcher("numberOfColumnsOfWorld", MIN_SIM, int.class));
         assertFalse(numberOfColumnsOfWorldField.getType().isArray(),
             String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
                 numberOfColumnsOfWorldField.getName()));
 
         var numberOfRowsOfWorldField = robotWithOffspringCT
-            .resolveAttribute(new AttributeMatcher("numberOfRowsOfWorld", 0.8, int.class));
+            .resolveAttribute(new AttributeMatcher("numberOfRowsOfWorld", MIN_SIM, int.class));
         assertFalse(numberOfRowsOfWorldField.getType().isArray(),
             String.format("Der Datentyp von Attribut \"%s\" ist ein Array, sollte aber kein Array sein.",
                 numberOfRowsOfWorldField.getName()));
