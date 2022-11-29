@@ -55,7 +55,7 @@ public class TutorTests_H3_1 {
     @DisplayName("Attribut \"robots\" wurde korrekt deklariert.")
     public void testRobotsField() {
         robotsField = twinRobotsCT.resolve().resolveAttribute(
-            new AttributeMatcher("robots", MIN_SIM, Modifier.PRIVATE, robotWithOffspringCT.assureClassResolved().getClass()));
+            new AttributeMatcher("robots", MIN_SIM, Modifier.PRIVATE | Modifier.FINAL, robotWithOffspringCT.assureClassResolved().getClass()));
 
         assertTrue(robotsField.getType().isArray(), emptyContext(), result -> "expected field robots to be an array but it isn't");
         robotsField.trySetAccessible();
