@@ -14,6 +14,7 @@ public class H3_2_Transformers {
     public static int assertionsInvocations;
     public static boolean withNegativeArgument;
     public static List<Object[]> arguments = new ArrayList<>();
+    public static String addToDirectionOfBothOffspringsMethodName;
 
     public static final Function<ClassWriter, ClassVisitor> UNIT_TEST_TRANSFORMER = classWriter ->
         new ClassVisitor(ASM9, classWriter) {
@@ -25,7 +26,7 @@ public class H3_2_Transformers {
                         public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
                             if (opcode == Opcodes.INVOKEVIRTUAL
                                 && owner.equals("h03/TwinRobots")
-                                && name.equals("addToDirectionOfBothOffsprings")
+                                && name.equals(addToDirectionOfBothOffspringsMethodName)
                                 && descriptor.equals("(I)V")) {
                                 ParameterInterceptor interceptor = new ParameterInterceptor(this);
                                 interceptor.interceptParameters(Type.getArgumentTypes(descriptor));

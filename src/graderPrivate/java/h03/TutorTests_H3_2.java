@@ -2,6 +2,7 @@ package h03;
 
 import fopbot.Direction;
 import h03.transform.ClassTransformerTemplate;
+import h03.transform.H3_2_Transformers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.opentest4j.AssertionFailedError;
@@ -9,9 +10,21 @@ import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
 import org.tudalgo.algoutils.reflect.ClassTester;
+import org.tudalgo.algoutils.reflect.MethodTester;
+import org.tudalgo.algoutils.reflect.ParameterMatcher;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions2;
 
-import static h03.transform.H3_2_Transformers.*;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
+
+import static h03.H03_Class_Testers.MIN_SIM;
+import static h03.H03_Class_Testers.MIN_SIM_PARAM;
+import static h03.transform.H3_2_Transformers.UNIT_TEST_TRANSFORMER;
+import static h03.transform.H3_2_Transformers.arguments;
+import static h03.transform.H3_2_Transformers.assertionsInvocations;
+import static h03.transform.H3_2_Transformers.twinRobotsMethodInvocations;
+import static h03.transform.H3_2_Transformers.withNegativeArgument;
 
 @TestForSubmission
 @ExtendWith(TestCycleResolver.class)
@@ -37,6 +50,18 @@ public class TutorTests_H3_2 {
         arguments.clear();
         ClassTester<?> classTester = new ClassTester<>("h03", "TwinRobots", 0.8).resolveClass();
         classTester.assertClassResolved();
+
+        try {
+            var addToDirectionOfBothOffspringsMethod = new MethodTester(classTester, "addToDirectionOfBothOffsprings", MIN_SIM,
+                Modifier.PUBLIC, void.class,
+                new ArrayList<>(List.of(
+                    new ParameterMatcher("directionToBeAdded", MIN_SIM_PARAM, int.class)
+                ))).resolveMethod();
+
+            H3_2_Transformers.addToDirectionOfBothOffspringsMethodName = addToDirectionOfBothOffspringsMethod.getName();
+        } catch (Throwable ignored) {
+            H3_2_Transformers.addToDirectionOfBothOffspringsMethodName = "addToDirectionOfBothOffsprings";
+        }
 
         Class<?> h3_2_unitTestClass = testCycle.getClassLoader()
             .loadClass("h03.H3_2_UnitTest",
