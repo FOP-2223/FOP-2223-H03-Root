@@ -4,7 +4,12 @@ import fopbot.Direction;
 import fopbot.World;
 import h03.transform.ClassTransformerTemplate;
 import h03.transform.H3_1_Transformers;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -28,8 +33,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static h03.H03_Class_Testers.*;
-import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
+import static h03.H03_Class_Testers.MIN_SIM;
+import static h03.H03_Class_Testers.MIN_SIM_PARAM;
+import static h03.H03_Class_Testers.robotWithOffspring2CT;
+import static h03.H03_Class_Testers.robotWithOffspringCT;
+import static h03.H03_Class_Testers.twinRobotsCT;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.assertCallEquals;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.assertEquals;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.assertTrue;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.contextBuilder;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.emptyContext;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.fail;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.testOfObjectBuilder;
 
 @TestForSubmission
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -69,6 +84,12 @@ public class TutorTests_H3_1 {
     @SuppressWarnings("unchecked")
     public void testTwinRobotsConstructor(int numberOfColumnsOfWorld, int numberOfRowsOfWorld, TestCycle testCycle)
         throws ReflectiveOperationException {
+        if (robotsField == null) {
+            robotsField = twinRobotsCT.resolve().resolveAttribute(
+                new AttributeMatcher("robots", MIN_SIM, Modifier.PRIVATE, robotWithOffspringCT.assureClassResolved().getClass()));
+            robotsField.trySetAccessible();
+        }
+
         if (robotsField == null) {
             fail(emptyContext(), result -> "Field robots could not be resolved");
         }
