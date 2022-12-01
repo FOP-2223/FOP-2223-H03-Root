@@ -12,7 +12,8 @@ import java.util.function.Function;
 import static org.objectweb.asm.Opcodes.*;
 
 public class H3_1_Transformers {
-
+    public static String addToDirectionOfBothOffspringsMethodName;
+    public static String addToDirectionOfOffspringMethodName;
     public static final Map<String, Object> CONSTRUCTOR_VALUES = new HashMap<>();
     public static final Function<ClassWriter, ClassVisitor> CONSTRUCTOR_TRANSFORMER = classWriter -> new ClassVisitor(ASM9, classWriter) {
         @Override
@@ -63,12 +64,12 @@ public class H3_1_Transformers {
         new ClassVisitor(ASM9, writer) {
             @Override
             public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-                if (name.equals("addToDirectionOfBothOffsprings") && descriptor.equals("(I)V")) {
+                if (name.equals(addToDirectionOfBothOffspringsMethodName) && descriptor.equals("(I)V")) {
                     return new MethodVisitor(ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
                         @Override
                         public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
                             if (owner.startsWith("h03/RobotWithOffspring")
-                                && name.equals("addToDirectionOfOffspring")
+                                && name.equals(addToDirectionOfOffspringMethodName)
                                 && descriptor.equals("(I)V")) {
                                 visitFieldInsn(GETSTATIC,
                                     "h03/transform/H3_1_Transformers",

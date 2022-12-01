@@ -190,14 +190,30 @@ public class TutorTests_H3_1 {
             Modifier.PUBLIC,
             void.class,
             new ArrayList<>(List.of(new ParameterMatcher("directionToBeAdded", MIN_SIM_PARAM, int.class)))).verify();
+
+        H3_1_Transformers.addToDirectionOfBothOffspringsMethodName = methodTester.resolveMethod().getName();
+
+        try {
+            var addToDirectionOfOffspringMethodTester = new MethodTester(robotWithOffspringCT, "addToDirectionOfOffspring",
+                MIN_SIM, Modifier.PUBLIC, void.class,
+                new ArrayList<>(List.of(
+                    new ParameterMatcher("addDirection", MIN_SIM_PARAM, int.class)
+                ))).resolveMethod();
+            H3_1_Transformers.addToDirectionOfOffspringMethodName = addToDirectionOfOffspringMethodTester.getName();
+        } catch (Throwable e) {
+            H3_1_Transformers.addToDirectionOfOffspringMethodName = "addToDirectionOfOffspring";
+        }
+
         Class<?> twinRobotsClass = testCycle.getClassLoader().loadClass(twinRobotsCT.findClass().getName(),
-            new ClassTransformerTemplate(twinRobotsCT.getTheClass().getName(), H3_1_Transformers.ADD_TO_DIRECTION_OF_OFFSPRING_TRANSFORMER));
+            new ClassTransformerTemplate(twinRobotsCT.getTheClass().getName(),
+                H3_1_Transformers.ADD_TO_DIRECTION_OF_OFFSPRING_TRANSFORMER));
         Field robotsField = twinRobotsClass.getDeclaredField("robots");
         Object instance = twinRobotsClass.getDeclaredConstructor(int.class, int.class).newInstance(0, 0);
         H3_1_Transformers.addToDirectionOfOffspringInvocations = 0;
 
         robotsField.trySetAccessible();
-        twinRobotsClass.getDeclaredMethod("addToDirectionOfBothOffsprings", int.class).invoke(instance, 0);
+        var methodName = methodTester.resolveMethod().getName();
+        twinRobotsClass.getDeclaredMethod(methodName, int.class).invoke(instance, 0);
 
         Context context = contextBuilder()
             .add("robots", Arrays.toString((Object[]) robotsField.get(instance)))
