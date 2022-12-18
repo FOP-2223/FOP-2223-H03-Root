@@ -1,6 +1,8 @@
 package h03;
 
-import fopbot.*;
+import fopbot.Direction;
+import fopbot.Robot;
+import fopbot.World;
 
 /**
  * Main entry point in executing the program.
@@ -23,11 +25,11 @@ public class Main {
         RobotWithOffspring robot = new RobotWithOffspring(5, 7, Direction.LEFT, 12);
 
         RobotWithOffspring2 robot2 = new RobotWithOffspring2(5, 7, Direction.LEFT, 22);
-        
+
         // int directionAccu = robot2.directionAccu;
         // robot2.directionAccu = 2;
-        
-        // System.out.println(robot2.getDirectionFromAccu());
+
+        // Direction d = robot2.getDirectionFromAccu();
 
         Robot r = null;
         // r.getX();

@@ -1,0 +1,11 @@
+x,y,direction,numberOfCoins,directionToAssign,expectedResultDirection
+1,2,UP,42,0,UP
+1,2,UP,42,1,RIGHT
+1,2,UP,42,2,DOWN
+1,2,UP,42,3,LEFT
+1,2,RIGHT,42,0,RIGHT
+1,2,RIGHT,42,1,DOWN
+1,2,RIGHT,42,2,LEFT
+1,2,DOWN,42,0,DOWN
+1,2,DOWN,42,1,LEFT
+1,2,LEFT,42,0,LEFT

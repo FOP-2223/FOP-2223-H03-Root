@@ -28,7 +28,7 @@ public class RobotWithOffspring extends Robot {
     }
 
     /**
-     * Initializes the offspring with a new Robot instance
+     * Initializes the offspring with a new Robot instance.
      *
      * @param direction     The initial direction the offspring points at.
      * @param numberOfCoins The initial amount of coins the offspring owns.
